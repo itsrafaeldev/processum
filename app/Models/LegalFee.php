@@ -21,6 +21,7 @@ class LegalFee extends Model
         'due_date',
         'competence',
         'note',
+        'user_id'
     ];
     public $timestamps = true;
 
@@ -28,6 +29,11 @@ class LegalFee extends Model
     {
         return $this->belongsTo(JudicialProcess::class, 'judicial_process_id', 'id');
     }
+    // public function user()
+    // {
+    //     return $this->belongsToMany(User::class, 'judicial_process_user')
+    //         ->withPivot('access_level');
+    // }
 
 
 }

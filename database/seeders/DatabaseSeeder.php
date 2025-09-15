@@ -13,9 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-              JudicialProcessSeeder::class,
-        ]);;
+        // User::factory(10)->withPersonalTeam()->create();
 
+        $this->call([
+            // UserSeeder::class,
+            JudicialProcessSeeder::class,
+        ]);
     }
 }

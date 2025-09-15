@@ -21,6 +21,7 @@ class Settlement extends Model
         'due_date',
         'competence',
         'note',
+        'user_id'
     ];
     public $timestamps = true;
 

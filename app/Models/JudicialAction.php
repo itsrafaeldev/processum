@@ -12,6 +12,8 @@ class JudicialAction extends Model
     /** @use HasFactory<\Database\Factories\NatureActionFactory> */
     use HasFactory;
 
+    protected $table = 'judicials_actions';
+
     public $timestamps = true;
 
 

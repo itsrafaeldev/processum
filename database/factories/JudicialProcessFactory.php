@@ -17,14 +17,17 @@ class JudicialProcessFactory extends Factory
     public function definition(): array
     {
         return [
-            'process_number' => $this->faker->unique()->bothify('#######-##.####.#.##.####'),
+            'process_number' => $this->faker->unique()->bothify('####################'),
             'initial_date' => $this->faker->date(),
             'claimant' => $this->faker->name(),
             'respondent' => $this->faker->company(),
             'description' => $this->faker->sentence(),
-            'nature_action_id' => $this->faker->numberBetween(1, 6),   // 1 a 6
-            'judicial_action_id' => $this->faker->numberBetween(1, 27), // 1 a 27
+            'nature_action_id' => 1,   // 1 a 6
+            'judicial_action_id' => 1, // 1 a 27
             'is_archived' => false, // sempre false
+            'id_public' => $this->faker->uuid(),
+            'user_id' => 2,
+
         ];
     }
 }
