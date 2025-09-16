@@ -8,7 +8,7 @@ const maskConfigs = {
     // CPF
     maskCPF: {
         mask: "000.000.000-00",
-        lazy: false, // Mostra a máscara sempre
+        lazy: false,
     },
 
     // CNPJ

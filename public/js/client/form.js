@@ -34,12 +34,12 @@ saveButton.addEventListener("click", async function (e) {
     });
 
     // Pegar valores
-    const value_name = input_name.value; //Remove a mascara do input e retornando o valor
-    const value_cpf = removeMask(input_cpf.value);
+    const value_name = input_name.value;
+    const value_cpf = getUnmaskedValue(input_cpf); //Remove a mascara do input e retornando o valor
     const value_email = input_email.value;
     const value_address = input_address.value;
-    const value_mobile = removeMask(input_mobile.value);
-    const value_phone = removeMask(input_phone.value);
+    const value_mobile = getUnmaskedValue(input_mobile); //Remove a mascara do input e retornando o valor
+    const value_phone = getUnmaskedValue(input_phone); //Remove a mascara do input e retornando o valor
 
     // Determinar rota e método
     const route =
@@ -48,18 +48,20 @@ saveButton.addEventListener("click", async function (e) {
             : "/client/save";
     const method = client.id_public != 0 ? "PUT" : "POST";
 
+    const token = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+
     validateForm();
-    
+
     const response = await fetch(route, {
         method: method,
         headers: {
             "Content-Type": "application/json",
-            "X-CSRF-TOKEN": document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute("content"),
-            "X-XSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                .content,
+            Accept: "application/json",
+            "X-CSRF-TOKEN": token,
         },
+        credentials: "same-origin",
         body: JSON.stringify({
             id_public: client.id_public,
             name: value_name,
@@ -81,6 +83,17 @@ saveButton.addEventListener("click", async function (e) {
     }
     window.location.href = "/client";
 });
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+        const token = parts.pop().split(";").shift();
+        // Decodifica o token XSRF
+        return decodeURIComponent(token);
+    }
+    return null;
+}
 
 document
     .getElementById("deleteButton")
@@ -120,7 +133,6 @@ function validateForm() {
     validateEmail();
     validateAddress();
     validateMobile();
-    validatePhone();
 }
 
 const validators = [
@@ -129,7 +141,6 @@ const validators = [
     { input: input_email, validate: validateEmail },
     { input: input_address, validate: validateAddress },
     { input: input_mobile, validate: validateMobile },
-    { input: input_phone, validate: validatePhone },
 ];
 
 ["input", "blur", "invalid"].forEach((event) => {
@@ -157,7 +168,7 @@ function validateName() {
 }
 
 function validateCPF() {
-    const value = removeMask(input_cpf);
+    const value = input_cpf.value.replace(/\D/g, "");
     input_cpf.classList.remove("border-danger");
     errorCPF.style.display = "none";
     // Verificar conteudo
@@ -209,12 +220,12 @@ function validateAddress() {
     return true;
 }
 function validateMobile() {
-    const value = removeMask(input_mobile.value);
+    const value = input_mobile.value.replace(/\D/g, "");
     input_mobile.classList.remove("border-danger");
     errorMobile.style.display = "none";
 
     if (!value || value === "") {
-        const message = "Informe o nome do Reclamante!";
+        const message = "Informe um número de Celular!";
         errorMobile.textContent = message;
         errorMobile.style.display = "block";
         input_mobile.classList.add("border-danger");
@@ -222,23 +233,4 @@ function validateMobile() {
     }
     return true;
 }
-function validatePhone() {
-    const value = removeMask(input_phone.value);
-    input_phone.classList.remove("border-danger");
-    errorPhone.style.display = "none";
 
-    if (!value || value === "") {
-        const message = "Informe o nome do Reclamante!";
-        errorPhone.textContent = message;
-        errorPhone.style.display = "block";
-        input_phone.classList.add("border-danger");
-        return false;
-    }
-    return true;
-}
-//   { input: input_name, validate: validateName },
-//     { input: input_cpf, validate: validateCPF },
-//     { input: input_email, validate: validateEmail },
-//     { input: input_address, validate: validateAddress },
-//     { input: input_mobile, validate: validateMobile },
-//     { input: input_phone, validate: validatePhone },

@@ -14,7 +14,7 @@ class Client extends Model
     /** @use HasFactory<\Database\Factories\ClientFactory> */
     use HasFactory;
     // Adicionar coluna competencia
-    protected $table = 'client';
+    protected $table = 'clients';
 
     protected $fillable = [
         'name',

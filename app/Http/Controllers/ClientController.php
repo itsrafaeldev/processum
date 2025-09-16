@@ -44,7 +44,7 @@ class ClientController extends Controller
 
     public function save(ClientRequest $clientRequest)
     {
-        dd("METODO SAVE ACESSADO!");
+        // dd("pare!");
         $clientValidated = $clientRequest->validated();
         Client::create($clientValidated);
 

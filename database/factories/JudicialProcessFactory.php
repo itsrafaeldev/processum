@@ -26,7 +26,7 @@ class JudicialProcessFactory extends Factory
             'judicial_action_id' => 1, // 1 a 27
             'is_archived' => false, // sempre false
             'id_public' => $this->faker->uuid(),
-            'user_id' => 2,
+            'user_id' => 1,
 
         ];
     }

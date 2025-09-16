@@ -33,7 +33,7 @@
 
             <div>
                 CPF: <input class="mb-2 w-50 maskCPF form-control" type="text" name="cpf"
-                    id="cpf" placeholder="000.000.000-00" max="11"
+                    id="cpf"  max="11"
                     value="{{ $client->cpf }}"
 
                     >
