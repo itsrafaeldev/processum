@@ -28,7 +28,7 @@ class ClientRequest extends FormRequest
             'phone' => ['max:10'],
             'mobile' => ['required', 'max:11'],
             'address' => ['required'],
-            'email' => ['required', 'email', 'unique:clients,email'],
+            'email' => ['required', 'email'],
             'cpf' => ['required', 'max:11'],
             'name' => ['required'],
 
@@ -45,7 +45,6 @@ class ClientRequest extends FormRequest
 
             'email.required' => 'Informe um Email!',
             'email.email' => 'Informe um Email válido!',
-            'email.unique' => 'O Email informado já foi cadastrado!',
 
             'address.required' => 'Informe um Endereço!',
 

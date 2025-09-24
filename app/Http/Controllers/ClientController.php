@@ -14,8 +14,9 @@ class ClientController extends Controller
 {
     public function list()
     {
-
-        return view('clients.list');
+        $clients = Client::all();
+        $clients = $clients->makeHidden(['id', 'created_at', 'updated_at', 'lawyer_id']);
+        return view('clients.list', compact('clients'));
 
     }
 
@@ -25,18 +26,15 @@ class ClientController extends Controller
         $client = new Client();
         $client->id_public = 0;
         $titleView = "Novo Cliente";
-
         return view('clients.form', compact('titleView', 'client'));
 
     }
-
-    //formulario receitas
 
 
     public function edit(Client $client)
     {
         $titleView = "Editar Cliente";
-        $client = $client->makeHidden(['id', 'created_at', 'updated_at']);
+        $client = $client->makeHidden(['id', 'created_at', 'updated_at', 'lawyer_id']);
         return view('clients.form', compact('titleView', 'client'));
 
     }
@@ -44,8 +42,8 @@ class ClientController extends Controller
 
     public function save(ClientRequest $clientRequest)
     {
-        // dd("pare!");
         $clientValidated = $clientRequest->validated();
+        $clientValidated['lawyer_id'] = auth()->user()->id;
         Client::create($clientValidated);
 
         $message = 'Cliente registrado com sucesso';
@@ -56,15 +54,28 @@ class ClientController extends Controller
 
     public function update(ClientRequest $request, Client $client)
     {
-
-        return "metodo update UserController";
+        $updateValidated = $request->validated();
+        $client->update($updateValidated);
+        $message = 'Cliente atualizado com sucesso';
+        $statusHttp = 201;
+        ToastMagic::success('Sucesso!', $message);
+        return response()->json(['success' => $message, 'status' => $statusHttp]);
 
     }
 
 
-    public function delete(ClientRequest $client)
+    public function delete(Client $client)
     {
-        return "metodo delete UserController";
+          try {
+            $client->delete();
+            $message = 'Cliente deletado com sucesso!';
+            $statusHttp = 200;
+            ToastMagic::success('Sucesso!', $message);
+            return response()->json(['success' => $message, 'status' => $statusHttp]);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage(), 'status' => 500]);
+        }
+
 
     }
 

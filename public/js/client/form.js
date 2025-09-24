@@ -84,16 +84,6 @@ saveButton.addEventListener("click", async function (e) {
     window.location.href = "/client";
 });
 
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-        const token = parts.pop().split(";").shift();
-        // Decodifica o token XSRF
-        return decodeURIComponent(token);
-    }
-    return null;
-}
 
 document
     .getElementById("deleteButton")
@@ -104,12 +94,13 @@ document
             return;
         }
 
+
         const idPublic = this.dataset.id_public;
         const route = "/client/delete/" + idPublic; // ajuste conforme sua rota
         const token = document
             .querySelector('meta[name="csrf-token"]')
             .getAttribute("content");
-
+        
         const response = await fetch(route, {
             method: "DELETE",
             headers: {
@@ -119,7 +110,6 @@ document
         });
 
         const res = await response.json();
-        console.log("res: ", res);
         if (res.status != 200) {
             toast.error("Erro!", res.error);
             return;
