@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('profile_photo_path', 2048)->nullable();
-            $table->foreignId('current_team_id')->nullable();
+            // $table->string('profile_photo_path', 2048)->nullable();
+            // $table->foreignId('current_team_id')->nullable();
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn([
-                'profile_photo_path',
-                'current_team_id',
-            ]);
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->dropColumn([
+        //         'profile_photo_path',
+        //         'current_team_id',
+        //     ]);
+        // });
     }
 };
