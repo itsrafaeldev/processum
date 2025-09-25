@@ -83,7 +83,7 @@ saveButton.addEventListener("click", async function (e) {
     });
 
     // Pegar valores
-    const value_process_number = removeMask(input_process_number); //Remove a mascara do input e retornando o valor
+    const value_process_number = getUnmaskedValue(input_process_number); //Remove a mascara do input e retornando o valor
     const value_initial_date = input_initial_date.value;
     const value_claimant = input_claimant.value;
     const value_respondent = input_respondent.value;

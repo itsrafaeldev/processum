@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{JudicialProcess};
 use Illuminate\Support\Str;
-use App\Models\Scopes\UserScope;
+use App\Models\Scopes\LawyerScope;
 
 
 class Client extends Model
@@ -14,7 +14,7 @@ class Client extends Model
     /** @use HasFactory<\Database\Factories\ClientFactory> */
     use HasFactory;
     // Adicionar coluna competencia
-    protected $table = 'client';
+    protected $table = 'clients';
 
     protected $fillable = [
         'name',
@@ -22,7 +22,8 @@ class Client extends Model
         'email',
         'mobile',
         'phone',
-        'address'
+        'address',
+        'lawyer_id'
     ];
 
     public $timestamps = true;
@@ -34,7 +35,7 @@ class Client extends Model
                 $model->id_public = (string) Str::uuid();
             }
         });
-        // static::addGlobalScope(new UserScope);
+        static::addGlobalScope(new LawyerScope);
 
     }
 

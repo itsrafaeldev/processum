@@ -8,11 +8,11 @@
     </div>
 
     <div class="container-fluid">
-        {{-- @foreach ($processes as $key => $value)
-            <p>ID: {{ $value->id }} | N° Processo: <a class="link_process_number"
-                    href="{{ route('judicial-process.edit', $value->id_public) }}">{{ $value->process_number }}</a> | <a
+        @foreach ($clients as $key => $value)
+            <p>#{{ $key+1 }} | Nome: <a class="link_process_number"
+                    href="{{ route('client.edit', $value->id_public) }}">{{ $value->name }}</a> | <a
                     href="#">Detalhes</a></p>
-        @endforeach --}}
+        @endforeach
         <a href="{{ route('client.create') }}" class="btn btn-outline-dark">Cadastrar Cliente</a>
     </div>
 

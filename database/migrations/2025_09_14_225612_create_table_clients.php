@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("DROP TABLE IF EXISTS client CASCADE;");
+        DB::statement("DROP TABLE IF EXISTS clients CASCADE;");
     }
 };

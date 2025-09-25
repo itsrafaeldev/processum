@@ -8,6 +8,8 @@ Route::get('/', function () {
 });
 
 
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -16,10 +18,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
+    include __DIR__ . '/group-routes/client.php';
     include __DIR__ . '/group-routes/judicial-process.php';
     include __DIR__ . '/group-routes/legal-fee.php';
-    include __DIR__ . '/group-routes/client.php';
-
 
 });
