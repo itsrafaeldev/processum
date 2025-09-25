@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('profile_photo_path', 2048)->nullable();
+
             // $table->foreignId('current_team_id')->nullable();
         });
     }
@@ -25,5 +26,6 @@ return new class extends Migration
                 // 'current_team_id',
             ]);
         });
+
     }
 };
