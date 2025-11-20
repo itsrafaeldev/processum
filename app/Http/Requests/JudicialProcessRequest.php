@@ -30,7 +30,7 @@ class JudicialProcessRequest extends FormRequest
             'judicial_action_id' => ['required', 'not_in:0', 'exists:judicials_actions,id'],
             'nature_action_id' => ['required', 'not_in:0', 'exists:nature_actions,id'],
             'respondent' => ['required', 'string'],
-            'claimant' => ['required', 'string'],
+            'client_id' => ['required'],
             'initial_date' => ['required', Rule::date()->beforeOrEqual(today())],
             'process_number' => ['required', 'max:20', 'min:20'],
         ];
@@ -46,7 +46,7 @@ class JudicialProcessRequest extends FormRequest
             'initial_date.before_or_equal' => 'Não é permitido datas posteriores à data de hoje!',
             'initial_date.date' => 'Informe uma data válida.',
 
-            'claimant.required' => 'Informe o nome do Reclamante!',
+            'client_id.required' => 'Informe o Reclamante!',
 
             'respondent.required' => 'Informe o nome do Reclamado!',
 

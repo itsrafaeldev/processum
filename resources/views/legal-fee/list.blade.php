@@ -8,12 +8,11 @@
     </div>
 
     <div class="container-fluid">
-        {{-- @foreach ($processes as $key => $value)
-            <p>ID: {{ $value->id }} | N° Processo: <a class="link_process_number"
-                    href="{{ route('judicial-process.edit', $value->id_public) }}">{{ $value->process_number }}</a> | <a
-                    href="#">Detalhes</a></p>
-        @endforeach --}}
-        <a href="{{ route('judicial-process.create') }}" class="btn btn-outline-dark">Registrar Honorário</a>
+        @foreach ($legalFees as $key => $value)
+            <p>ID: {{ $value->id_public }} | N° Processo: {{ $value->judicialProcess->process_number }} </a> |
+                quantia: {{$value->amount}} | <a href="{{ route('legal-fee.edit', $value->id_public) }}">Detalhes</a></p>
+        @endforeach
+        <a href="{{ route('legal-fee.create') }}" class="btn btn-outline-dark">Registrar Honorário</a>
     </div>
 
 

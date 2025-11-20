@@ -107,6 +107,23 @@ const maskConfigs = {
     },
 
     // Dinheiro (Real)
+    // maskMoney: {
+    //     mask: "R$ num",
+    //     blocks: {
+    //         num: {
+    //             mask: Number,
+    //             thousandsSeparator: ".",
+    //             radix: ",",
+    //             mapToRadix: ["."], // aceita ponto e vírgula como decimal
+    //             min: 0,
+    //             max: 99999999999999999999999999999999999999999999,
+    //             scale: 2,
+    //             normalizeZeros: true,
+    //             padFractionalZeros: true,
+    //         },
+    //     },
+    //     lazy: false,
+    // },
     maskMoney: {
         mask: "R$ num",
         blocks: {
@@ -116,13 +133,25 @@ const maskConfigs = {
                 radix: ",",
                 mapToRadix: ["."],
                 min: 0,
-                max: 999999999,
+                max: 9999999999999999,
                 scale: 2,
                 normalizeZeros: true,
                 padFractionalZeros: true,
             },
         },
         lazy: false,
+        // comportamento reverso — digita da direita pra esquerda
+        overwrite: true,
+        autofix: true,
+        dispatch: function (appended, dynamicMasked) {
+            // Quando o usuário digita, sempre desloca os números pra esquerda (centavos fixos)
+            if (/\d/.test(appended)) {
+                const number = dynamicMasked.unmaskedValue + appended;
+                const newValue = (parseInt(number) / 100).toFixed(2);
+                return dynamicMasked.compiledMasks[0];
+            }
+            return dynamicMasked;
+        },
     },
 
     // Porcentagem
@@ -301,6 +330,7 @@ window.reapplyMasks = function () {
     applyMasks();
 };
 
+// Função para mascarar uma string com uma máscara personalizada
 window.maskStringCustomize = function (valor, mascara, opcoes = {}) {
     try {
         // Validações básicas
@@ -347,15 +377,23 @@ window.maskStringCustomize = function (valor, mascara, opcoes = {}) {
         return String(valor); // Fallback: retorna valor original
     }
 }
-// // jQuery integration
-// $(document).ready(function () {
-//     // Aplica máscaras também quando jQuery estiver pronto
-//     applyMasks();
 
-//     // Integração com formulários AJAX
-//     $(document).on("ajaxComplete", function () {
-//         setTimeout(applyMasks, 100); // Delay para garantir que elementos foram criados
-//     });
-// });
+window.removeCustomizeMaskNumbers = function (valor) {
+    let resultado = valor.replace(/\D+/g, '');
+    return resultado;
+}
+
+window.unmaskMoney = function (value) {
+    if (!value) return null;
+
+    return value
+        .toString()
+        .replace(/\s/g, '')       // remove espaços
+        .replace('R$', '')        // remove o símbolo do real
+        .replace(/\./g, '')       // remove pontos de milhar
+        .replace(',', '.')        // troca vírgula por ponto (decimal)
+        .trim();                  // remove espaços finais
+}
+
 
 

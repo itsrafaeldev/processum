@@ -18,4 +18,6 @@ Route::prefix('client')->group(callback: function () {
 
     Route::delete('delete/{client}', [ClientController::class, 'delete'])->name('client.delete');
 
+    Route::get('/search-clients', [ClientController::class, 'search']);
+
 });

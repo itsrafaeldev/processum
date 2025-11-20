@@ -18,6 +18,9 @@ Route::prefix('judicial-process')->group(callback: function () {
 
     Route::delete('delete/{process}', [JudicialProcessController::class, 'delete'])->name('judicial-process.delete');
 
+    Route::get('/search-process', [JudicialProcessController::class, 'search']);
+
+
 });
 
 

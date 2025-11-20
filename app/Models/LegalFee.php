@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scopes\UserScope;
+use Illuminate\Support\Str;
+
 
 
 class LegalFee extends Model
@@ -14,16 +17,30 @@ class LegalFee extends Model
     protected $fillable = [
         'amount',
         'quantity_installment',
-        'current_installment',
         'judicial_process_id',
         'status_payment_id',
-        'payment_date',
-        'due_date',
-        'competence',
         'note',
         'user_id'
     ];
     public $timestamps = true;
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (!$model->id_public) {
+                $model->id_public = (string) Str::uuid();
+            }
+        });
+        static::addGlobalScope(new UserScope);
+
+    }
+
+     public function getRouteKeyName()
+    {
+        return 'id_public';
+    }
+
+
 
     public function judicialProcess()
     {
@@ -34,6 +51,20 @@ class LegalFee extends Model
     //     return $this->belongsToMany(User::class, 'judicial_process_user')
     //         ->withPivot('access_level');
     // }
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class, 'legal_fee_client', 'legal_fee_id', 'client_id');
+    }
+
+    public function installments()
+    {
+        return $this->hasMany(InstallmentLegalFee::class, 'legal_fee_id', 'id');
+    }
+
+    public function statusPayment(){
+        return $this->belongsTo(StatusPayment::class, 'status_payment_id', 'id');
+    }
 
 
 }

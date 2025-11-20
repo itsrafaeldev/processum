@@ -48,18 +48,9 @@
 
 
 
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {!! ToastMagic::scripts() !!}
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-    <!-- DevExtreme JS -->
-    <script src="https://cdn3.devexpress.com/jslib/23.2.5/js/dx.all.js"></script>
-
-    <!-- CSS do DevExtreme -->
-    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/23.2.5/css/dx.light.css">
 
 
     @stack('script')
