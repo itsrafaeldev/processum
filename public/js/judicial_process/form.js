@@ -1,13 +1,14 @@
+
 const errorNature = document.getElementById("error-nature");
 const errorJudicial = document.getElementById("error-judicial");
 const errorProcessNumber = document.getElementById("error-process-number");
 const errorInitialDate = document.getElementById("error-initial-date");
-const errorClaimant = document.getElementById("error-claimant");
+const errorClient_ID = document.getElementById("error-client_id");
 const errorRespondent = document.getElementById("error-respondent");
 
 let input_process_number = document.getElementById("process_number");
 let input_initial_date = document.getElementById("initial_date");
-let input_claimant = document.getElementById("claimant");
+let input_select_client_id = document.getElementById("client_id");
 let input_respondent = document.getElementById("respondent");
 let input_select_nature_action = document.getElementById(
     "select_nature_action"
@@ -18,11 +19,13 @@ let input_select_judicial_action = document.getElementById(
 let input_is_archived = document.getElementById("is_archived");
 let input_description = document.getElementById("description");
 
-// const processInput = document.getElementById("process");
 const process = JSON.parse(document.getElementById("process").dataset.process);
 
 // Preencher select de Natuereza da açao e a açao judicial
 document.addEventListener("DOMContentLoaded", function () {
+
+    getClientsChoices();
+
     // Botão de delete
     const deleteButton = document.getElementById("deleteButton");
     if (process.id_public === 0) {
@@ -85,7 +88,7 @@ saveButton.addEventListener("click", async function (e) {
     // Pegar valores
     const value_process_number = getUnmaskedValue(input_process_number); //Remove a mascara do input e retornando o valor
     const value_initial_date = input_initial_date.value;
-    const value_claimant = input_claimant.value;
+    const value_client_id = Array.from(input_select_client_id.selectedOptions).map(option => option.value);
     const value_respondent = input_respondent.value;
     const value_select_nature_action = input_select_nature_action.value;
     const value_select_judicial_action = input_select_judicial_action.value;
@@ -112,7 +115,7 @@ saveButton.addEventListener("click", async function (e) {
             id_public: process.id_public,
             process_number: value_process_number,
             initial_date: value_initial_date,
-            claimant: value_claimant,
+            client_id: value_client_id,
             respondent: value_respondent,
             nature_action_id: value_select_nature_action,
             judicial_action_id: value_select_judicial_action,
@@ -157,7 +160,6 @@ document
         });
 
         const res = await response.json();
-        console.log('res: ', res)
         if (res.status != 200) {
             toast.error('Erro!', res.error)
             return;
@@ -169,29 +171,13 @@ document
 function validateForm() {
     validateProcessInput();
     validateInitialDate();
-    validateClaimant();
+    validateClient_ID();
     validateRespondent();
     validateNature();
     validateNature();
     validateActionJudicial();
     validateDescription();
 }
-
-const validators = [
-    { input: input_process_number, validate: validateProcessInput },
-    { input: input_initial_date, validate: validateInitialDate },
-    { input: input_claimant, validate: validateClaimant },
-    { input: input_respondent, validate: validateRespondent },
-    { input: input_select_nature_action, validate: validateNature },
-    { input: input_select_judicial_action, validate: validateActionJudicial },
-    { input: input_description, validate: validateDescription },
-];
-
-["input", "blur", "invalid"].forEach((event) => {
-    validators.forEach(({ input, validate }) => {
-        input.addEventListener(event, validate);
-    });
-});
 
 function validateProcessInput() {
     const rawValue = input_process_number.value.replace(/\D/g, "");
@@ -251,7 +237,6 @@ function validateActionJudicial() {
     }
 }
 
-// Criar validacao para nao permitir datas posterior a data atual
 function validateInitialDate() {
     initial_date.style.color = "black";
     input_initial_date.classList.remove("border-danger");
@@ -281,21 +266,37 @@ function validateInitialDate() {
         return true;
     }
 }
-function validateClaimant() {
-    const value = input_claimant.value;
-    input_claimant.classList.remove("border-danger");
+
+
+
+
+function validateClient_ID() {
+    const value = input_select_client_id.value;
+
+    const choicesContainer = choices.containerOuter.element;
+    const choicesSelection = choices.containerInner.element;
+
+
+    input_select_client_id.classList.remove("border-danger");
 
     if (!value || value === "") {
         const message = "Informe o nome do Reclamante!";
-        errorClaimant.textContent = message;
-        errorClaimant.style.display = "block";
-        input_claimant.classList.add("border-danger");
+        errorClient_ID.textContent = message;
+        errorClient_ID.style.display = "block";
+        input_select_client_id.classList.add("border-danger");
+        choicesContainer.addClass('border border-danger rounded');
+        choicesSelection.css({
+            'border': 'none',
+            'box-shadow': 'none'
+        });
+
         return false;
     } else {
-        errorClaimant.style.display = "none";
+        errorClient_ID.style.display = "none";
         return true;
     }
 }
+
 function validateRespondent() {
     const value = input_respondent.value;
     input_respondent.classList.remove("border-danger");
@@ -329,4 +330,18 @@ function validateDescription() {
     }
 
     charCount.textContent = "Caracteres: " + currentLength + "/" + maxChars;
+}
+
+function getClientsChoices() {
+    window.initChoices({
+        selector: '#client_id',
+        url: '/client/search-clients',
+        fieldId: 'id_public',
+        fieldText: 'name',
+        placeholder: 'Selecione ao menos um cliente...',
+        multiple: true,
+        selected: document.querySelector('#client_id').dataset.selectedClients ?
+            JSON.parse(document.querySelector('#client_id').dataset.selectedClients) : [],
+        maskActived: false,
+    });
 }

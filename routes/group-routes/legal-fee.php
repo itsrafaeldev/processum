@@ -10,7 +10,7 @@ Route::prefix('legal-fee')->group(callback: function () {
 
     Route::get('create', [LegalFeeController::class, 'create'])->name('legal-fee.create');
 
-    Route::get('edit/{fee}', [LegalFeeController::class, 'edit'])->name('legal-fee.edit');
+    Route::get('edit/{legalFee}', [LegalFeeController::class, 'edit'])->name('legal-fee.edit');
 
     Route::post('save', [LegalFeeController::class, 'save'])->name('legal-fee.save');
 

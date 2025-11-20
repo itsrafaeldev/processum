@@ -1,0 +1,6 @@
+// IMOPORTAÇÃO DO CSS DE BIBLIOTECAS EXTERNAS
+
+import 'select2/dist/css/select2.min.css';
+import 'select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.min.css';
+import 'choices.js/public/assets/styles/choices.min.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';

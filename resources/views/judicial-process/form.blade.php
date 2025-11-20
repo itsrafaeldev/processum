@@ -3,7 +3,7 @@
 
 @push('style')
 <style>
-    
+
 </style>
 @endpush
 
@@ -12,7 +12,6 @@
     <div class="container-fluid">
         <h1>{{ $titleView }}</h1>
     </div>
-
 
     <div class="container-fluid">
         <form action="" class="d-flex flex-column w-50 ml-2 mb-5" id="processForm" novalidate>
@@ -42,9 +41,16 @@
             </div>
 
             <div>
-                Reclamante: <input class="form-control mb-2 w-50" type="text" name="claimant" id="claimant"
-                    max="255" value="{{ $process->claimant }}" >
-                <div class="error-message" id="error-claimant"></div>
+                {{-- Reclamante: <input class="form-control mb-2 w-50" type="text" name="claimant" id="claimant"
+                    max="255" value="{{ $process->claimant }}" > --}}
+            </div>
+
+            <div>
+                Reclamante: <select class="form-control select2 w-50" name="client_id[]" id="client_id"   data-selected-clients='@json($clients)'>
+
+                </select>
+                <div class="error-message" id="error-client_id"></div>
+
             </div>
 
             <div>

@@ -17,7 +17,7 @@ class JudicialProcess extends Model
     protected $fillable = [
         'process_number',
         'initial_date',
-        'claimant',
+        'client_id',
         'respondent',
         'description',
         'nature_action_id',
@@ -25,6 +25,8 @@ class JudicialProcess extends Model
         'is_archived',
         'user_id'
     ];
+
+    protected $hidden = ['id', 'created_at', 'updated_at'];
 
     public $timestamps = true;
 

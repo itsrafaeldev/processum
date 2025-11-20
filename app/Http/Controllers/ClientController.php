@@ -8,14 +8,14 @@ use App\Models\{Client};
 use DateTime;
 use Illuminate\Http\Request;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
-;
+use Illuminate\Support\Facades\DB;
+
 
 class ClientController extends Controller
 {
     public function list()
     {
         $clients = Client::all();
-        $clients = $clients->makeHidden(['id', 'created_at', 'updated_at', 'lawyer_id']);
         return view('clients.list', compact('clients'));
 
     }
@@ -77,6 +77,21 @@ class ClientController extends Controller
         }
 
 
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->query('q');
+
+        if (!$query) {
+            return response()->json([]);
+        }
+
+        $clients = Client::where(DB::raw('UPPER(name)'), 'like', '%' . strtoupper($query) . '%')
+                 ->limit(10)
+                 ->get(['id_public', 'name']);
+
+        return response()->json($clients);
     }
 
 

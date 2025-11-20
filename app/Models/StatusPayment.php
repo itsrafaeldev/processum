@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class StatusPayment extends Model
 {
-
+    public $table = "status_payment";
     public $timestamps = true;
 
 

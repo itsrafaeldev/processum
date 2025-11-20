@@ -8,8 +8,9 @@
     </div>
 
     <div class="container-fluid">
+
         @foreach ($processes as $key => $value)
-            <p>ID: {{ $value->id }} | N° Processo: <a class="link_process_number"
+            <p>ID: {{ $value->id_public }} | N° Processo: <a class="link_process_number"
                     href="{{ route('judicial-process.edit', $value->id_public) }}">{{ $value->process_number }}</a> | <a
                     href="#">Detalhes</a></p>
         @endforeach
