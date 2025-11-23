@@ -18,20 +18,12 @@ class LegalFeeFactory extends Factory
     {
         $amount = $this->faker->randomFloat(2, 1000, 10000);
         $quantityInstallment = $this->faker->numberBetween(1, 12);
-        $currentInstallment = $this->faker->numberBetween(1, $quantityInstallment);
-        $dueDate = $this->faker->dateTimeBetween('now', '+1 year');
-        $paymentDate = $this->faker->boolean(70) ? $this->faker->dateTimeBetween('-6 months', 'now') : null;
 
         return [
             'amount' => $amount,
             'quantity_installment' => $quantityInstallment,
-            'current_installment' => $currentInstallment,
-            'judicial_process_id' => 8,
-            // O campo VALUE_INSTALLMENT é calculado automaticamente no banco
-            'status_payment_id' => $this->faker->numberBetween(1, 5),
-            'payment_date' => $paymentDate,
-            'due_date' => $dueDate,
-            'competence' => $this->faker->date('Y-m'), // formato "YYYY-MM"
+            'judicial_process_id' => 1,
+            'status_payment_id' => 2,
             'note' => $this->faker->optional()->sentence(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

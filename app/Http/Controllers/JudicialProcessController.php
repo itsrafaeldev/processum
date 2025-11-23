@@ -128,8 +128,9 @@ class JudicialProcessController extends Controller
         }
 
         $process_number = JudicialProcess::where('process_number', 'LIKE', "%{$query}%")
-                 ->limit(10)
-                 ->get(['id_public', 'process_number']);
+        ->limit(10)
+        ->with(['clients:id_public,name']) // apenas id e name
+        ->get(['id', 'id_public', 'process_number']);
         return response()->json($process_number);
     }
 

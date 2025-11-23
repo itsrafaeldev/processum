@@ -22,14 +22,13 @@ async function initChoices(config) {
         noChoicesText: config.language?.inputTooShort ?
             config.language.inputTooShort({ minimum: config.minimumInputLength || 3 }) :
             `Digite pelo menos ${config.minimumInputLength || 3} caracteres`,
-        removeItemButton: config.multiple || false,
+        removeItemButton: config.removeItemButton || false,
+        //multiple: config.multiple || false,
         searchEnabled: true,
         searchFloor: config.minimumInputLength || 3,
         shouldSort: false,
         itemSelectText: '',
     });
-
-
 
     let searchTimeout;
     let lastSearchTerm = '';
@@ -56,7 +55,6 @@ async function initChoices(config) {
             try {
                 const response = await fetch(`${config.url}?q=${encodeURIComponent(searchTerm)}`);
                 const data = await response.json();
-
                 // Limpa opções anteriores
                 choices.clearChoices();
 
@@ -90,7 +88,11 @@ async function initChoices(config) {
         }));
 
         choices.setChoices(preSelectedItems, 'value', 'label', false);
+        removePlaceholder(choices);
+
     }
+
+
 
     // window.choices = choices;
     choicesInstances[config.selector] = choices;
@@ -99,6 +101,13 @@ async function initChoices(config) {
 
 function getChoicesInstance(selector) {
     return choicesInstances[selector] || null;
+}
+
+// helper: remove qualquer placeholder dentro do choices
+function removePlaceholder(choices) {
+    if (!choices || !choices.containerInner || !choices.containerInner.element) return;
+    const placeholders = choices.containerInner.element.querySelectorAll('.choices__placeholder');
+    placeholders.forEach(ph => ph.remove());
 }
 
 

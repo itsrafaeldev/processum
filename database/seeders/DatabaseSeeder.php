@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->withPersonalTeam()->create();
 
         $this->call([
-            // UserSeeder::class,
-            // JudicialProcessSeeder::class,
-            // LegalFeeSeeder::class,
+             //UserSeeder::class,
+             //JudicialProcessSeeder::class,
+             LegalFeeSeeder::class,
         ]);
     }
 }

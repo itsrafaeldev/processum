@@ -18,8 +18,8 @@
 
 
 
-    @push('script')
-        <script src="{{ asset('js/client/list.js') }}"></script>
+     @push('script')
+        @vite(['resources/js/pages/client/list.js'])
     @endpush
 
 

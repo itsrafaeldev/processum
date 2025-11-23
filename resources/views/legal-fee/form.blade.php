@@ -32,6 +32,7 @@
             </div>
 
             <div>
+
                 N° do Processo:
                 <select class="form-control w-50" name="process_number_id" id="process_number_id" data-process='@json($process_number)'>
 
@@ -93,7 +94,7 @@
 
 
     @push('script')
-        @vite(['resources/js/honorarium/form.js'])
+        @vite(['resources/js/pages/honorarium/form.js'])
     @endpush
 
 @endsection

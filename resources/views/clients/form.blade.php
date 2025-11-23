@@ -81,8 +81,8 @@
     </div>
 
 
-    @push('script')
-        <script src="{{ asset('js/client/form.js') }}"></script>
+     @push('script')
+        @vite(['resources/js/pages/client/form.js'])
     @endpush
 
 

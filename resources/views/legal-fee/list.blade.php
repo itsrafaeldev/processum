@@ -17,8 +17,8 @@
 
 
 
-    @push('script')
-        <script src="{{ asset('js/judicial_process/list.js') }}"></script>
+      @push('script')
+        @vite(['resources/js/pages/honorarium/list.js'])
     @endpush
 
 

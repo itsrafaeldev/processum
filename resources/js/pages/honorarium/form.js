@@ -14,9 +14,8 @@ let input_quantity_installment = document.getElementById("quantity_installment")
 const legalFee = JSON.parse(document.getElementById("legalFee").dataset.legalFee);
 const installmentsLegalFee = JSON.parse(document.getElementById('tblInstallmentsLegalFee').dataset.installments || '[]');
 const process = JSON.parse(document.getElementById("process_number_id").dataset.process || 'null');
-console.log(installmentsLegalFee);
 
-
+let choicesInstances = {};
 
 const saveButton = document.getElementById("saveButton");
 const form = document.getElementById("legalFeeForm");
@@ -24,12 +23,21 @@ const enterInstallmentsButton = document.getElementById("enterInstallments");
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    getProcessNumberChoices();
-    getClientsChoices();
+    initProcessNumberChoices();
+    initClientChoices();
     initTableInstallments(installmentsLegalFee);
 
     const deleteButton = document.getElementById("deleteButton");
     const due_date_container = document.getElementById('due_date_container')
+
+    let clientChoices = getChoicesInstance('#client_id');
+    clientChoices.disable();
+    setInstance(clientChoices, '#client_id');
+
+
+    let processNumberChoices = getChoicesInstance('#process_number_id');
+    setInstance(processNumberChoices, '#process_number_id');
+
 
     if (legalFee.id_public === 0) {
         deleteButton.classList.add("disabled");
@@ -42,10 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll('.form-control').forEach(input => {
             input.disabled = true;
         });
-        const clientChoices = getChoicesInstance('#client_id');
-        clientChoices.disable();
+        clientChoices.input.element.placeholder = '';
 
-        const processNumberChoices = getChoicesInstance('#process_number_id');
         processNumberChoices.disable();
         saveButton.style.display = "none";
         due_date_container.style.display = "none";
@@ -144,7 +150,7 @@ document
     });
 
 
-function getProcessNumberChoices() {
+function initProcessNumberChoices() {
 initChoices({
     selector: '#process_number_id',
     url: '/judicial-process/search-process',
@@ -159,7 +165,7 @@ initChoices({
 });
 }
 
-function getClientsChoices() {
+function initClientChoices() {
     initChoices({
     selector: '#client_id',
     url: '/client/search-clients',
@@ -170,6 +176,7 @@ function getClientsChoices() {
     selected: document.querySelector('#client_id').dataset.selectedClients ?
         JSON.parse(document.querySelector('#client_id').dataset.selectedClients) : [],
     maskActived: false,
+    removeItemButton: false,
 });
 }
 
@@ -245,3 +252,38 @@ enterInstallmentsButton.addEventListener('click', (event)=>{
     saveButton.style.display = "";
     enterInstallmentsButton.style.display = "none";
 })
+
+input_process_number_id.addEventListener('change', () => {
+    const selected = choicesInstances['#process_number_id'].getValue();
+    const clients = selected.customProperties.clients;
+
+    updateClientsSelect(clients, choicesInstances['#client_id']);
+
+});
+
+function setInstance(instance, selector) {
+    choicesInstances[selector] = instance;
+}
+
+function updateClientsSelect(clientsArray, instanceClientChoices) {
+
+    const clientChoices = instanceClientChoices;
+    instanceClientChoices.input.element.placeholder = '';
+
+    // limpar tudo
+    clientChoices.clearChoices();
+    clientChoices.clearStore();
+    clientChoices.removeActiveItems();
+
+    // adicionar os novos clientes
+    clientChoices.setChoices(
+        clientsArray.map(c => ({
+            value: c.id_public,
+            label: c.name,
+            selected: true
+        })),
+        'value',
+        'label',
+        true
+    );
+}
