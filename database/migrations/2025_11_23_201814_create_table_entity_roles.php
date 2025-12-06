@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("INSERT INTO entity_types (description) VALUES ('PJ');");
-        DB::statement("INSERT INTO entity_types (description) VALUES ('PF');");
+        Schema::create('table_entity_roles', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -20,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-
+        Schema::dropIfExists('table_entity_roles');
     }
 };
