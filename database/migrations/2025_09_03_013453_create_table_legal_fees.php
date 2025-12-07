@@ -44,9 +44,18 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        DB::statement('ALTER TABLE legal_fees DROP CONSTRAINT fk_status_payment;');
-        DB::statement('ALTER TABLE legal_fees DROP CONSTRAINT fk_judicial_process;');
-        Schema::dropIfExists('legal_fees');
-    }
+{
+    // Remover FK na tabela pivot que referencia legal_fees
+    DB::statement('ALTER TABLE legal_fee_entity DROP CONSTRAINT fk_legal_fee_id;');
+
+    // dropar pivot
+    DB::statement('DROP TABLE IF EXISTS legal_fee_entity CASCADE;');
+
+    // Remover FK locais
+    DB::statement('ALTER TABLE legal_fees DROP CONSTRAINT fk_status_payment;');
+    DB::statement('ALTER TABLE legal_fees DROP CONSTRAINT fk_judicial_process;');
+
+    // Agora sim pode dropar
+    DB::statement('DROP TABLE IF EXISTS legal_fees CASCADE;');
+}
 };

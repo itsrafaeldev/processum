@@ -38,7 +38,7 @@ return new class extends Migration
 
         DB::statement(
             'ALTER TABLE clients
-                        DROP COLUMN lawyer;'
+                        DROP COLUMN lawyer_id;'
         );
     }
 };

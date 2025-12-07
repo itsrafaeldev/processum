@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
 
-        DB::statement(
+       /*  DB::statement(
             'ALTER TABLE judicial_processes
                         ADD COLUMN judicial_action_id INTEGER not null;'
         );
@@ -23,7 +23,7 @@ return new class extends Migration
             FOREIGN KEY (judicial_action_id) REFERENCES judicials_actions(id)
             ON DELETE CASCADE;
             '
-        );
+        ); */
 
 
 

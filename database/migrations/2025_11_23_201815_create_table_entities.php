@@ -11,30 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("
-        CREATE TABLE entities (
+        DB::statement("CREATE TABLE entities (
             id BIGSERIAL PRIMARY KEY,
-            entity_type_id INTEGER NOT NULL,
+            entity_type CHAR(2) NOT NULL CHECK(entity_type IN ('PF','PJ')),
             status_id INTEGER NOT NULL,
-            email VARCHAR(255),
-            mobile VARCHAR(50),
-            phone VARCHAR(50),
             created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL,
-            updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL,
-
-            CONSTRAINT fk_entities_entity_type
-                FOREIGN KEY (entity_type_id)
-                REFERENCES entity_types(id)
-                ON UPDATE CASCADE
-                ON DELETE RESTRICT,
-
-            CONSTRAINT fk_entities_status
-                FOREIGN KEY (status_id)
-                REFERENCES status_entities(id)
-                ON UPDATE CASCADE
-                ON DELETE RESTRICT
-        );
-    ");
+            updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL);");
     }
 
     /**
@@ -42,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entities');
+        DB::statement('DROP TABLE IF EXISTS entities CASCADE');
     }
 };

@@ -33,7 +33,14 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        DB::statement('DROP TABLE IF EXISTS judicial_processes;');
-    }
+{
+    // remove FK na tabela filha
+    DB::statement('ALTER TABLE judicial_process_entity DROP CONSTRAINT fk_judicial_processes;');
+
+    // drop tabela filha
+    DB::statement('DROP TABLE IF EXISTS judicial_process_entity CASCADE;');
+
+    // agora pode remover a tabela pai
+    DB::statement('DROP TABLE IF EXISTS judicial_processes CASCADE;');
+}
 };

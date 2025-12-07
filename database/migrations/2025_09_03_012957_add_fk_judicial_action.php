@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement(
+      /*   DB::statement(
             'ALTER TABLE judicial_processes
             ADD CONSTRAINT fk_judicial_action
             FOREIGN KEY (judicial_action_id) REFERENCES judicials_actions(id)
             ON DELETE CASCADE;
             '
-        );
+        ); */
     }
 
     /**
