@@ -65,7 +65,7 @@ class ClientController extends Controller
         $clientValidated = $clientRequest->validated();
         $entityPayload = [
             'status_id' => 1, //A = Ativo
-            'type_entity' => 'PF'
+            'entity_type' => 'PF'
         ];
         $entityIndividualPayload = [
             'name' => $clientValidated['name'],
@@ -80,10 +80,13 @@ class ClientController extends Controller
             'lawyer_id' => auth()->user()->id,
         ];
 
-        //dd($clientValidated, $entityPayload, $entityIndividualPayload, $clientPayload);
-        Entity::create($entityPayload);
-        EntityIndividual::created($entityIndividualPayload);
-        Client::create($clientPayload);
+        $entity = Entity::create($entityPayload);
+        $entityIndividualPayload['entity_id'] = $entity->id;
+       // dd($entity, $clientValidated, $entityPayload, $entityIndividualPayload, $clientPayload);
+
+        $entity->entityIndividual()->create($entityIndividualPayload);
+
+        $entity->client()->create($clientPayload);
 
 
         $message = 'Cliente registrado com sucesso';

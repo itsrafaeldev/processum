@@ -10,7 +10,7 @@
     <div class="container-fluid">
         @foreach ($clients as $key => $value)
             <p>#{{ $key+1 }} | Nome: <a class="link_process_number"
-                    href="{{ route('client.edit', $value->id_public) }}">{{ $value->name }}</a> | <a
+                    href="#">{{ $value->entity->entityIndividual->name }}</a> | <a
                     href="#">Detalhes</a></p>
         @endforeach
         <a href="{{ route('client.createPF') }}" class="btn btn-outline-dark">+ Pessoa Física</a>

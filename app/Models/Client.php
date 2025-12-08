@@ -27,8 +27,8 @@ class Client extends Model
         static::addGlobalScope('withRelations', function ($query) {
             $query->with([
                 'entity',
-                'entity.individual',
-                'entity.company',
+                'entity.entityIndividual',
+               // 'entity.entityCompany',
             ]);
         });
         static::addGlobalScope(new LawyerScope);

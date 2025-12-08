@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 
-class entityIndividual extends Model
+class EntityIndividual extends Model
 {
 
      /** @use HasFactory<\Database\Factories\EntityIndividualFactory> */
     use HasFactory;
-    protected $table = 'entitiesIndividual';
+    protected $table = 'entities_individual';
     protected $fillable = [
         'name',
         'cpf',

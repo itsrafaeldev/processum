@@ -17,7 +17,6 @@ return new class extends Migration
         DB::statement('ALTER TABLE clients DROP COLUMN mobile;');
         DB::statement('ALTER TABLE clients DROP COLUMN phone;');
         DB::statement('ALTER TABLE clients DROP COLUMN address;');
-        DB::statement('ALTER TABLE clients DROP COLUMN id_public;');
 
 
     }
