@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'clientos Judiciais')
+@section('title', 'Clientes')
 
 @push('style')
 <style>
@@ -82,7 +82,7 @@
 
 
      @push('script')
-        @vite(['resources/js/pages/client/form.js'])
+        @vite(['resources/js/pages/client/company/form.js'])
     @endpush
 
 

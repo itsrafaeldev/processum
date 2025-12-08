@@ -13,7 +13,9 @@
                     href="{{ route('client.edit', $value->id_public) }}">{{ $value->name }}</a> | <a
                     href="#">Detalhes</a></p>
         @endforeach
-        <a href="{{ route('client.create') }}" class="btn btn-outline-dark">Cadastrar Cliente</a>
+        <a href="{{ route('client.createPF') }}" class="btn btn-outline-dark">+ Pessoa Física</a>
+        <a href="{{ route('client.createPJ') }}" class="btn btn-outline-dark">+ Pessoa Jurídica</a>
+
     </div>
 
 

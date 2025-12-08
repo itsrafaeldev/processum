@@ -34,11 +34,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement('ALTER TABLE judicial_processes DROP CONSTRAINT fk_judicial_action;');
+       /*  DB::statement('ALTER TABLE judicial_processes DROP CONSTRAINT fk_judicial_action;');
 
         DB::statement(
             'ALTER TABLE judicial_processes
                         DROP COLUMN judicial_action_id;'
-        );
+        ); */
     }
 };

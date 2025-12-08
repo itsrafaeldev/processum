@@ -13,16 +13,10 @@ class Client extends Model
 {
     /** @use HasFactory<\Database\Factories\ClientFactory> */
     use HasFactory;
-    // Adicionar coluna competencia
     protected $table = 'clients';
 
     protected $fillable = [
-        'name',
-        'cpf',
-        'email',
-        'mobile',
-        'phone',
-        'address',
+        'entity_id',
         'lawyer_id'
     ];
 
@@ -30,21 +24,23 @@ class Client extends Model
 
     protected static function booted()
     {
-        static::creating(function ($model) {
-            if (!$model->id_public) {
-                $model->id_public = (string) Str::uuid();
-            }
+        static::addGlobalScope('withRelations', function ($query) {
+            $query->with([
+                'entity',
+                'entity.individual',
+                'entity.company',
+            ]);
         });
         static::addGlobalScope(new LawyerScope);
-
     }
 
-    public function getRouteKeyName()
+    public function entity()
     {
-        return 'id_public';
+        return $this->belongsTo(Entity::class);
     }
 
-    public function processes()
+
+    /* public function processes()
     {
         return $this->belongsToMany(JudicialProcess::class, 'judicial_process_client', 'client_id', 'judicial_process_id');
     }
@@ -52,7 +48,7 @@ class Client extends Model
     public function legalFees()
     {
         return $this->belongsToMany(LegalFee::class, 'legal_fee_client', 'client_id', 'legal_fee_id');
-    }
+    } */
 
 
 
