@@ -42,7 +42,7 @@
             </div>
 
             <div>Cliente(s):
-                <select class="form-control w-50" name="client_id[]" id="client_id" data-selected-clients='@json($legalFee->clients)'>
+                <select class="form-control w-50" name="client_id[]" id="client_id" data-selected-clients='@json($legalFee->entity)'>
 
                 </select>
                 <div class="error-message" id="error-client_id"></div>

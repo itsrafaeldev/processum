@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement(
-            'ALTER TABLE installments_legal_fees
+            'ALTER TABLE legal_fees_installments
                         ADD COLUMN client_id INTEGER not null;'
         );
     }

@@ -40,18 +40,4 @@ class Client extends Model
     }
 
 
-    /* public function processes()
-    {
-        return $this->belongsToMany(JudicialProcess::class, 'judicial_process_client', 'client_id', 'judicial_process_id');
-    }
-
-    public function legalFees()
-    {
-        return $this->belongsToMany(LegalFee::class, 'legal_fee_client', 'client_id', 'legal_fee_id');
-    } */
-
-
-
-
-
 }

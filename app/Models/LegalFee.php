@@ -52,9 +52,9 @@ class LegalFee extends Model
     //         ->withPivot('access_level');
     // }
 
-    public function clients()
+    public function entity()
     {
-        return $this->belongsToMany(Client::class, 'legal_fee_client', 'legal_fee_id', 'client_id');
+        return $this->belongsToMany(Entity::class, 'legal_fee_entity', 'legal_fee_id', 'entity_id');
     }
 
     public function installments()

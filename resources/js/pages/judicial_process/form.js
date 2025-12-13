@@ -121,7 +121,7 @@ saveButton.addEventListener("click", async function (e) {
             id_public: process.id_public,
             process_number: value_process_number,
             initial_date: value_initial_date,
-            client_id: value_client_id,
+            entity_id: value_client_id,
             respondent: value_respondent,
             nature_action_id: value_select_nature_action,
             judicial_action_id: value_select_judicial_action,

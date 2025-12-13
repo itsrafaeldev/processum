@@ -11,19 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-    //    DB::statement('ALTER TABLE judicial_processes ADD COLUMN client_id BIGINT NOT NULL');
-
-    //    DB::statement(
-    //         'ALTER TABLE judicial_processes
-    //                 ADD CONSTRAINT fk_client_id
-    //                 FOREIGN KEY (client_id) REFERENCES clients(id)
-    //                 ON DELETE CASCADE;
-    //                 '
-    //     );
 
 
-
-    //     DB::statement(query: 'ALTER TABLE judicial_processes DROP claimant;');
+        DB::statement(query: 'ALTER TABLE judicial_processes DROP claimant;');
 
 
     }
@@ -33,8 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // DB::statement('ALTER TABLE judicial_processes DROP CONSTRAINT fk_client_id;');
-        // DB::statement(query: 'ALTER TABLE judicial_processes DROP client_id;');
+
 
     }
 };

@@ -17,7 +17,6 @@ class JudicialProcess extends Model
     protected $fillable = [
         'process_number',
         'initial_date',
-        'client_id',
         'respondent',
         'description',
         'nature_action_id',
@@ -62,9 +61,9 @@ class JudicialProcess extends Model
             ->withPivot('access_level');
     }
 
-    public function clients()
+    public function entity()
     {
-        return $this->belongsToMany(Client::class, 'judicial_process_client', 'judicial_process_id', 'client_id');
+        return $this->belongsToMany(Entity::class, 'judicial_process_entity', 'judicial_process_id', 'entity_id');
     }
 
 

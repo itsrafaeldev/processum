@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LegalFeeRequest;
-use App\Models\{JudicialAction, JudicialProcess, LegalFee, InstallmentLegalFee, NatureAction, Client};
+use App\Models\{JudicialAction, JudicialProcess, LegalFee, InstallmentLegalFee, NatureAction, Client, Entity, EntityIndividual};
 use Illuminate\Http\Request;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Carbon\Carbon;
@@ -29,7 +29,7 @@ class LegalFeeController extends Controller
         $statusHonorarium = 'EM ANDAMENTO';
 
 
-        $legalFee->setRelation('clients', collect());
+        $legalFee->setRelation('entity', collect());
         $legalFee->setRelation('installments', collect());
         $process_number = [];
         return view(
@@ -38,20 +38,39 @@ class LegalFeeController extends Controller
         );
     }
 
-    public function edit($legalFee)
+     public function edit($legalFee)
     {
         $legalFee = LegalFee::where('id_public', $legalFee)->firstOrFail();
         $titleView = "Editar Honorário";
-        $legalFee->load(['clients', 'installments.client', 'installments.statusPayment']);
+        $legalFee->load(['entity.entityIndividual', 'installments.statusPayment']);
         $process_number = [
             JudicialProcess::where('id', $legalFee->judicial_process_id)
             ->select('id_public', 'process_number')
             ->first()
             ?->toArray()
         ];
-        // dd($legalFee->toArray());
         $statusHonorarium = 'EM ANDAMENTO';
         $legalFee->amount = number_format($legalFee->amount,2,',','.');
+        $legalFee->clients = $legalFee->entity->map(function($entity){
+            return [
+                'id_public' => $entity->id_public,
+                'name'      => $entity->entityIndividual?->name,
+            ];
+        });
+        unset($legalFee->entity);
+
+        $legalFee->installments = $legalFee->installments->map(function($installment) use ($legalFee) {
+            // encontra o cliente correspondente pelo client_id
+            $client = $legalFee->clients->firstWhere('id_public', $installment->entity_id?->toString() ?? $installment->client_id);
+
+            $installment->clientName = $client?->name ?? null;
+
+            // remove client_id
+            unset($installment->client_id);
+
+            return $installment;
+        });
+        dd($legalFee->toArray());
         return view(
             'legal-fee.form',
             compact('titleView', 'legalFee', 'statusHonorarium', 'process_number')
@@ -63,6 +82,7 @@ class LegalFeeController extends Controller
     {
 
         $payloadValidated = $legalFeeRequest->validated();
+
         $startDate = Carbon::parse($payloadValidated['due_date']);
         $processNumberId = JudicialProcess::where('id_public', operator: $payloadValidated['process_number_id'])->first()->id;
         $value_installments = bcdiv($payloadValidated['amount'], $payloadValidated['quantity_installment'], 2);
@@ -76,7 +96,7 @@ class LegalFeeController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        $clientIds = Client::whereIn('id_public', $payloadValidated['client_id'])->pluck('id');
+        $clientIds = Entity::whereIn('id_public', $payloadValidated['client_id'])->pluck('id');
 
         foreach ($clientIds as $clientId) {
             for ($i = 1; $i <= $payloadValidated['quantity_installment']; $i++) {
@@ -92,7 +112,7 @@ class LegalFeeController extends Controller
             }
         }
 
-        $legalFee->clients()->syncWithoutDetaching($clientIds);
+        $legalFee->entity()->syncWithoutDetaching($clientIds);
 
         $message = 'Honorário registrado com sucesso';
         $statusHttp = 201;

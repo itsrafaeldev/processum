@@ -41,11 +41,6 @@
             </div>
 
             <div>
-                {{-- Reclamante: <input class="form-control mb-2 w-50" type="text" name="claimant" id="claimant"
-                    max="255" value="{{ $process->claimant }}" > --}}
-            </div>
-
-            <div>
                 Reclamante: <select class="form-control select2 w-50" name="client_id[]" id="client_id"   data-selected-clients='@json($clients)'>
 
                 </select>

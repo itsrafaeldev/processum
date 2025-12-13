@@ -27,7 +27,7 @@ return new class extends Migration
         DB::statement("ALTER TABLE judicial_process_entity RENAME COLUMN client_id TO entity_id;");
         DB::statement("
             ALTER TABLE judicial_process_entity
-            ADD CONSTRAINT fk_judicial_process_entity_entity
+            ADD CONSTRAINT fk_judicial_process_entity
             FOREIGN KEY (entity_id)
             REFERENCES entities(id)
             ON DELETE CASCADE;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JudicialProcessRequest;
-use App\Models\{JudicialAction, JudicialProcess, NatureAction, Client};
+use App\Models\{JudicialAction, JudicialProcess, NatureAction, Entity, Client, EntityIndividual};
 use Illuminate\Http\Request;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
 use Illuminate\Support\Facades\Auth;
@@ -41,12 +41,13 @@ class JudicialProcessController extends Controller
         $titleView = "Editar Processo";
         $nature_actions = NatureAction::all();
         $actions = JudicialAction::all();
-        $clients = $process->clients->map(function($client) {
-                    return [
-                        'id_public' => $client->id_public,
-                        'name' => $client->name
-                    ];
-                })->toArray();
+        $process = $process->with(['entity.entityIndividual'])->first();
+        $clients = $process->entity->map(function($entity){
+            return [
+                'id_public' => $entity->id_public,
+                'name'      => $entity->entityIndividual?->name,
+            ];
+        });
 
         return view(
             'judicial-process.form',
@@ -59,16 +60,15 @@ class JudicialProcessController extends Controller
     {
         $payloadValidated = $judicialProcessRequest->validated();
         $payloadValidated['user_id'] = Auth::id();
-
-        $clientIds = Client::whereIn('id_public', $payloadValidated['client_id'])
+        $entitiesIds = Entity::whereIn('id_public', $payloadValidated['entity_id'])
                    ->pluck('id') // pega apenas a coluna id
                    ->toArray();  // transforma em array simples
 
-        unset($payloadValidated['client_id']); // Remove client_id do payload principal
+        unset($payloadValidated['entity_id']); // Remove entity_id do payload principal
 
         $process = JudicialProcess::create($payloadValidated);
 
-        $process->clients()->attach($clientIds);
+        $process->entity()->attach($entitiesIds);
 
         $message = 'Processo judicial registrado com sucesso';
         $statusHttp = 201;
@@ -82,14 +82,13 @@ class JudicialProcessController extends Controller
         try {
 
             $payloadValidated = $request->validated();
-
-            $clientIds = Client::whereIn('id_public', $payloadValidated['client_id'])
+            $entitiesIds = Entity::whereIn('id_public', $payloadValidated['entity_id'])
                    ->pluck('id')
                    ->toArray();
 
-            unset($payloadValidated['client_id']);
+            unset($payloadValidated['entity_id']);
 
-            $process->clients()->sync($clientIds);
+            $process->entity()->sync($entitiesIds);
 
             $process->update($payloadValidated);
             $message = 'Processo judicial atualizado com sucesso!';
@@ -129,8 +128,26 @@ class JudicialProcessController extends Controller
 
         $process_number = JudicialProcess::where('process_number', 'LIKE', "%{$query}%")
         ->limit(10)
-        ->with(['clients:id_public,name']) // apenas id e name
-        ->get(['id', 'id_public', 'process_number']);
+        ->with(['entity.entityIndividual:id,name,entity_id'])
+        ->get(['id', 'id_public', 'process_number'])
+        ->map(function($process){
+
+            // monta o clients
+            $clients = $process->entity->map(function($e){
+                return [
+                    'id_public' => $e->id_public,
+                    'name'      => $e->entityIndividual?->name,
+                ];
+            });
+
+            // devolve já tratado
+            return [
+                'id_public'      => $process->id_public,
+                'process_number' => $process->process_number,
+                'clients'        => $clients,
+            ];
+        });
+
         return response()->json($process_number);
     }
 

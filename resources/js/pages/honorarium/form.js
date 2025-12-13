@@ -200,7 +200,9 @@ function  initTableInstallments(installmentsLegalFee) {
                 {
                     headerName: 'Cliente',
                     flex: 1,
-                    valueGetter: params => params.data.client?.name || ''
+                    valueGetter: params => {
+                        console.log(params.data);
+                        return params.data.client?.name || ''}
                 },
 
                 { field: 'current_installment', headerName: 'Parcela', flex: 1 },

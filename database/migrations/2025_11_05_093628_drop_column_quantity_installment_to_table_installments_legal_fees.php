@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-               DB::statement('ALTER TABLE installments_legal_fees DROP COLUMN quantity_installment;');
+               DB::statement('ALTER TABLE legal_fees_installments DROP COLUMN quantity_installment;');
 
     }
 

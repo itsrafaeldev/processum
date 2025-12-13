@@ -9,7 +9,7 @@ return new class extends Migration
    public function up(): void
     {
         DB::statement(
-            'CREATE TABLE installments_legal_fees(
+            'CREATE TABLE legal_fees_installments(
             ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
             ID_PUBLIC UUID UNIQUE NOT NULL,
             QUANTITY_INSTALLMENT INTEGER NOT NULL,
@@ -25,7 +25,7 @@ return new class extends Migration
             );'
         );
 
-        DB::statement('ALTER TABLE installments_legal_fees
+        DB::statement('ALTER TABLE legal_fees_installments
             ADD CONSTRAINT fk_status_payment
             FOREIGN KEY (status_payment_id) REFERENCES status_payment(id)
             ON DELETE CASCADE;');
@@ -36,7 +36,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement('ALTER TABLE installments_legal_fees DROP CONSTRAINT fk_status_payment;');
-        Schema::dropIfExists('installments_legal_fees');
+        DB::statement('ALTER TABLE legal_fees_installments DROP CONSTRAINT fk_status_payment;');
+        Schema::dropIfExists('legal_fees_installments');
     }
 };

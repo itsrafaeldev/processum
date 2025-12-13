@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
          DB::statement(
-            'ALTER TABLE installments_legal_fees
+            'ALTER TABLE legal_fees_installments
                         ADD COLUMN entity_id BIGSERIAL not null;'
         );
          DB::statement("
-            ALTER TABLE installments_legal_fees
+            ALTER TABLE legal_fees_installments
             ADD CONSTRAINT fk_legal_fee_entity
             FOREIGN KEY(entity_id)
             REFERENCES entities(id)
@@ -31,7 +31,7 @@ return new class extends Migration
     public function down(): void
     {
         DB::statement("
-            ALTER TABLE installments_legal_fees
+            ALTER TABLE legal_fees_installments
             DROP CONSTRAINT IF EXISTS fk_legal_fee_entity;
         ");
     }

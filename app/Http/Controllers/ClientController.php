@@ -27,10 +27,18 @@ class ClientController extends Controller
             return response()->json([]);
         }
 
-        $clients = Client::where(DB::raw('UPPER(name)'), 'like', '%' . strtoupper($query) . '%')
+        $clients = $entities = Entity::whereHas('entityIndividual', function($q) use ($query) {
+            $q->where(DB::raw('UPPER(name)'), 'like', '%'.strtoupper($query).'%');
+            })
             ->limit(10)
-            ->get(['id_public', 'name']);
-
+            ->with([
+                'entityIndividual:name,entity_id'
+            ])
+            ->get(['id', 'id_public']);
+        foreach ($clients as $client) {
+            $client->name = $client->entityIndividual->name;
+            unset($client->entityIndividual);
+        }
         return response()->json($clients);
     }
 
@@ -42,21 +50,19 @@ class ClientController extends Controller
 
         // set relations memory only
         $entity->setRelation('entityIndividual',    new EntityIndividual());
-       // $entity->setRelation('client',        new Client());
 
         // fake public id for front
         $entity->id_public = 0;
 
         $titleView = "Novo Cliente";
-        //dd("entity: ", $entity->toArray(), $entity->entityIndividual->name);
         return view('clients.individual.form', compact('titleView', 'entity'));
     }
 
-    public function editPF(Client $client)
+    public function editPF(Entity $entity)
     {
         $titleView = "Editar Cliente";
-        $client = $client->makeHidden(['id', 'created_at', 'updated_at', 'lawyer_id']);
-        return view('clients.form', compact('titleView', 'client'));
+        $entity = $entity->with(['entityIndividual'])->first();
+        return view('clients.individual.form', compact('titleView', 'entity'));
     }
 
 
@@ -81,9 +87,8 @@ class ClientController extends Controller
         ];
 
         $entity = Entity::create($entityPayload);
-        $entityIndividualPayload['entity_id'] = $entity->id;
-       // dd($entity, $clientValidated, $entityPayload, $entityIndividualPayload, $clientPayload);
 
+        $entityIndividualPayload['entity_id'] = $entity->id;
         $entity->entityIndividual()->create($entityIndividualPayload);
 
         $entity->client()->create($clientPayload);
@@ -95,10 +100,10 @@ class ClientController extends Controller
         return response()->json(['success' => $message, 'status' => $statusHttp]);
     }
 
-    public function updatePF(ClientIndividualRequest $request, Client $client)
+    public function updatePF(ClientIndividualRequest $request, Entity $entity)
     {
         $updateValidated = $request->validated();
-        $client->update($updateValidated);
+        $entity->entityIndividual()->update($updateValidated);
         $message = 'Cliente atualizado com sucesso';
         $statusHttp = 201;
         ToastMagic::success('Sucesso!', $message);
@@ -106,10 +111,10 @@ class ClientController extends Controller
     }
 
 
-    public function deletePF(Client $client)
+    public function deletePF(Entity $entity)
     {
         try {
-            $client->delete();
+            $entity->delete();
             $message = 'Cliente deletado com sucesso!';
             $statusHttp = 200;
             ToastMagic::success('Sucesso!', $message);

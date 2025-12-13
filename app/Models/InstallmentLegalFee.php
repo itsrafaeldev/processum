@@ -15,7 +15,7 @@ class InstallmentLegalFee extends Model
     /** @use HasFactory<\Database\Factories\LegalFeeFactory> */
     use HasFactory;
 
-    protected $table = 'installments_legal_fees';
+    protected $table = 'legal_fees_installments';
 
     protected $fillable = [
         'current_installment',

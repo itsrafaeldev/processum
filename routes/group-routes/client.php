@@ -13,13 +13,13 @@ Route::prefix('client')->group( function () {
     Route::prefix('pf')->group( function () {
         Route::get('create', [ClientController::class, 'createPF'])->name('client.createPF');
 
-        Route::get('edit/{client}', [ClientController::class, 'editPF'])->name('client.editPF');
+        Route::get('edit/{entity}', [ClientController::class, 'editPF'])->name('client.editPF');
 
         Route::post('save', [ClientController::class, 'savePF'])->name('client.savePF');
 
-        Route::put('update/{client}', [ClientController::class, 'updatePF'])->name('client.updatePF');
+        Route::put('update/{entity}', [ClientController::class, 'updatePF'])->name('client.updatePF');
 
-        Route::delete('delete/{client}', [ClientController::class, 'deletePF'])->name('client.deletePF');
+        Route::delete('delete/{entity}', [ClientController::class, 'deletePF'])->name('client.deletePF');
     });
 
 
