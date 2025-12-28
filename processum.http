@@ -1,0 +1,30 @@
+@processum_HostAddress = http://localhost:5091
+
+GET {{processum_HostAddress}}/api/process
+Accept: application/json
+
+###
+GET {{processum_HostAddress}}/api/process/8d3715b3-54b9-4397-b85a-6909ae5c8e67
+Accept: application/json
+
+###
+POST {{processum_HostAddress}}/api/process
+Content-Type: application/json
+
+{
+  "processNumber": "00012345620258050001",
+  "initialDate": "2025-01-15",
+  "respondent": "Empresa XYZ LTDA",
+  "description": "Ação de cobrança referente a serviços prestados",
+  "natureActionId": 3,
+  "judicialActionId": 7,
+  "userId": 1,
+  "entityIds": [
+    "bc22477d-2ab8-445a-b969-ea278522f086"
+  ]
+}
+
+###
+GET {{processum_HostAddress}}/api/entity
+Accept: application/json
+

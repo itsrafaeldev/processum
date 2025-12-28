@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace processum.Models;
+
+public partial class JudicialProcess
+{
+    public long Id { get; set; }
+
+    public string ProcessNumber { get; set; } = null!;
+
+    public DateOnly InitialDate { get; set; }
+
+    public string Respondent { get; set; } = null!;
+
+    public string? Description { get; set; }
+
+    public int NatureActionId { get; set; }
+
+    public int JudicialActionId { get; set; }
+
+    public bool IsArchived { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
+    public Guid IdPublic { get; set; }
+
+    public long UserId { get; set; }
+
+    public ICollection<JudicialProcessEntity> JudicialProcessEntities { get; set; } = new List<JudicialProcessEntity>();
+    public ICollection<LegalFee> LegalFees { get; set; } = new List<LegalFee>();
+
+    public NatureAction NatureAction { get; set; } = null!;
+    public JudicialAction JudicialAction { get; set; } = null!;
+
+    public ICollection<Settlement> Settlements { get; set; } = new List<Settlement>();
+
+    public User User { get; set; } = null!;
+    
+    public JudicialProcess()
+    { 
+    }
+}
