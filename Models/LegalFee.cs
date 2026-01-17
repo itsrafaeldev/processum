@@ -32,4 +32,12 @@ public partial class LegalFee
     public virtual User User { get; set; } = null!;
 
     public ICollection<LegalFeeEntity> LegalFeeEntities { get; set; } = new List<LegalFeeEntity>();
+
+    public LegalFee()
+    {
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+        QuantityInstallment = 1;
+        Amount = 0.0m;
+    }
 }

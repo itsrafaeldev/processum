@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("processum")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ea481c7095b51b77e2d49faef44a64636a199ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("processum")]
 [assembly: System.Reflection.AssemblyTitleAttribute("processum")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

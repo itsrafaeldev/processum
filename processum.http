@@ -28,3 +28,21 @@ Content-Type: application/json
 GET {{processum_HostAddress}}/api/entity
 Accept: application/json
 
+###
+GET {{processum_HostAddress}}/api/entity/34927661-9c1e-480e-b333-d9d0338fde27
+Accept: application/json
+
+###
+POST {{processum_HostAddress}}/api/entity/individual
+Content-Type: application/json
+
+{
+  "cpf": "12345678900",
+  "rg": "123456789",
+  "email": "rafael@email.com",
+  "mobile": "71988887777",
+  "phone": "7133332222",
+  "birthDate": "1995-08-21",
+  "address": "Rua das Flores, 123 - Águas Claras, Salvador/BA",
+  "name": "Rafael dos Santos de Almeida"
+}

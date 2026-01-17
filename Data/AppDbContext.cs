@@ -22,9 +22,9 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Client> Clients { get; set; }
 
-    public virtual DbSet<EntitiesCompany> EntitiesCompanies { get; set; }
+    public virtual DbSet<EntityCompany> EntitiesCompanies { get; set; }
 
-    public virtual DbSet<EntitiesIndividual> EntitiesIndividuals { get; set; }
+    public virtual DbSet<EntityIndividual> EntitiesIndividuals { get; set; }
 
     public virtual DbSet<EntitiesRole> EntitiesRoles { get; set; }
 
@@ -68,10 +68,6 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-//     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//         => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=processum_db;Username=postgres;Password=postgres");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cache>(entity =>
@@ -114,7 +110,6 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("timestamp with time zone")
                 .HasColumnName("created_at");
             entity.Property(e => e.EntityId)
-                .ValueGeneratedOnAdd()
                 .HasColumnName("entity_id");
             entity.Property(e => e.LawyerId).HasColumnName("lawyer_id");
             entity.Property(e => e.UpdatedAt)
@@ -122,16 +117,16 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("timestamp with time zone")
                 .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Entity).WithMany(p => p.Clients)
-                .HasForeignKey(d => d.EntityId)
-                .HasConstraintName("fk_client_entity");
+            // entity.HasOne(d => d.Entity).WithMany(p => p.Clients)
+            //     .HasForeignKey(d => d.EntityId)
+            //     .HasConstraintName("fk_client_entity");
 
             entity.HasOne(d => d.Lawyer).WithMany(p => p.Clients)
                 .HasForeignKey(d => d.LawyerId)
                 .HasConstraintName("fk_client_lawyer");
         });
 
-        modelBuilder.Entity<EntitiesCompany>(entity =>
+        modelBuilder.Entity<EntityCompany>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("entities_company_pkey");
 
@@ -148,17 +143,15 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp with time zone")
                 .HasColumnName("created_at");
-            entity.Property(e => e.Email)
+            entity.Property(e => e.CorporateEmail)
                 .HasMaxLength(255)
                 .HasColumnName("email");
-            entity.Property(e => e.EntityId).HasColumnName("entity_id");
-            entity.Property(e => e.Ie)
-                .HasMaxLength(30)
-                .HasColumnName("ie");
-            entity.Property(e => e.Mobile)
+            entity.Property(e => e.EntityId)
+            .HasColumnName("entity_id");
+            entity.Property(e => e.CorporateMobile)
                 .HasMaxLength(50)
                 .HasColumnName("mobile");
-            entity.Property(e => e.Phone)
+            entity.Property(e => e.CorporatePhone)
                 .HasMaxLength(50)
                 .HasColumnName("phone");
             entity.Property(e => e.TradeName)
@@ -169,12 +162,12 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("timestamp with time zone")
                 .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Entity).WithMany(p => p.EntitiesCompanies)
-                .HasForeignKey(d => d.EntityId)
+            entity.HasOne(d => d.Entity).WithOne(p => p.EntityCompany)
+                .HasForeignKey<EntityCompany>(d => d.EntityId)
                 .HasConstraintName("fk_entity_company");
         });
 
-        modelBuilder.Entity<EntitiesIndividual>(entity =>
+        modelBuilder.Entity<EntityIndividual>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("entities_individual_pkey");
 
@@ -196,7 +189,6 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("email");
             entity.Property(e => e.EntityId)
-                .ValueGeneratedOnAdd()
                 .HasColumnName("entity_id");
             entity.Property(e => e.Mobile)
                 .HasMaxLength(50)
@@ -215,8 +207,8 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("timestamp with time zone")
                 .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Entity).WithMany(p => p.EntitiesIndividuals)
-                .HasForeignKey(d => d.EntityId)
+            entity.HasOne(d => d.Entity).WithOne(p => p.EntityIndividual)
+                .HasForeignKey<EntityIndividual>(d => d.EntityId)
                 .HasConstraintName("fk_entity_individual");
         });
 
@@ -273,9 +265,9 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("timestamp with time zone")
                 .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Entity).WithMany(p => p.EntitiesRolesMaps)
-                .HasForeignKey(d => d.EntityId)
-                .HasConstraintName("fk_entities_roles_map_entity");
+            // entity.HasOne(d => d.Entity).WithMany(p => p.EntitiesRolesMaps)
+            //     .HasForeignKey(d => d.EntityId)
+            //     .HasConstraintName("fk_entities_roles_map_entity");
 
             entity.HasOne(d => d.Role).WithMany(p => p.EntitiesRolesMaps)
                 .HasForeignKey(d => d.RoleId)
@@ -331,7 +323,6 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(e => e.EntityId)
                 .HasConstraintName("fk_judicial_process_entity_entity");
         });
-
 
         modelBuilder.Entity<FailedJob>(entity =>
         {
@@ -517,7 +508,8 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.Amount)
                 .HasPrecision(10, 2)
-                .HasColumnName("amount");
+                .HasColumnName("amount")
+                .HasDefaultValue(0.0m);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp with time zone")
@@ -527,7 +519,10 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Note)
                 .HasMaxLength(255)
                 .HasColumnName("note");
-            entity.Property(e => e.QuantityInstallment).HasColumnName("quantity_installment");
+            entity.Property(e => e.QuantityInstallment)
+            .HasColumnName("quantity_installment")
+            .HasDefaultValue(1);
+            
             entity.Property(e => e.StatusPaymentId).HasColumnName("status_payment_id");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
@@ -572,7 +567,6 @@ public partial class AppDbContext : DbContext
 
             
         });
-
 
         modelBuilder.Entity<LegalFeesInstallment>(entity =>
         {

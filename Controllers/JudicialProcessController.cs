@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using processum.Data;
@@ -61,7 +57,7 @@ namespace processum.Controllers
                     .Select(jpe => new EntityResponse
                     {
                         IdPublic = jpe.Entity.IdPublic,
-                        Name = jpe.Entity.EntityType 
+                        EntityType = jpe.Entity.EntityType 
                     })
                     .ToList()
             }).ToList();
@@ -110,7 +106,7 @@ namespace processum.Controllers
                     .Select(jpe => new EntityResponse
                     {
                         IdPublic = jpe.Entity.IdPublic,
-                        Name = jpe.Entity.EntityType
+                        EntityType = jpe.Entity.EntityType
                     })
                     .ToList()
             };
@@ -140,8 +136,6 @@ namespace processum.Controllers
                 NatureActionId = request.NatureActionId,
                 JudicialActionId = request.JudicialActionId,
                 UserId = request.UserId,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
                 IdPublic = Guid.NewGuid(),
                 
             };
@@ -157,9 +151,22 @@ namespace processum.Controllers
             _context.JudicialProcesses.Add(process);
 
             await _context.SaveChangesAsync();
-      
-
             return StatusCode(201);
+        }
+
+        [HttpDelete("{idPublic:guid}")]
+        public async Task<IActionResult> DeleteEntity(Guid idPublic)
+        {
+             var process = await _context.JudicialProcesses
+                .FirstOrDefaultAsync(p => p.IdPublic == idPublic);
+
+            if (process == null)
+                return NotFound("Entidade não encontrada.");
+
+            _context.JudicialProcesses.Remove(process);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
 

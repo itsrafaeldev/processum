@@ -119,3 +119,4 @@
 /home/rafael/projetos-c#/processum/obj/Debug/net10.0/processum.pdb
 /home/rafael/projetos-c#/processum/obj/Debug/net10.0/processum.genruntimeconfig.cache
 /home/rafael/projetos-c#/processum/obj/Debug/net10.0/ref/processum.dll
+/home/rafael/projetos-c#/processum/obj/Debug/net10.0/processum.sourcelink.json

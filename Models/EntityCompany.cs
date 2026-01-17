@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace processum.Models;
 
-public partial class EntitiesCompany
+public partial class EntityCompany
 {
     public long Id { get; set; }
 
@@ -11,17 +11,15 @@ public partial class EntitiesCompany
 
     public string? Cnpj { get; set; }
 
-    public string? Ie { get; set; }
-
     public string? CorporateName { get; set; }
 
     public string? TradeName { get; set; }
 
-    public string? Email { get; set; }
+    public string? CorporateEmail { get; set; }
 
-    public string? Mobile { get; set; }
+    public string? CorporateMobile { get; set; }
 
-    public string? Phone { get; set; }
+    public string? CorporatePhone { get; set; }
 
     public DateTime CreatedAt { get; set; }
 

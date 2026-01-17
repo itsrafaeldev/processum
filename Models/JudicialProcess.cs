@@ -40,6 +40,8 @@ public partial class JudicialProcess
     public User User { get; set; } = null!;
     
     public JudicialProcess()
-    { 
+    {
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace processum.Models;
 
-public partial class EntitiesIndividual
+public partial class EntityIndividual
 {
     public long Id { get; set; }
 
