@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using processum.Services;
+using processum.Services.interfaces;
+using processum.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<processum.Data.AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+builder.Services.AddApplicationServices();
+
 
 var app = builder.Build();
 

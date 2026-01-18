@@ -2072,25 +2072,24 @@
     ]
   },
   "packageFolders": {
-    "/home/rafael/.nuget/packages/": {}
+    "C:\\Users\\crisl\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/rafael/projetos-c#/processum/processum.csproj",
+      "projectUniqueName": "C:\\Users\\crisl\\OneDrive\\Documentos\\projetos-rafa\\c#\\processum\\processum.csproj",
       "projectName": "processum",
-      "projectPath": "/home/rafael/projetos-c#/processum/processum.csproj",
-      "packagesPath": "/home/rafael/.nuget/packages/",
-      "outputPath": "/home/rafael/projetos-c#/processum/obj/",
+      "projectPath": "C:\\Users\\crisl\\OneDrive\\Documentos\\projetos-rafa\\c#\\processum\\processum.csproj",
+      "packagesPath": "C:\\Users\\crisl\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\crisl\\OneDrive\\Documentos\\projetos-rafa\\c#\\processum\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/rafael/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\crisl\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2159,7 +2158,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
