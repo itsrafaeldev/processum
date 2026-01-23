@@ -1,0 +1,47 @@
+<aside class="h-screen">
+
+  <div class="drawer lg:drawer-open">
+  <input id="my-drawer-4" type="checkbox" class="drawer-toggle"  [checked]="!layoutService.currentState"/>
+
+  <div
+      class="hidden lg:flex fixed top-3 left-[calc(var(--sidebar-width))] transform -translate-x-1/2 rounded-r-full p-1 cursor-pointer z-50 transition-all duration-300"
+      (click)="layoutService.toggleSidebar()"
+      [style.--sidebar-width]="!(layoutService.sidebarState$ | async) ? '16rem' : '3.5rem'"
+      for="my-drawer-4" aria-label="open sidebar"
+    >
+      <i-lucide
+        [img]="(layoutService.sidebarState$ | async) ? ChevronRight  : ChevronLeft"
+        class="size-6 text-white bg-primary-300 rounded-3xl"
+      ></i-lucide>
+  </div>
+
+  <div class="drawer-side is-drawer-close:overflow-visible border-r border-gray-200 shadow-lg">
+    <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
+    <div class="flex min-h-full pt-10 flex-col items-start bg-white is-drawer-close:w-14 is-drawer-open:w-64">
+      <ul class="menu w-full grow flex gap-1">
+        <li>
+          <button routerLink="/processos" routerLinkActive="active bg-primary-400" class="group sidebar-item hover:bg-primary-400 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Processos Judiciais">
+            <i-lucide [img]="Scale" class="size-4 text-gray-600 group-hover:text-white group-[.active]:text-white"></i-lucide>
+            <span class="is-drawer-close:hidden text-primary-500 group-hover:text-white group-[.active]:text-white">Processos</span>
+          </button>
+        </li>
+
+        <li>
+          <button routerLink="/financeiro" routerLinkActive="active bg-primary-400" class="group sidebar-item hover:bg-primary-400 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Financeiro">
+            <i-lucide [img]="BadgeDollarSign" class="size-4 text-gray-600 group-hover:text-white group-[.active]:text-white"></i-lucide>
+            <span class="is-drawer-close:hidden group-hover:text-white group-[.active]:text-white">Financeiro</span>
+          </button>
+        </li>
+
+        <li>
+          <button routerLink="/entidades" routerLinkActive="active bg-primary-400" class="group sidebar-item hover:bg-primary-400 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Entidades">
+            <i-lucide [img]="BookUser" class="size-4 text-gray-600 group-hover:text-white group-[.active]:text-white"></i-lucide>
+            <span class="is-drawer-close:hidden group-hover:text-white group-[.active]:text-white">Entidades</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</aside>

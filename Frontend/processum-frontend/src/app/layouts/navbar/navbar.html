@@ -1,0 +1,28 @@
+<nav class="navbar w-3xl bg-white flex items-center justify-between relative">
+    <div
+      class="lg:hidden cursor-pointer"
+      (click)="layoutService.toggleSidebar()"
+
+    >
+      <i-lucide
+        [img]="Menu"
+        class="size-6 text-shadow-primary-400"
+      ></i-lucide>
+    </div>
+  <div class="px-4 text-black font-medium text-2xl">OCTAPRO</div>
+  <label class="input px-4">
+    <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <g
+        stroke-linejoin="round"
+        stroke-linecap="round"
+        stroke-width="2.5"
+        fill="none"
+        stroke="currentColor"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.3-4.3"></path>
+      </g>
+    </svg>
+    <input type="search" required placeholder="Pesquisar" />
+  </label>
+</nav>

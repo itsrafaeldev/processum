@@ -1,3 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
+@plugin "daisyui";
+
+/* #7a56df */
+
+@theme {
+  --color-primary-50: #f8f8fb;
+  --color-primary-75: #f0edf7;
+  --color-primary-100: #E0AAFF;
+  --color-primary-200: #C77DFF;
+  --color-primary-300: #9D4EDD;
+  --color-primary-400: #7B2CBF;
+  --color-primary-500: #5A189A;
+  --color-primary-600: #3C096C;
+  --color-primary-700: #240046;
+  --color-primary-800: #10002B;
+
+  --font-sans: "Geist", cursive;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+body{
+  font-family: var(--font-sans);
+}
+
+.ag-center-header .ag-header-cell-label {
+  justify-content: center;
+}
+.ag-left-header .ag-header-cell-label {
+  justify-content: flex-start;
+}
+.ag-right-header .ag-header-cell-label {
+  justify-content: flex-end;
+}
+
+

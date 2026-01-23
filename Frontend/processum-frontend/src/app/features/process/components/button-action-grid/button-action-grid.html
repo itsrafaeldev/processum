@@ -1,0 +1,13 @@
+<div class="actions flex gap-2 justify-center items-center h-full">
+  <button
+    *ngFor="let action of actions"
+    class="p-1.5 rounded-[10px] font-medium"
+    [id]="action.id"
+    [ngClass]="action.class"
+    [title]="action.tooltip"
+    (click)="action.onClick(params.data)"
+    >
+
+    <i-lucide [name]="action.icon" size="20"></i-lucide>
+  </button>
+</div>
