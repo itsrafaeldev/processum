@@ -1,9 +1,21 @@
-<div class="h-[600px] w-[1600px] shadow-container bg-white text-black flex flex-col">
-  <h1 class="text-2xl">Processos Judiciais</h1>
-  <ag-grid-angular
-        class="ag-theme-quartz w-1/2 h-[300px]"
-        [rowData]="rowData"
-        [columnDefs]="colDefs"
-        [defaultColDef]="defaultColDef"
-        [localeText]="localeText"/>
+<div class="">
+  <h1 class="text-3xl font-bold mb-2.5">Processos Judiciais</h1>
+
+  <div class="p-4 h-[160px] w-[1600px] mb-3 rounded-[10px] shadow-container bg-white text-black flex flex-col">
+    <app-filter-inputs></app-filter-inputs>
+  </div>
+
+  <div class="p-4 h-[600px] w-[1600px] rounded-[10px] shadow-container bg-white text-black flex flex-col">
+    <app-new-process-button></app-new-process-button>
+    <app-process-table
+      [rowData$]="processes$"
+      (view)="onView($event)"
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)">
+    </app-process-table>
+
+  </div>
+
+  <app-details-process></app-details-process>
+
 </div>

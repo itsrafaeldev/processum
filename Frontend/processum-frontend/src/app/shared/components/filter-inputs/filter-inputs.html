@@ -1,0 +1,38 @@
+<div class="flex flex-wrap gap-4">
+  <div class="w-full">
+    <p class="text-2xl font-medium flex items-center gap-1">Filtros<i-lucide [img]="Funnel" size="18"></i-lucide>
+    </p>
+  </div>
+<!-- NNNNNNN-DD.AAAA.J.TR.OOOO -->
+    <div class="flex gap-4">
+      <p-floatlabel variant="on">
+        <p-inputmask id="input_process" [(ngModel)]="value3" mask="9999999-99.9999.9.99.9999" />
+        <label for="input_process">N Processo</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <input pInputText id="input_client" [(ngModel)]="value3" autocomplete="off" />
+        <label for="input_client">Cliente</label>
+      </p-floatlabel>
+
+
+      <p-floatlabel variant="on">
+        <p-select [options]="status" id="select_status" [(ngModel)]="selectedCity" optionLabel="name" placeholder="Selecione um Status" class="w-full md:w-56"/>
+        <label for="select_status">Status</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <p-datepicker id="datepicker_date_open" [(ngModel)]="value3" inputId="on_label" showIcon iconDisplay="input" dateFormat="dd/mm/yy"/>
+        <label for="datepicker_date_open">Data de Abertura</label>
+      </p-floatlabel>
+
+      <button class="bg-primary-200 w-[40px] text-primary-600 rounded-full">
+        <i-lucide [img]="Search" size="16" class="flex justify-center"></i-lucide>
+      </button>
+
+      <button class="bg-primary-200 w-[40px] text-primary-600 rounded-full">
+        <i-lucide [img]="Eraser" size="16" class="flex justify-center"></i-lucide>
+      </button>
+
+    </div>
+</div>

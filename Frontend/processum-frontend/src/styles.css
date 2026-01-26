@@ -6,11 +6,11 @@
 @theme {
   --color-primary-50: #f8f8fb;
   --color-primary-75: #f0edf7;
-  --color-primary-100: #E0AAFF;
-  --color-primary-200: #C77DFF;
+  --color-primary-100: #D7CAF0;
+  --color-primary-200: #ededfb;
   --color-primary-300: #9D4EDD;
-  --color-primary-400: #7B2CBF;
-  --color-primary-500: #5A189A;
+  --color-primary-400: #5533AC
+  --color-primary-500: #3d2380;
   --color-primary-600: #3C096C;
   --color-primary-700: #240046;
   --color-primary-800: #10002B;
@@ -32,5 +32,4 @@ body{
 .ag-right-header .ag-header-cell-label {
   justify-content: flex-end;
 }
-
 

@@ -1,0 +1,10 @@
+<div class="shadow-container bg-white text-black flex flex-col">
+  <ag-grid-angular
+    class="ag-theme-quartz h-[300px]"
+    [rowData]="rowData$ | async"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [localeText]="localeText"
+    [gridOptions]="gridOptions">
+  </ag-grid-angular>
+</div>

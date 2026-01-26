@@ -12,7 +12,6 @@ namespace processum.DTO.Response
         public string EntityType { get; set; } = null!;
 
          // PF
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Name { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -31,7 +30,6 @@ namespace processum.DTO.Response
 
 
         // PJ
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? CorporateName { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? CNPJ { get; set; }

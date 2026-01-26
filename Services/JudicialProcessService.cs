@@ -24,6 +24,10 @@ namespace processum.Services
                 .Include(p => p.User)
                 .Include(p => p.JudicialProcessEntities)
                     .ThenInclude(jpe => jpe.Entity)
+                        .ThenInclude(e => e.EntityIndividual)
+                .Include(p => p.JudicialProcessEntities)
+                    .ThenInclude(jpe => jpe.Entity)
+                        .ThenInclude(e => e.EntityCompany)
                 .ToListAsync();
 
             var response = processes.Select(p => new JudicialProcessResponse
@@ -54,7 +58,10 @@ namespace processum.Services
                     .Select(jpe => new EntityResponse
                     {
                         IdPublic = jpe.Entity.IdPublic,
-                        EntityType = jpe.Entity.EntityType
+                        EntityType = jpe.Entity.EntityType,
+                        Name = jpe.Entity.EntityIndividual?.Name,
+                        CorporateName = jpe.Entity.EntityCompany?.CorporateName,
+                        
                     })
                     .ToList()
             }).ToList();
