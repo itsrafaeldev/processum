@@ -586,7 +586,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.CurrentInstallment).HasColumnName("current_installment");
             entity.Property(e => e.DueDate).HasColumnName("due_date");
             entity.Property(e => e.EntityId)
-                .HasDefaultValueSql("nextval('installments_legal_fees_entity_id_seq'::regclass)")
+                .IsRequired()
                 .HasColumnName("entity_id");
             entity.Property(e => e.IdPublic).HasColumnName("id_public");
             entity.Property(e => e.LegalFeeId).HasColumnName("legal_fee_id");

@@ -1,0 +1,56 @@
+# services:
+#   processum-pg-container:
+#     image: postgres:15
+#     container_name: processum-pg-container
+#     restart: always
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: processum_db
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+
+
+# volumes:
+#   postgres_data:
+
+version: '3.9'
+
+services:
+  processum-pg-container:
+    image: postgres:15
+    container_name: processum-pg-container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: processum_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  dev-env:
+    build: ./  # caminho do Dockerfile
+    container_name: dev-env
+    depends_on:
+      - processum-pg-container
+    ports:
+      - "5091:5091"   # .NET
+      - "4200:4200"   # Angular
+    volumes:
+      - "C:/Users/Oem/Pictures/projetos-rafa/processum:/app/backend"
+      - "C:/Users/Oem/Pictures/projetos-rafa/processum/Frontend/processum-frontend:/app/frontend"
+    environment:
+      DB_HOST: processum-pg-container
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: processum_db
+    tty: true
+    stdin_open: true
+
+volumes:
+  postgres_data:
+

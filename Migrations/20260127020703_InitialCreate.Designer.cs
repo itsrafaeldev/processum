@@ -12,8 +12,8 @@ using processum.Data;
 namespace processum.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260109021251_DefingDefaultValuesToAmountAndQuantityInstallmentsInLegalFee")]
-    partial class DefingDefaultValuesToAmountAndQuantityInstallmentsInLegalFee
+    [Migration("20260127020703_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -846,10 +846,8 @@ namespace processum.Migrations
                         .HasColumnName("due_date");
 
                     b.Property<long>("EntityId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("entity_id")
-                        .HasDefaultValueSql("nextval('installments_legal_fees_entity_id_seq'::regclass)");
+                        .HasColumnName("entity_id");
 
                     b.Property<Guid>("IdPublic")
                         .HasColumnType("uuid")

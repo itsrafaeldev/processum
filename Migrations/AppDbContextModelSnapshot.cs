@@ -843,10 +843,8 @@ namespace processum.Migrations
                         .HasColumnName("due_date");
 
                     b.Property<long>("EntityId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("entity_id")
-                        .HasDefaultValueSql("nextval('installments_legal_fees_entity_id_seq'::regclass)");
+                        .HasColumnName("entity_id");
 
                     b.Property<Guid>("IdPublic")
                         .HasColumnType("uuid")
