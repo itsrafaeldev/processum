@@ -1,0 +1,25 @@
+
+<div>
+   <h1 class="text-3xl font-bold mb-2.5">Novo Processo</h1>
+  <div class="p-4 h-[600px] w-[1600px] rounded-[10px] shadow-container bg-white text-black flex flex-col">
+    <div>
+      <button
+        class="mt-4 px-4 py-2 bg-gray-200 rounded"
+        (click)="goBack()">
+        Voltar
+      </button>
+    </div>
+    <form [formGroup]="exampleForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 sm:w-56">
+        <div class="flex flex-col gap-1">
+          <span class="font-medium">N Processo</span>
+            <p-inputmask mask="9999999-99.9999.9.99.9999" formControlName="value" placeholder="9999999-99.9999.9.99.9999" [invalid]="isInvalid('value')" fluid />
+            @if (isInvalid('value')) {
+              <p-message severity="error" size="small" variant="simple">O número do processo é obrigatório</p-message>
+            }
+        </div>
+        <button pButton severity="secondary" type="submit" class="mt-4 px-4 py-2 bg-primary-600 text-white rounded"><span pButtonLabel>Submit</span></button>
+    </form>
+
+  </div>
+</div>
+

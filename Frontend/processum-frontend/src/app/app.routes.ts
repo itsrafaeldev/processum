@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { MainComponent } from './layouts/main/main';
-import { ProcessComponent } from './features/process/view/process/process';
-import { FinanceComponent } from './features/finance/view/entity/finance';
-import { EntityComponent } from './features/entity/view/entity/entity';
+import { PROCESS_ROUTES } from './features/process/routes/process.routes';
+import { ENTITY_ROUTES } from './features/entity/routes/entityroutes';
+import { FINANCE_ROUTES } from './features/finance/routes/finance.routes';
 
 export const routes: Routes = [
   {
@@ -10,9 +10,9 @@ export const routes: Routes = [
     component: MainComponent,
     children: [
       { path: '', redirectTo: 'processos', pathMatch: 'full' },
-      { path: 'processos', component: ProcessComponent },
-      { path: 'financeiro', component: FinanceComponent },
-      { path: 'entidades', component: EntityComponent },
+      ...PROCESS_ROUTES,
+      ...FINANCE_ROUTES,
+      ...ENTITY_ROUTES,
     ]
   }
 ];

@@ -27,9 +27,6 @@ export class FilterInputs {
     protected readonly Funnel = Funnel;
     protected readonly Search = Search;
     protected readonly Eraser = Eraser;
-    value1: string | undefined;
-    value2: string | undefined;
-    value3: string | undefined;
 
     status: Status[] = [
       { name: 'Em Andamento', code: '1' },
