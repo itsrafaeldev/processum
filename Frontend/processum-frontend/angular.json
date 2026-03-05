@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "processum-frontend": {
+    "OctaPro-frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "processum-frontend:build:production"
+              "buildTarget": "OctaPro-frontend:build:production"
             },
             "development": {
-              "buildTarget": "processum-frontend:build:development"
+              "buildTarget": "OctaPro-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

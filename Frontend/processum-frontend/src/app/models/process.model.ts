@@ -3,8 +3,8 @@ import { ProcessEntity } from "./process-entity.model";
 export interface Process {
   idPublic: string;
   userId: number;
-  amount: number;
-  quantityInstallment: number;
+  // amount: number;
+  // quantityInstallment: number;
   judicialProcessId: number;
   statusPaymentId: number;
   note: string;

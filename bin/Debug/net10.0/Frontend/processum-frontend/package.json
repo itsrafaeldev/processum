@@ -1,5 +1,5 @@
 {
-  "name": "processum-frontend",
+  "name": "OctaPro-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -35,6 +35,7 @@
     "lucide-angular": "^0.562.0",
     "primeng": "^21.0.4",
     "rxjs": "~7.8.0",
+    "tom-select": "^2.5.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

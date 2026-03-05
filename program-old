@@ -1,0 +1,78 @@
+using Microsoft.EntityFrameworkCore;
+using OctaPro.Services;
+using OctaPro.Services.interfaces;
+using OctaPro.Extensions;
+using OctaPro.Models;
+using OctaPro.Data;
+using Microsoft.AspNetCore.Identity;
+using OctaPro.Configurations;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Add services to the container.
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddControllers();
+
+
+builder.Services.AddDbContext<OctaPro.Data.AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
+builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();
+
+
+builder.Services
+    .AddIdentity<User, IdentityRole<long>>(options =>
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 6;
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddApplicationServices();
+
+
+builder.Services.AddJwtConfiguration(builder.Configuration);
+
+builder.Services.AddAuthorization();
+
+
+
+var app = builder.Build();
+
+
+app.UseHttpsRedirection();
+
+app.UseCors("AllowAngular");
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapSwagger();
+
+
+app.MapGet("/", () => "Hello word").RequireAuthorization();
+
+app.MapIdentityApi<User>();
+
+app.Run();

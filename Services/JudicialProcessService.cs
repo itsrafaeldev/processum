@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using processum.Data;
-using processum.DTO;
-using processum.DTO.Response;
-using processum.Models;
-using processum.Services.interfaces;
+using OctaPro.Data;
+using OctaPro.DTO;
+using OctaPro.DTO.Response;
+using OctaPro.Models;
+using OctaPro.Services.interfaces;
 
-namespace processum.Services
+namespace OctaPro.Services
 {
     public class JudicialProcessService : IJudicialProcessService
     {
@@ -118,6 +118,7 @@ namespace processum.Services
 
         public async Task CreateAsync(JudicialProcessRequest request)
         {
+            
             var entities = await _context.Entities
                 .Where(e => request.EntityIds.Contains(e.IdPublic))
                 .ToListAsync();
@@ -160,6 +161,33 @@ namespace processum.Services
             _context.JudicialProcesses.Remove(process);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IEnumerable<SelectOptionResponse>> GetAllNatureAsync()
+        {
+            var natures = await _context.NatureActions
+                .Select(n => new SelectOptionResponse
+                {
+                    Id = n.Id,
+                    Text = n.Nature
+                })
+                .ToListAsync();
+
+            return natures;
+        }
+
+        public async Task<IEnumerable<SelectOptionResponse>> GetActionsAsync(int natureId)
+        {
+            var actions = await _context.JudicialActions
+                .Where(a => a.NatureActionId == natureId)
+                .Select(n => new SelectOptionResponse
+                {
+                    Id = n.Id,
+                    Text = n.Action
+                })
+                .ToListAsync();
+
+            return actions;
         }
     }
 }

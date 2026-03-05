@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace processum.DTO.Response
+namespace OctaPro.DTO.Response
 {
     public class LegalFeeResponse
     {

@@ -1,7 +1,7 @@
-using processum.DTO;
-using processum.DTO.Response;
+using OctaPro.DTO;
+using OctaPro.DTO.Response;
 
-namespace processum.Services.interfaces
+namespace OctaPro.Services.interfaces
 {
     public interface IJudicialProcessService
     {
@@ -9,5 +9,11 @@ namespace processum.Services.interfaces
         Task<JudicialProcessResponse?> GetByIdAsync(Guid idPublic);
         Task CreateAsync(JudicialProcessRequest request);
         Task<bool> DeleteAsync(Guid idPublic);
+
+        Task<IEnumerable<SelectOptionResponse>> GetAllNatureAsync();
+        Task<IEnumerable<SelectOptionResponse>> GetActionsAsync(int natureId);
+
+
+
     }
 }

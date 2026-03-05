@@ -5,6 +5,8 @@ import { Scale, BadgeDollarSign, ChevronLeft, ChevronRight, BookUser, Menu } fro
 import { LayoutService } from '../services/layout-service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
+
+
 const MODULES = [CommonModule, LucideAngularModule, RouterLink, RouterLinkActive];
 
 @Component({

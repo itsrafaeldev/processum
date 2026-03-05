@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using processum.DTO;
-using processum.DTO.Response;
-using processum.Services.interfaces;
+using OctaPro.DTO;
+using OctaPro.DTO.Response;
+using OctaPro.Services.interfaces;
 
-namespace processum.Controllers
+namespace OctaPro.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/entity")]
     public class EntityController : ControllerBase
     {
         private readonly IEntityService _service;
@@ -72,5 +72,24 @@ namespace processum.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("clients")]
+        public async Task<ActionResult<IEnumerable<EntitySelectResponse>>>SearchClients([FromQuery] string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Ok(new List<EntitySelectResponse>());
+
+            name = name.ToLower();
+
+            var result = await _service.SearchClientsAsync(name);
+
+            return Ok(result);
+        }
+
+
+
+
+
+
     }
 }

@@ -1,11 +1,22 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using processum.Services;
-using processum.Services.interfaces;
-using processum.Extensions;
+using OctaPro.Configurations;
+using OctaPro.Data;
+using OctaPro.Data.Seeds;
+using OctaPro.Extensions;
+using OctaPro.Models;
+using OctaPro.Services;
+using OctaPro.Services.interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ─── Services ───────────────────────────────────────────────
+builder.Services.AddControllers();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 builder.Services.AddCors(options =>
 {
@@ -18,30 +29,49 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services
+    .AddIdentity<User, IdentityRole<long>>(options =>
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 6;
+        options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
-builder.Services.AddDbContext<processum.Data.AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
+builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();
 builder.Services.AddApplicationServices();
 
+builder.Services.AddJwtConfiguration(builder.Configuration);
+builder.Services.AddSwaggerConfiguration();
 
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+// ─── Build ──────────────────────────────────────────────────
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+// ─── Middleware Pipeline ─────────────────────────────────────
+app.UseSwaggerConfiguration();
 
 app.UseHttpsRedirection();
-
 app.UseCors("AllowAngular");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider
+        .GetRequiredService<RoleManager<IdentityRole<long>>>();
+
+    await RoleSeeder.SeedRolesAsync(roleManager);
+}
+
 app.MapControllers();
+app.MapIdentityApi<User>();
+app.MapGet("/", () => "Hello World").RequireAuthorization();
 
 app.Run();

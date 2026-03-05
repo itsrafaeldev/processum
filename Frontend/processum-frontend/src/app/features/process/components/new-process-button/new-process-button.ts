@@ -12,7 +12,6 @@ export class NewProcessButton {
   private router = inject(Router);
 
   onNewProcess() {
-    console.log('Novo processo iniciado');
     this.router.navigate(['/processos/novo']);
   }
 

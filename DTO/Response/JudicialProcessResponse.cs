@@ -1,6 +1,6 @@
-using processum.Models;
+using OctaPro.Models;
 
-namespace processum.DTO.Response
+namespace OctaPro.DTO.Response
 {
     public class JudicialProcessResponse
     {

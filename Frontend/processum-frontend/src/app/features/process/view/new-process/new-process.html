@@ -1,23 +1,83 @@
 
+<h1 class="text-3xl font-bold mb-2.5">Novo Processo</h1>
 <div>
-   <h1 class="text-3xl font-bold mb-2.5">Novo Processo</h1>
-  <div class="p-4 h-[600px] w-[1600px] rounded-[10px] shadow-container bg-white text-black flex flex-col">
+  <div class="p-4 rounded-[10px] shadow-container bg-white text-black flex flex-col">
     <div>
       <button
-        class="mt-4 px-4 py-2 bg-gray-200 rounded"
-        (click)="goBack()">
+        class="mt-4 px-4 py-2 rounded flex gap-1 hover:underline"
+        (click)="goBack()"
+        title="Voltar">
+        <i-lucide [img]="CircleArrowLeft" class="size-6 text-gray-600 group-hover:text-white group-[.active]:text-white"></i-lucide>
         Voltar
       </button>
     </div>
-    <form [formGroup]="exampleForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 sm:w-56">
-        <div class="flex flex-col gap-1">
-          <span class="font-medium">N Processo</span>
-            <p-inputmask mask="9999999-99.9999.9.99.9999" formControlName="value" placeholder="9999999-99.9999.9.99.9999" [invalid]="isInvalid('value')" fluid />
-            @if (isInvalid('value')) {
-              <p-message severity="error" size="small" variant="simple">O número do processo é obrigatório</p-message>
-            }
+    <form [formGroup]="processForm" (ngSubmit)="onSubmit()" class="flex flex-col items-center gap-4 w-full">
+        <div class="p-10 flex flex-col gap-5">
+          <div class="flex gap-10">
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">N Processo</span>
+                <p-inputmask mask="9999999-99.9999.9.99.9999" formControlName="numeroProcesso" placeholder="9999999-99.9999.9.99.9999" [invalid]="isInvalid('numeroProcesso')" fluid />
+                @if (isInvalid('numeroProcesso')) {
+                  <p-message severity="error" size="small" variant="simple">O Número do Processo é obrigatório</p-message>
+                }
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">Data de Abertura</span>
+                <p-datepicker [iconDisplay]="'input'" placeholder="dd/mm/yyyy" inputId="icondisplay" formControlName="dataAbertura" [invalid]="isInvalid('dataAbertura')"/>
+                @if (isInvalid('dataAbertura')) {
+                  <p-message severity="error" size="small" variant="simple">A Data de Abertura é obrigatória</p-message>
+                }
+            </div>
+          </div>
+          <div class="flex gap-10">
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">Reclamante</span>
+                <p-multiSelect [options]="client" optionLabel="text" optionValue="id" [filter]="true"
+                filterBy="text" (onFilter)="searchClients($event)" [loading]="loadingClients" formControlName="reclamante"
+                placeholder="Selecione os reclamantes" [invalid]="isInvalid('reclamante')" class="w-full md:w-60"
+                display="chip" [maxSelectedLabels]="999"></p-multiSelect>
+                @if (isInvalid('reclamante')) {
+                  <p-message severity="error" size="small" variant="simple">O Reclamante é obrigatório</p-message>
+                }
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">Reclamado</span>
+                <input pInputText formControlName="reclamado" placeholder="Digite o nome do Reclamado" [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('reclamado') }" class="w-full" />
+                @if (isInvalid('reclamado')) {
+                  <p-message severity="error" size="small" variant="simple">O Reclamado é obrigatório</p-message>
+                }
+            </div>
+          </div>
+          <div class="flex gap-10">
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">Natureza da Ação</span>
+                <p-select [options]="natures" optionLabel="text" optionValue="id" formControlName="naturezaAcao" placeholder="Selecione uma natureza" [invalid]="isInvalid('naturezaAcao')" class="w-full md:w-60" />
+                @if (isInvalid('naturezaAcao')) {
+                  <p-message severity="error" size="small" variant="simple">A Natureza da Ação é obrigatória</p-message>
+                }
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">Ação Judicial</span>
+                <p-select [options]="actions" optionLabel="text" optionValue="id" formControlName="acaoJudicial" placeholder="Selecione uma ação judicial" [invalid]="isInvalid('acaoJudicial')" class="w-full md:w-60" />
+                @if (isInvalid('acaoJudicial')) {
+                  <p-message severity="error" size="small" variant="simple">A Ação Judicial é obrigatória</p-message>
+                }
+            </div>
+          </div>
+          <div class="flex gap-10">
+            <div class="flex flex-col gap-1 w-full">
+              <span class="font-medium">Observações</span>
+                 <textarea rows="5" cols="30" pTextarea formControlName="observacoes"></textarea>
+            </div>
+          </div>
         </div>
-        <button pButton severity="secondary" type="submit" class="mt-4 px-4 py-2 bg-primary-600 text-white rounded"><span pButtonLabel>Submit</span></button>
+
+        <div>
+          <button pButton severity="secondary" type="submit" class="flex items-center gap-1 mt-4 px-4 py-2 bg-primary-600 text-white rounded">
+            <i-lucide [img]="Save" class="size-4 text-gray-300 group-hover:text-white group-[.active]:text-white"></i-lucide>
+            <span pButtonLabel>Salvar</span>
+          </button>
+        </div>
     </form>
 
   </div>

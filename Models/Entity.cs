@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace processum.Models;
+namespace OctaPro.Models;
 
 public partial class Entity
 {
@@ -17,15 +17,8 @@ public partial class Entity
 
     public Guid IdPublic { get; set; }
 
-    // public virtual ICollection<Client> Clients { get; set; } = new List<Client>();
-
-    // public virtual ICollection<EntityCompany> EntitiesCompanies { get; set; } = new List<EntityCompany>();
-
-    // public virtual ICollection<EntityIndividual> EntitiesIndividuals { get; set; } = new List<EntityIndividual>();
     public virtual EntityIndividual? EntityIndividual { get; set; }
     public virtual EntityCompany? EntityCompany { get; set; }
-
-    // public virtual ICollection<EntitiesRolesMap> EntitiesRolesMaps { get; set; } = new List<EntitiesRolesMap>();
 
     public virtual ICollection<LegalFeesInstallment> LegalFeesInstallments { get; set; } = new List<LegalFeesInstallment>();
 

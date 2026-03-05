@@ -1,33 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
-namespace processum.Models;
+namespace OctaPro.Models;
 
-public partial class User
+public partial class User : IdentityUser<long>
 {
-    public long Id { get; set; }
-
-    public string Name { get; set; } = null!;
-
-    public string Email { get; set; } = null!;
-
-    public DateTime? EmailVerifiedAt { get; set; }
-
-    public string Password { get; set; } = null!;
-
-    public string? RememberToken { get; set; }
-
     public string? ProfilePhotoPath { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
-
-    public string? TwoFactorSecret { get; set; }
-
-    public string? TwoFactorRecoveryCodes { get; set; }
-
-    public DateTime? TwoFactorConfirmedAt { get; set; }
 
     public Guid IdPublic { get; set; }
 
@@ -35,11 +18,8 @@ public partial class User
 
     public virtual ICollection<JudicialProcessUser> JudicialProcessUsers { get; set; } = new List<JudicialProcessUser>();
 
-    public virtual ICollection<JudicialProcess> JudicialProcesses { get; set; } = new List<JudicialProcess>();
-
     public virtual ICollection<LegalFee> LegalFees { get; set; } = new List<LegalFee>();
 
     public virtual ICollection<Settlement> Settlements { get; set; } = new List<Settlement>();
 
-    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 }

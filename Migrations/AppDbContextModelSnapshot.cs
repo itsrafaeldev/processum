@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using processum.Data;
+using OctaPro.Data;
 
 #nullable disable
 
-namespace processum.Migrations
+namespace OctaPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -22,25 +22,139 @@ namespace processum.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("UserRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("roles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
                     b.Property<long>("UserId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("user_id");
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer")
-                        .HasColumnName("role_id");
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
 
-                    b.HasKey("UserId", "RoleId")
-                        .HasName("user_roles_pkey");
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("user_roles", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.Cache", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
+                {
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("OctaPro.Models.Cache", b =>
                 {
                     b.Property<string>("Key")
                         .HasMaxLength(255)
@@ -62,7 +176,7 @@ namespace processum.Migrations
                     b.ToTable("cache", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.CacheLock", b =>
+            modelBuilder.Entity("OctaPro.Models.CacheLock", b =>
                 {
                     b.Property<string>("Key")
                         .HasMaxLength(255)
@@ -85,7 +199,7 @@ namespace processum.Migrations
                     b.ToTable("cache_locks", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.Client", b =>
+            modelBuilder.Entity("OctaPro.Models.Client", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +210,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -110,7 +224,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -124,7 +238,7 @@ namespace processum.Migrations
                     b.ToTable("clients", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.EntitiesRole", b =>
+            modelBuilder.Entity("OctaPro.Models.EntitiesRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,7 +249,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -152,20 +266,21 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
                     b.HasKey("Id")
                         .HasName("entities_roles_pkey");
 
-                    b.HasIndex(new[] { "Name" }, "entities_roles_name_key")
-                        .IsUnique();
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("entities_roles_name_key");
 
                     b.ToTable("entities_roles", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.EntitiesRolesMap", b =>
+            modelBuilder.Entity("OctaPro.Models.EntitiesRolesMap", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -176,7 +291,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("AssignedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("assigned_at")
                         .HasDefaultValueSql("now()");
 
@@ -186,7 +301,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -204,7 +319,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -213,13 +328,14 @@ namespace processum.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex(new[] { "EntityId", "RoleId" }, "unique_entity_role")
-                        .IsUnique();
+                    b.HasIndex("EntityId", "RoleId")
+                        .IsUnique()
+                        .HasDatabaseName("unique_entity_role");
 
                     b.ToTable("entities_roles_map", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.Entity", b =>
+            modelBuilder.Entity("OctaPro.Models.Entity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -230,7 +346,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -251,20 +367,21 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
                     b.HasKey("Id")
                         .HasName("entities_pkey");
 
-                    b.HasIndex(new[] { "IdPublic" }, "entities_id_public_key")
-                        .IsUnique();
+                    b.HasIndex("IdPublic")
+                        .IsUnique()
+                        .HasDatabaseName("entities_id_public_key");
 
                     b.ToTable("entities", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.EntityCompany", b =>
+            modelBuilder.Entity("OctaPro.Models.EntityCompany", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +417,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -315,7 +432,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -328,7 +445,7 @@ namespace processum.Migrations
                     b.ToTable("entities_company", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.EntityIndividual", b =>
+            modelBuilder.Entity("OctaPro.Models.EntityIndividual", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -353,7 +470,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -388,7 +505,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -401,57 +518,7 @@ namespace processum.Migrations
                     b.ToTable("entities_individual", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.FailedJob", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Connection")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("connection");
-
-                    b.Property<string>("Exception")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("exception");
-
-                    b.Property<DateTime>("FailedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp(0) without time zone")
-                        .HasColumnName("failed_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<string>("Payload")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("payload");
-
-                    b.Property<string>("Queue")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("queue");
-
-                    b.Property<string>("Uuid")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("uuid");
-
-                    b.HasKey("Id")
-                        .HasName("failed_jobs_pkey");
-
-                    b.HasIndex(new[] { "Uuid" }, "failed_jobs_uuid_unique")
-                        .IsUnique();
-
-                    b.ToTable("failed_jobs", (string)null);
-                });
-
-            modelBuilder.Entity("processum.Models.Job", b =>
+            modelBuilder.Entity("OctaPro.Models.Job", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -490,12 +557,13 @@ namespace processum.Migrations
                     b.HasKey("Id")
                         .HasName("jobs_pkey");
 
-                    b.HasIndex(new[] { "Queue" }, "jobs_queue_index");
+                    b.HasIndex("Queue")
+                        .HasDatabaseName("jobs_queue_index");
 
                     b.ToTable("jobs", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.JobBatch", b =>
+            modelBuilder.Entity("OctaPro.Models.JobBatch", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(255)
@@ -547,7 +615,7 @@ namespace processum.Migrations
                     b.ToTable("job_batches", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialAction", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialAction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -564,7 +632,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -574,7 +642,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -586,7 +654,7 @@ namespace processum.Migrations
                     b.ToTable("judicials_actions", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialProcess", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialProcess", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -597,7 +665,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -642,7 +710,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -653,22 +721,24 @@ namespace processum.Migrations
                     b.HasKey("Id")
                         .HasName("judicial_processes_pkey");
 
+                    b.HasIndex("IdPublic")
+                        .IsUnique()
+                        .HasDatabaseName("judicial_processes_id_public_key");
+
                     b.HasIndex("JudicialActionId");
 
                     b.HasIndex("NatureActionId");
 
+                    b.HasIndex("ProcessNumber")
+                        .IsUnique()
+                        .HasDatabaseName("unique_process_number");
+
                     b.HasIndex("UserId");
-
-                    b.HasIndex(new[] { "IdPublic" }, "judicial_processes_id_public_key")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "ProcessNumber" }, "unique_process_number")
-                        .IsUnique();
 
                     b.ToTable("judicial_processes", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialProcessEntity", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialProcessEntity", b =>
                 {
                     b.Property<long>("JudicialProcessId")
                         .HasColumnType("bigint")
@@ -685,7 +755,7 @@ namespace processum.Migrations
                     b.ToTable("judicial_process_entity", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialProcessUser", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialProcessUser", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -703,7 +773,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -713,7 +783,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -726,13 +796,14 @@ namespace processum.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex(new[] { "JudicialProcessId", "UserId" }, "unique_process_user")
-                        .IsUnique();
+                    b.HasIndex("JudicialProcessId", "UserId")
+                        .IsUnique()
+                        .HasDatabaseName("unique_process_user");
 
                     b.ToTable("judicial_process_user", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.LegalFee", b =>
+            modelBuilder.Entity("OctaPro.Models.LegalFee", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -750,7 +821,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -779,7 +850,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -790,19 +861,20 @@ namespace processum.Migrations
                     b.HasKey("Id")
                         .HasName("legal_fees_pkey");
 
+                    b.HasIndex("IdPublic")
+                        .IsUnique()
+                        .HasDatabaseName("legal_fees_id_public_key");
+
                     b.HasIndex("JudicialProcessId");
 
                     b.HasIndex("StatusPaymentId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex(new[] { "IdPublic" }, "legal_fees_id_public_key")
-                        .IsUnique();
-
                     b.ToTable("legal_fees", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.LegalFeeEntity", b =>
+            modelBuilder.Entity("OctaPro.Models.LegalFeeEntity", b =>
                 {
                     b.Property<long>("LegalFeeId")
                         .HasColumnType("bigint")
@@ -819,7 +891,7 @@ namespace processum.Migrations
                     b.ToTable("legal_fee_entity", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.LegalFeesInstallment", b =>
+            modelBuilder.Entity("OctaPro.Models.LegalFeesInstallment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -830,7 +902,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -869,7 +941,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -882,15 +954,16 @@ namespace processum.Migrations
 
                     b.HasIndex("EntityId");
 
-                    b.HasIndex("StatusPaymentId");
+                    b.HasIndex("IdPublic")
+                        .IsUnique()
+                        .HasDatabaseName("installments_legal_fees_id_public_key");
 
-                    b.HasIndex(new[] { "IdPublic" }, "installments_legal_fees_id_public_key")
-                        .IsUnique();
+                    b.HasIndex("StatusPaymentId");
 
                     b.ToTable("legal_fees_installments", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.Migration", b =>
+            modelBuilder.Entity("OctaPro.Models.Migration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -915,7 +988,7 @@ namespace processum.Migrations
                     b.ToTable("migrations", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.NatureAction", b =>
+            modelBuilder.Entity("OctaPro.Models.NatureAction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -926,7 +999,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -938,7 +1011,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -948,126 +1021,7 @@ namespace processum.Migrations
                     b.ToTable("nature_actions", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.PasswordResetToken", b =>
-                {
-                    b.Property<string>("Email")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("email");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp(0) without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("token");
-
-                    b.HasKey("Email")
-                        .HasName("password_reset_tokens_pkey");
-
-                    b.ToTable("password_reset_tokens", (string)null);
-                });
-
-            modelBuilder.Entity("processum.Models.PersonalAccessToken", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Abilities")
-                        .HasColumnType("text")
-                        .HasColumnName("abilities");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp(0) without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime?>("ExpiresAt")
-                        .HasColumnType("timestamp(0) without time zone")
-                        .HasColumnName("expires_at");
-
-                    b.Property<DateTime?>("LastUsedAt")
-                        .HasColumnType("timestamp(0) without time zone")
-                        .HasColumnName("last_used_at");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .HasColumnName("token");
-
-                    b.Property<long>("TokenableId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("tokenable_id");
-
-                    b.Property<string>("TokenableType")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("tokenable_type");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp(0) without time zone")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("personal_access_tokens_pkey");
-
-                    b.HasIndex(new[] { "ExpiresAt" }, "personal_access_tokens_expires_at_index");
-
-                    b.HasIndex(new[] { "Token" }, "personal_access_tokens_token_unique")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "TokenableType", "TokenableId" }, "personal_access_tokens_tokenable_type_tokenable_id_index");
-
-                    b.ToTable("personal_access_tokens", (string)null);
-                });
-
-            modelBuilder.Entity("processum.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("Role1")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("role");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at")
-                        .HasDefaultValueSql("now()");
-
-                    b.HasKey("Id")
-                        .HasName("roles_pkey");
-
-                    b.ToTable("roles", (string)null);
-                });
-
-            modelBuilder.Entity("processum.Models.Session", b =>
+            modelBuilder.Entity("OctaPro.Models.Session", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(255)
@@ -1099,14 +1053,16 @@ namespace processum.Migrations
                     b.HasKey("Id")
                         .HasName("sessions_pkey");
 
-                    b.HasIndex(new[] { "LastActivity" }, "sessions_last_activity_index");
+                    b.HasIndex("LastActivity")
+                        .HasDatabaseName("sessions_last_activity_index");
 
-                    b.HasIndex(new[] { "UserId" }, "sessions_user_id_index");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("sessions_user_id_index");
 
                     b.ToTable("sessions", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.Settlement", b =>
+            modelBuilder.Entity("OctaPro.Models.Settlement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1128,7 +1084,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -1167,7 +1123,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -1185,19 +1141,20 @@ namespace processum.Migrations
                     b.HasKey("Id")
                         .HasName("installments_settlement_pkey");
 
+                    b.HasIndex("IdPublic")
+                        .IsUnique()
+                        .HasDatabaseName("settlement_id_public_key");
+
                     b.HasIndex("JudicialProcessId");
 
                     b.HasIndex("StatusPaymentId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex(new[] { "IdPublic" }, "settlement_id_public_key")
-                        .IsUnique();
-
                     b.ToTable("settlement", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.StatusEntity", b =>
+            modelBuilder.Entity("OctaPro.Models.StatusEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1208,7 +1165,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -1220,7 +1177,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -1230,7 +1187,7 @@ namespace processum.Migrations
                     b.ToTable("status_entities", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.StatusPayment", b =>
+            modelBuilder.Entity("OctaPro.Models.StatusPayment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1241,7 +1198,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
@@ -1253,7 +1210,7 @@ namespace processum.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at")
                         .HasDefaultValueSql("now()");
 
@@ -1263,7 +1220,7 @@ namespace processum.Migrations
                     b.ToTable("status_payment", (string)null);
                 });
 
-            modelBuilder.Entity("processum.Models.User", b =>
+            modelBuilder.Entity("OctaPro.Models.User", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1272,100 +1229,152 @@ namespace processum.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp(0) without time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("email");
 
-                    b.Property<DateTime?>("EmailVerifiedAt")
-                        .HasColumnType("timestamp(0) without time zone")
-                        .HasColumnName("email_verified_at");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("IdPublic")
                         .HasColumnType("uuid")
                         .HasColumnName("id_public");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("password");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ProfilePhotoPath")
                         .HasMaxLength(2048)
                         .HasColumnType("character varying(2048)")
                         .HasColumnName("profile_photo_path");
 
-                    b.Property<string>("RememberToken")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("remember_token");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
 
-                    b.Property<DateTime?>("TwoFactorConfirmedAt")
-                        .HasColumnType("timestamp(0) without time zone")
-                        .HasColumnName("two_factor_confirmed_at");
-
-                    b.Property<string>("TwoFactorRecoveryCodes")
-                        .HasColumnType("text")
-                        .HasColumnName("two_factor_recovery_codes");
-
-                    b.Property<string>("TwoFactorSecret")
-                        .HasColumnType("text")
-                        .HasColumnName("two_factor_secret");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp(0) without time zone")
+                        .HasColumnType("timestamptz")
                         .HasColumnName("updated_at");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id")
                         .HasName("users_pkey");
 
-                    b.HasIndex(new[] { "Email" }, "users_email_unique")
-                        .IsUnique();
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("users_email_unique");
 
-                    b.HasIndex(new[] { "IdPublic" }, "users_id_public_key")
-                        .IsUnique();
+                    b.HasIndex("IdPublic")
+                        .IsUnique()
+                        .HasDatabaseName("users_id_public_key");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("UserRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
-                    b.HasOne("processum.Models.Role", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_role");
+                        .IsRequired();
+                });
 
-                    b.HasOne("processum.Models.User", null)
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
+                {
+                    b.HasOne("OctaPro.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_user");
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("processum.Models.Client", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
-                    b.HasOne("processum.Models.Entity", "Entity")
+                    b.HasOne("OctaPro.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OctaPro.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
+                {
+                    b.HasOne("OctaPro.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OctaPro.Models.Client", b =>
+                {
+                    b.HasOne("OctaPro.Models.Entity", "Entity")
                         .WithMany()
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("processum.Models.User", "Lawyer")
+                    b.HasOne("OctaPro.Models.User", "Lawyer")
                         .WithMany("Clients")
                         .HasForeignKey("LawyerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1377,15 +1386,15 @@ namespace processum.Migrations
                     b.Navigation("Lawyer");
                 });
 
-            modelBuilder.Entity("processum.Models.EntitiesRolesMap", b =>
+            modelBuilder.Entity("OctaPro.Models.EntitiesRolesMap", b =>
                 {
-                    b.HasOne("processum.Models.Entity", "Entity")
+                    b.HasOne("OctaPro.Models.Entity", "Entity")
                         .WithMany()
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("processum.Models.EntitiesRole", "Role")
+                    b.HasOne("OctaPro.Models.EntitiesRole", "Role")
                         .WithMany("EntitiesRolesMaps")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1397,11 +1406,11 @@ namespace processum.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("processum.Models.EntityCompany", b =>
+            modelBuilder.Entity("OctaPro.Models.EntityCompany", b =>
                 {
-                    b.HasOne("processum.Models.Entity", "Entity")
+                    b.HasOne("OctaPro.Models.Entity", "Entity")
                         .WithOne("EntityCompany")
-                        .HasForeignKey("processum.Models.EntityCompany", "EntityId")
+                        .HasForeignKey("OctaPro.Models.EntityCompany", "EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_entity_company");
@@ -1409,11 +1418,11 @@ namespace processum.Migrations
                     b.Navigation("Entity");
                 });
 
-            modelBuilder.Entity("processum.Models.EntityIndividual", b =>
+            modelBuilder.Entity("OctaPro.Models.EntityIndividual", b =>
                 {
-                    b.HasOne("processum.Models.Entity", "Entity")
+                    b.HasOne("OctaPro.Models.Entity", "Entity")
                         .WithOne("EntityIndividual")
-                        .HasForeignKey("processum.Models.EntityIndividual", "EntityId")
+                        .HasForeignKey("OctaPro.Models.EntityIndividual", "EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_entity_individual");
@@ -1421,9 +1430,9 @@ namespace processum.Migrations
                     b.Navigation("Entity");
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialAction", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialAction", b =>
                 {
-                    b.HasOne("processum.Models.NatureAction", "NatureAction")
+                    b.HasOne("OctaPro.Models.NatureAction", "NatureAction")
                         .WithMany("JudicialAction")
                         .HasForeignKey("NatureActionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1433,27 +1442,26 @@ namespace processum.Migrations
                     b.Navigation("NatureAction");
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialProcess", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialProcess", b =>
                 {
-                    b.HasOne("processum.Models.JudicialAction", "JudicialAction")
+                    b.HasOne("OctaPro.Models.JudicialAction", "JudicialAction")
                         .WithMany()
                         .HasForeignKey("JudicialActionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("processum.Models.NatureAction", "NatureAction")
+                    b.HasOne("OctaPro.Models.NatureAction", "NatureAction")
                         .WithMany("JudicialProcesses")
                         .HasForeignKey("NatureActionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_nature_action");
 
-                    b.HasOne("processum.Models.User", "User")
-                        .WithMany("JudicialProcesses")
+                    b.HasOne("OctaPro.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_user_id");
+                        .IsRequired();
 
                     b.Navigation("JudicialAction");
 
@@ -1462,16 +1470,16 @@ namespace processum.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialProcessEntity", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialProcessEntity", b =>
                 {
-                    b.HasOne("processum.Models.Entity", "Entity")
+                    b.HasOne("OctaPro.Models.Entity", "Entity")
                         .WithMany("JudicialProcessEntities")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_judicial_process_entity_entity");
 
-                    b.HasOne("processum.Models.JudicialProcess", "JudicialProcess")
+                    b.HasOne("OctaPro.Models.JudicialProcess", "JudicialProcess")
                         .WithMany("JudicialProcessEntities")
                         .HasForeignKey("JudicialProcessId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1483,15 +1491,15 @@ namespace processum.Migrations
                     b.Navigation("JudicialProcess");
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialProcessUser", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialProcessUser", b =>
                 {
-                    b.HasOne("processum.Models.JudicialProcess", "JudicialProcess")
+                    b.HasOne("OctaPro.Models.JudicialProcess", "JudicialProcess")
                         .WithMany()
                         .HasForeignKey("JudicialProcessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("processum.Models.User", "User")
+                    b.HasOne("OctaPro.Models.User", "User")
                         .WithMany("JudicialProcessUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1503,23 +1511,23 @@ namespace processum.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("processum.Models.LegalFee", b =>
+            modelBuilder.Entity("OctaPro.Models.LegalFee", b =>
                 {
-                    b.HasOne("processum.Models.JudicialProcess", "JudicialProcess")
+                    b.HasOne("OctaPro.Models.JudicialProcess", "JudicialProcess")
                         .WithMany("LegalFees")
                         .HasForeignKey("JudicialProcessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_judicial_process");
 
-                    b.HasOne("processum.Models.StatusPayment", "StatusPayment")
+                    b.HasOne("OctaPro.Models.StatusPayment", "StatusPayment")
                         .WithMany("LegalFees")
                         .HasForeignKey("StatusPaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_status_payment");
 
-                    b.HasOne("processum.Models.User", "User")
+                    b.HasOne("OctaPro.Models.User", "User")
                         .WithMany("LegalFees")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1533,16 +1541,16 @@ namespace processum.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("processum.Models.LegalFeeEntity", b =>
+            modelBuilder.Entity("OctaPro.Models.LegalFeeEntity", b =>
                 {
-                    b.HasOne("processum.Models.Entity", "Entity")
+                    b.HasOne("OctaPro.Models.Entity", "Entity")
                         .WithMany("LegalFeeEntities")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_legal_fee_entity_entity");
 
-                    b.HasOne("processum.Models.LegalFee", "LegalFee")
+                    b.HasOne("OctaPro.Models.LegalFee", "LegalFee")
                         .WithMany("LegalFeeEntities")
                         .HasForeignKey("LegalFeeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1554,16 +1562,16 @@ namespace processum.Migrations
                     b.Navigation("LegalFee");
                 });
 
-            modelBuilder.Entity("processum.Models.LegalFeesInstallment", b =>
+            modelBuilder.Entity("OctaPro.Models.LegalFeesInstallment", b =>
                 {
-                    b.HasOne("processum.Models.Entity", "Entity")
+                    b.HasOne("OctaPro.Models.Entity", "Entity")
                         .WithMany("LegalFeesInstallments")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_legal_fee_entity");
 
-                    b.HasOne("processum.Models.StatusPayment", "StatusPayment")
+                    b.HasOne("OctaPro.Models.StatusPayment", "StatusPayment")
                         .WithMany("LegalFeesInstallments")
                         .HasForeignKey("StatusPaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1575,23 +1583,23 @@ namespace processum.Migrations
                     b.Navigation("StatusPayment");
                 });
 
-            modelBuilder.Entity("processum.Models.Settlement", b =>
+            modelBuilder.Entity("OctaPro.Models.Settlement", b =>
                 {
-                    b.HasOne("processum.Models.JudicialProcess", "JudicialProcess")
+                    b.HasOne("OctaPro.Models.JudicialProcess", "JudicialProcess")
                         .WithMany("Settlements")
                         .HasForeignKey("JudicialProcessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_judicial_process");
 
-                    b.HasOne("processum.Models.StatusPayment", "StatusPayment")
+                    b.HasOne("OctaPro.Models.StatusPayment", "StatusPayment")
                         .WithMany("Settlements")
                         .HasForeignKey("StatusPaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_status_payment");
 
-                    b.HasOne("processum.Models.User", "User")
+                    b.HasOne("OctaPro.Models.User", "User")
                         .WithMany("Settlements")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1605,12 +1613,12 @@ namespace processum.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("processum.Models.EntitiesRole", b =>
+            modelBuilder.Entity("OctaPro.Models.EntitiesRole", b =>
                 {
                     b.Navigation("EntitiesRolesMaps");
                 });
 
-            modelBuilder.Entity("processum.Models.Entity", b =>
+            modelBuilder.Entity("OctaPro.Models.Entity", b =>
                 {
                     b.Navigation("EntityCompany");
 
@@ -1623,7 +1631,7 @@ namespace processum.Migrations
                     b.Navigation("LegalFeesInstallments");
                 });
 
-            modelBuilder.Entity("processum.Models.JudicialProcess", b =>
+            modelBuilder.Entity("OctaPro.Models.JudicialProcess", b =>
                 {
                     b.Navigation("JudicialProcessEntities");
 
@@ -1632,19 +1640,19 @@ namespace processum.Migrations
                     b.Navigation("Settlements");
                 });
 
-            modelBuilder.Entity("processum.Models.LegalFee", b =>
+            modelBuilder.Entity("OctaPro.Models.LegalFee", b =>
                 {
                     b.Navigation("LegalFeeEntities");
                 });
 
-            modelBuilder.Entity("processum.Models.NatureAction", b =>
+            modelBuilder.Entity("OctaPro.Models.NatureAction", b =>
                 {
                     b.Navigation("JudicialAction");
 
                     b.Navigation("JudicialProcesses");
                 });
 
-            modelBuilder.Entity("processum.Models.StatusPayment", b =>
+            modelBuilder.Entity("OctaPro.Models.StatusPayment", b =>
                 {
                     b.Navigation("LegalFees");
 
@@ -1653,13 +1661,11 @@ namespace processum.Migrations
                     b.Navigation("Settlements");
                 });
 
-            modelBuilder.Entity("processum.Models.User", b =>
+            modelBuilder.Entity("OctaPro.Models.User", b =>
                 {
                     b.Navigation("Clients");
 
                     b.Navigation("JudicialProcessUsers");
-
-                    b.Navigation("JudicialProcesses");
 
                     b.Navigation("LegalFees");
 

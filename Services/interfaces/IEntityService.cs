@@ -1,7 +1,7 @@
-using processum.DTO;
-using processum.DTO.Response;
+using OctaPro.DTO;
+using OctaPro.DTO.Response;
 
-namespace processum.Services.interfaces
+namespace OctaPro.Services.interfaces
 {
     public interface IEntityService
     {
@@ -15,5 +15,6 @@ namespace processum.Services.interfaces
         Task<bool> UpdateEntityCompanyAsync(Guid entityId, EntityCompanyRequest request);
 
         Task<bool> DeleteEntityAsync(Guid entityId);
+        Task<IEnumerable<EntitySelectResponse>> SearchClientsAsync(string query);
     }
 }

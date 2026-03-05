@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using processum.Services;
-using processum.Services.interfaces;
+using OctaPro.Services;
+using OctaPro.Services.interfaces;
 
-namespace processum.Extensions
+namespace OctaPro.Extensions
 {
     public static class ServiceCollectionExtensions
     {

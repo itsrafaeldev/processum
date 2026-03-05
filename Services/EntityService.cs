@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using processum.Data;
-using processum.DTO;
-using processum.DTO.Response;
-using processum.Models;
-using processum.Services.interfaces;
+using OctaPro.Data;
+using OctaPro.DTO;
+using OctaPro.DTO.Response;
+using OctaPro.Models;
+using OctaPro.Services.interfaces;
 
-namespace processum.Services
+namespace OctaPro.Services
 {
     public class EntityService : IEntityService
     {
@@ -183,5 +183,33 @@ namespace processum.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<EntitySelectResponse>> SearchClientsAsync(string query)
+        {
+            query = query.ToLower();
+
+            return await _context.Entities
+                .Where(e =>
+                    (e.EntityIndividual != null &&
+                    e.EntityIndividual.Name.ToLower().Contains(query))
+                    ||
+                    (e.EntityCompany != null &&
+                    e.EntityCompany.CorporateName.ToLower().Contains(query))
+                )
+                .Select(e => new EntitySelectResponse
+                {
+                    Id = e.IdPublic,
+                    Text = e.EntityIndividual != null
+                            ? e.EntityIndividual.Name
+                            : e.EntityCompany!.CorporateName
+                })
+                .ToListAsync();
+        }
+
+
+
+
+
+
     }
 }

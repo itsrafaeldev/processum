@@ -1,4 +1,4 @@
-﻿namespace processum.Models;
+﻿namespace OctaPro.Models;
 
 public partial class LegalFeeEntity
 {

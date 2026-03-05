@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace processum.Models;
+namespace OctaPro.Models;
 
 public partial class Settlement
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace processum.DTO.Request
+namespace OctaPro.DTO.Request
 {
     public class LegalFeeRequest
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace processum.DTO
+namespace OctaPro.DTO
 {
     public class EntityIndividualRequest
     {

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using processum.DTO;
-using processum.DTO.Response;
-using processum.Services.interfaces;
+using OctaPro.DTO;
+using OctaPro.DTO.Response;
+using OctaPro.Services.interfaces;
 
-namespace processum.Controllers
+namespace OctaPro.Controllers
 {
     [ApiController]
     [Route("api/process")]
@@ -35,6 +35,7 @@ namespace processum.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveProcess(JudicialProcessRequest request)
         {
+            
             await _service.CreateAsync(request);
             return StatusCode(201);
         }
@@ -46,6 +47,18 @@ namespace processum.Controllers
                 return NotFound("Entidade não encontrada.");
 
             return NoContent();
+        }
+
+        [HttpGet("natures")]
+        public async Task<ActionResult<IEnumerable<SelectOptionResponse>>> GetAllNatures()
+        {
+            return Ok(await _service.GetAllNatureAsync());
+        }
+
+        [HttpGet("actions/{natureId:int}")]
+        public async Task<ActionResult<IEnumerable<SelectOptionResponse>>> GetAllActions(int natureId)
+        {
+            return Ok(await _service.GetActionsAsync(natureId));
         }
     }
 }
