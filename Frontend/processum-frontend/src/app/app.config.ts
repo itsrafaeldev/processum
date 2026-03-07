@@ -9,6 +9,9 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import Aura from '@primeuix/themes/aura';
 
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptor/auth-interceptor';
+
 registerLocaleData(localePt);
 
 
@@ -23,6 +26,9 @@ export const appConfig: ApplicationConfig = {
             theme: {
                 preset: Aura
             },
-        })
+        }),
+        provideHttpClient(
+          withInterceptors([AuthInterceptor])
+        )
   ]
 };
