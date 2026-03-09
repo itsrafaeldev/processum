@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
-import { Menu } from 'lucide-angular/src/icons';
+import { Menu, LogOut } from 'lucide-angular/src/icons';
 import { LayoutService } from '../services/layout-service';
+import { AuthService } from '../../core/service/auth-service';
 const MODULES = [CommonModule, LucideAngularModule];
 
 
@@ -14,7 +15,15 @@ const MODULES = [CommonModule, LucideAngularModule];
 })
 export class NavbarComponent {
   protected readonly Menu = Menu;
-  constructor(public layoutService : LayoutService) {}
+  protected readonly LogOut = LogOut;
+  private authService = inject(AuthService);
 
+  constructor(public layoutService : LayoutService) {
+
+  }
+
+  sair(){
+    this.authService.logout();
+  }
 
 }

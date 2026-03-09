@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using OctaPro.DTO;
 using OctaPro.DTO.Response;
@@ -35,8 +36,14 @@ namespace OctaPro.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveProcess(JudicialProcessRequest request)
         {
-            
-            await _service.CreateAsync(request);
+            string? userLoggedUUID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userLoggedUUID == null)
+            {
+                return Unauthorized();
+            }
+
+            await _service.CreateAsync(request, Guid.Parse(userLoggedUUID));
             return StatusCode(201);
         }
 

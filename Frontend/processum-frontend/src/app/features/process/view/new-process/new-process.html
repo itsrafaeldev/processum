@@ -15,7 +15,7 @@
         <div class="p-10 flex flex-col gap-5">
           <div class="flex gap-10">
             <div class="flex flex-col gap-1">
-              <span class="font-medium">N Processo</span>
+              <span class="font-medium">Nº Processo</span>
                 <p-inputmask mask="9999999-99.9999.9.99.9999" formControlName="numeroProcesso" placeholder="9999999-99.9999.9.99.9999" [invalid]="isInvalid('numeroProcesso')" fluid />
                 @if (isInvalid('numeroProcesso')) {
                   <p-message severity="error" size="small" variant="simple">O Número do Processo é obrigatório</p-message>

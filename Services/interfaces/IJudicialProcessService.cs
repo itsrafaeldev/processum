@@ -7,7 +7,7 @@ namespace OctaPro.Services.interfaces
     {
         Task<IEnumerable<JudicialProcessResponse>> GetAllAsync();
         Task<JudicialProcessResponse?> GetByIdAsync(Guid idPublic);
-        Task CreateAsync(JudicialProcessRequest request);
+        Task CreateAsync(JudicialProcessRequest request, Guid userLoggedUUID);
         Task<bool> DeleteAsync(Guid idPublic);
 
         Task<IEnumerable<SelectOptionResponse>> GetAllNatureAsync();

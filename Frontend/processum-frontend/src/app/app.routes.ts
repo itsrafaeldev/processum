@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainComponent } from './layouts/main/main';
 import { PROCESS_ROUTES } from './features/process/routes/process.routes';
-import { ENTITY_ROUTES } from './features/entity/routes/entityroutes';
+import { ENTITY_ROUTES } from './features/entity/routes/entity.routes';
 import { FINANCE_ROUTES } from './features/finance/routes/finance.routes';
 import { FormLoginComponent } from './features/auth/components/form-login-component/form-login-component';
 import { AUTH_ROUTES } from './features/auth/routes/auth.routes';

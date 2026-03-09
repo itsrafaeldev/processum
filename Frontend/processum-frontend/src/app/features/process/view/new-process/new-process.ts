@@ -15,6 +15,8 @@ import { Save, CircleArrowLeft } from 'lucide-angular/src/icons';
 import { LucideAngularModule } from 'lucide-angular';
 import { ProcessRequest } from '../../../../dto/process-request.model';
 import { unMask } from '../../../../shared/utils/masks/masks';
+import { filter } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 
@@ -40,6 +42,7 @@ export class NewProcess {
     private processService = inject(ProcessService);
     private entityService = inject(EntityService);
     private changeDetector = inject(ChangeDetectorRef);
+    private route = inject(Router);
     private searchTimeout: any;
     protected readonly Save = Save;
     protected readonly CircleArrowLeft = CircleArrowLeft;
@@ -48,7 +51,6 @@ export class NewProcess {
     actions: any[] | undefined;
     allClients: any[] = [];
     client: any[] = [];
-    // client: any[] | undefined;
     loadingClients = false;
     value: string | undefined;
     processForm: FormGroup;
@@ -77,19 +79,16 @@ export class NewProcess {
               initialDate: new Date(formValues.dataAbertura).toISOString().split('T')[0],
               respondent: formValues.reclamado,
               description: formValues.observacoes,
-
               natureActionId: formValues.naturezaAcao,
               judicialActionId: formValues.acaoJudicial,
-
-              // userId: 1,
               EntityIds: formValues.reclamante
             };
 
             console.log(process);
-            debugger
+
             this.processService.createProcess(process).subscribe({
               next: () =>{
-
+                this.route.navigate(['/processos']);
               },
               error: (err) => {
                 console.error('Erro ao criar processo', err);
@@ -116,7 +115,11 @@ export class NewProcess {
       const natureAction = this.processForm.get('naturezaAcao');
 
       if (natureAction) {
-        natureAction.valueChanges.subscribe(natureId => {
+
+        natureAction.valueChanges
+        .pipe(filter(natureId => !!natureId))
+        .subscribe(natureId => {
+          this.processForm.get('acaoJudicial')?.reset();
           this.loadActions(natureId);
         });
       }

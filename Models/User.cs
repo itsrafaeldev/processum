@@ -22,4 +22,11 @@ public partial class User : IdentityUser<long>
 
     public virtual ICollection<Settlement> Settlements { get; set; } = new List<Settlement>();
 
+    public User()
+    {
+        IdPublic = Guid.NewGuid();
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
 }

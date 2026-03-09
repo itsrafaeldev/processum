@@ -1,3 +1,19 @@
-<div class="h-64 w-2xl bg-amber-500 text-white flex items-center justify-center">
-  <h1 class="text-2xl">Entidades</h1>
+<div class="grid grid-cols-2 gap-7 place-items-center h-full">
+
+  <app-card-register-entity-component [icon]="User"
+  title="Pessoa Física"
+  subtitle="Cadastro de Entidades PF"
+  (actionClick)="registerEntityIndividual()">
+</app-card-register-entity-component>
+
+<app-card-register-entity-component [icon]="Building"
+  title="Pessoa Jurídica"
+  subtitle="Cadastro de Entidades PJ"
+  (actionClick)="registerEntityCompany()">
+</app-card-register-entity-component>
+
+
 </div>
+
+
+

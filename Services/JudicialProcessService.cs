@@ -116,9 +116,12 @@ namespace OctaPro.Services
             };
         }
 
-        public async Task CreateAsync(JudicialProcessRequest request)
+        public async Task CreateAsync(JudicialProcessRequest request, Guid userLoggedUUID)
         {
-            
+
+            var userLogged = await _context.Users.FirstOrDefaultAsync(user => user.IdPublic == userLoggedUUID)
+            ?? throw new Exception("Usuário não encontrado");
+
             var entities = await _context.Entities
                 .Where(e => request.EntityIds.Contains(e.IdPublic))
                 .ToListAsync();
@@ -134,7 +137,7 @@ namespace OctaPro.Services
                 Description = request.Description,
                 NatureActionId = request.NatureActionId,
                 JudicialActionId = request.JudicialActionId,
-                UserId = request.UserId,
+                UserId = userLogged.Id,
                 IdPublic = Guid.NewGuid()
             };
 

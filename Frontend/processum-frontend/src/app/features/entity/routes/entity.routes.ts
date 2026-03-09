@@ -3,7 +3,7 @@ import { EntityComponent } from '../view/entity/entity';
 
 export const ENTITY_ROUTES: Routes = [
   {
-    path: 'financeiro',
+    path: 'entidades',
     component: EntityComponent
   }
 ];

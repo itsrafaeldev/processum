@@ -9,6 +9,8 @@ public static class SwaggerConfiguration
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
+            options.CustomSchemaIds(type => type.FullName);
+
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "OctaPro",
