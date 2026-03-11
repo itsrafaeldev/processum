@@ -3561,24 +3561,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\crisl\\.nuget\\packages\\": {}
+    "/home/rafael/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\crisl\\OneDrive\\Documentos\\projetos-rafa\\csharp\\OctaPro\\OctaPro.csproj",
+      "projectUniqueName": "/home/rafael/projetos-csharp/OctaPro/OctaPro.csproj",
       "projectName": "OctaPro",
-      "projectPath": "C:\\Users\\crisl\\OneDrive\\Documentos\\projetos-rafa\\csharp\\OctaPro\\OctaPro.csproj",
-      "packagesPath": "C:\\Users\\crisl\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\crisl\\OneDrive\\Documentos\\projetos-rafa\\csharp\\OctaPro\\obj\\",
+      "projectPath": "/home/rafael/projetos-csharp/OctaPro/OctaPro.csproj",
+      "packagesPath": "/home/rafael/.nuget/packages/",
+      "outputPath": "/home/rafael/projetos-csharp/OctaPro/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\crisl\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/rafael/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3659,7 +3660,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

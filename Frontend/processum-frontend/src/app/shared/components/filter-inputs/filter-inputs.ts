@@ -19,7 +19,7 @@ const MODULES = [FloatLabelModule, InputMaskModule, FormsModule, LucideAngularMo
 
 @Component({
   selector: 'app-filter-inputs',
- imports: [...MODULES],
+  imports: [...MODULES],
   templateUrl: './filter-inputs.html',
   styleUrl: './filter-inputs.css',
 })

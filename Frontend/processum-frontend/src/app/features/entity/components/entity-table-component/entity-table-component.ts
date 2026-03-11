@@ -1,22 +1,21 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
-import { ButtonActionGrid } from '../button-action-grid/button-action-grid';
 
-import { maskProcessDataPtBr, maskProcessNumber } from '../../../../shared/utils/masks/masks';
 import { Eye, Pencil, Trash2 } from 'lucide-angular/src/icons';
 import { TableAgGridComponent } from '../../../../shared/components/table-ag-grid/table-ag-grid';
+import { ButtonActionGrid } from '../../../process/components/button-action-grid/button-action-grid';
 
 @Component({
-  selector: 'app-process-table',
+  selector: 'app-entity-table',
   standalone: true,
   imports: [
     TableAgGridComponent
   ],
-  templateUrl: './process-table.html',
-  styleUrl: './process-table.css',
+  templateUrl: './entity-table-component.html',
+  styleUrl: './entity-table-component.css',
 })
-export class ProcessTableComponent {
+export class EntityTableComponent {
 
   @Input({ required: true }) rowData$!: any;
 
@@ -26,34 +25,26 @@ export class ProcessTableComponent {
 
   colDefs: ColDef[] = [
     {
-      field: 'processNumber',
-      headerName: 'Nº Processo',
+      field: 'name',
+      headerName: 'Nome',
       flex: 1,
-      minWidth: 200,
-      valueFormatter: p => maskProcessNumber(p.value)
+      minWidth: 200
     },
     {
-      headerName: 'Cliente',
+      field: 'corporateName',
+      headerName: 'Razão Social',
       flex: 1,
-      minWidth: 250,
-      valueGetter: p =>
-        p.data?.entities?.[0]?.name ??
-        p.data?.entities?.[0]?.corporateName ??
-        ''
+      minWidth: 250
     },
     {
-      headerName: 'Natureza',
-      valueGetter: p => p.data?.natureAction?.text ?? ''
+      field: 'document',
+      headerName: 'Documento',
+      flex: 1
     },
     {
-      field: 'isArchived',
-      headerName: 'Status',
-      valueGetter: p => p.data?.isArchived ? 'Arquivado' : 'Em Andamento'
-    },
-    {
-      field: 'initialDate',
-      headerName: 'Data Inicial',
-      valueFormatter: p => maskProcessDataPtBr(p.value)
+      field: 'email',
+      headerName: 'Email',
+      flex: 1
     },
     {
       headerName: 'Ações',
