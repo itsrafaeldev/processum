@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { NewClientButtonComponent } from "../new-client-button-component/new-client-button-component";
 
 const MODULES = [FloatLabelModule, InputMaskModule, FormsModule, LucideAngularModule, InputTextModule, SelectModule, DatePickerModule,
   ReactiveFormsModule,
@@ -23,7 +24,7 @@ interface StatusEntity {
 
 @Component({
   selector: 'app-filter-entity-component',
-  imports: [...MODULES],
+  imports: [...MODULES, NewClientButtonComponent],
   templateUrl: './filter-entity-component.html',
   styleUrl: './filter-entity-component.css',
 })

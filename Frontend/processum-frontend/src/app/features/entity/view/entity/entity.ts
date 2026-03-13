@@ -13,7 +13,7 @@ import { FilterEntityComponent } from "../../components/filter-entity-component/
   standalone: true,
   imports: [
     EntityTableComponent,
-    FilterEntityComponent
+    FilterEntityComponent,
 ],
   templateUrl: './entity.html',
   styleUrl: './entity.css',

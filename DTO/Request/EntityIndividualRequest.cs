@@ -14,9 +14,8 @@ namespace OctaPro.DTO
         [MaxLength(11)]
         [Required]
         public string? Cpf { get; set; }
-
+        
         [MaxLength(20)]
-        [Required]
         public string? Rg { get; set; }
 
         [EmailAddress]

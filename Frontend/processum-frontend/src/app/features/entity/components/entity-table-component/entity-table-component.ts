@@ -37,8 +37,20 @@ export class EntityTableComponent {
       minWidth: 250
     },
     {
-      field: 'document',
       headerName: 'Documento',
+      flex: 1,
+      valueGetter: ({ data }) => {
+
+        if (!data) return '';
+
+        return data.entityType === 'PF'
+          ? data?.cpf
+          : data?.cnpj;
+      }
+    },
+    {
+      field: 'entityType',
+      headerName: 'Pessoa',
       flex: 1
     },
     {
@@ -69,7 +81,7 @@ export class EntityTableComponent {
           {
             icon: Trash2,
             label: 'Excluir',
-            class: 'text-red-600 hover:bg-red-300',
+            class: 'text-red-600 hover:bg-red-200',
             onClick: (row: any) => this.delete.emit(row)
           }
         ]
