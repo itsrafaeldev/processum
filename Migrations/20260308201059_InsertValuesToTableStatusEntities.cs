@@ -11,13 +11,13 @@ namespace OctaPro.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("INSERT INTO status_entities (description) VALUES ('A');");
-            migrationBuilder.Sql("INSERT INTO status_entities (description) VALUES ('D');");
+            migrationBuilder.Sql("INSERT INTO status_entities (description) VALUES ('I');");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("DELETE FROM status_entities WHERE description = 'A';");
-            migrationBuilder.Sql("DELETE FROM status_entities WHERE description = 'D';");
+            migrationBuilder.Sql("DELETE FROM status_entities WHERE description = 'I';");
         }
     }
 }

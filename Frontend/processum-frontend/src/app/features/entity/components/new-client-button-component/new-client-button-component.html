@@ -1,0 +1,27 @@
+<div clickOutside 
+     (clickOutside)="dropdownOpen = false">
+  <button
+    class="px-2 py-2 bg-primary-600 text-white rounded flex items-center gap-2 cursor-pointer"
+    (click)="toggleDropdown()">
+    <lucide-icon name="plus"></lucide-icon>
+    Novo Cliente
+  </button>
+
+    @if(dropdownOpen){
+      <div class="absolute w-48 bg-white border border-gray-300 rounded shadow z-[99999]">
+
+        <button
+          class="block w-full text-left px-4 py-2 hover:bg-gray-100"
+          (click)="newCliente('PF')">
+          Pessoa Física
+        </button>
+
+        <button
+          class="block w-full text-left px-4 py-2 hover:bg-gray-100"
+          (click)="newCliente('PJ')">
+          Pessoa Jurídica
+        </button>
+
+      </div>
+    }
+</div>

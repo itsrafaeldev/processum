@@ -17,6 +17,7 @@ import { ProcessRequest } from '../../../../dto/process-request.model';
 import { unMask } from '../../../../shared/utils/masks/masks';
 import { filter } from 'rxjs';
 import { Router } from '@angular/router';
+import { SelectEntityComponent } from "../../../../shared/components/select-entity-component/select-entity-component";
 
 
 
@@ -31,7 +32,7 @@ const MODULES = [FloatLabelModule,
 
 @Component({
   selector: 'app-new-process',
-  imports: [...MODULES],
+  imports: [...MODULES, SelectEntityComponent],
   templateUrl: './new-process.html',
   styleUrl: './new-process.css',
 })

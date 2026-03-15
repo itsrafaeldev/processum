@@ -1,4 +1,4 @@
-<div class="grid grid-cols-2 gap-7 place-items-center h-full">
+<!-- <div class="grid grid-cols-2 gap-7 place-items-center h-full">
 
   <app-card-register-entity-component [icon]="User"
   title="Pessoa Física"
@@ -13,7 +13,23 @@
 </app-card-register-entity-component>
 
 
-</div>
+</div> -->
 
+
+
+<h1 class="text-3xl font-bold mb-2.5">Clientes</h1>
+<div>
+  <div class="p-4 h-[600px] w-[1600px] rounded-[10px] shadow-container bg-white text-black flex flex-col gap-6">
+    <app-filter-entity-component></app-filter-entity-component>
+    <app-entity-table
+    [rowData$]="entities$"
+    (view)="openView($event)"
+    (edit)="openEdit($event)"
+    (delete)="deleteEntity($event)">
+  </app-entity-table>
+
+  </div>
+
+</div>
 
 

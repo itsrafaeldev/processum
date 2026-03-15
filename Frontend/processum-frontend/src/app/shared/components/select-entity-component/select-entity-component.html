@@ -1,0 +1,15 @@
+<p-multiSelect
+  [options]="clients"
+  optionLabel="text"
+  optionValue="id"
+  [filter]="true"
+  filterBy="text"
+  (onFilter)="searchClients($event)"
+  [loading]="loadingClients"
+  [ngModel]="value"
+  (onChange)="onSelectChange($event)"
+  placeholder="Selecione as entidades"
+  class="w-full"
+  display="chip"
+  [maxSelectedLabels]="999">
+</p-multiSelect>

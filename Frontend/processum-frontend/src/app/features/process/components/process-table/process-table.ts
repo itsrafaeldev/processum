@@ -1,38 +1,28 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
-import { AsyncPipe } from '@angular/common';
-import { LucideAngularModule } from 'lucide-angular';
-import { ButtonModule } from 'primeng/button';
 
 import { ButtonActionGrid } from '../button-action-grid/button-action-grid';
-import { AG_GRID_LOCALE_PT_BR } from '../../../../shared/ag-grid/ag-grid-locale-pt';
+
 import { maskProcessDataPtBr, maskProcessNumber } from '../../../../shared/utils/masks/masks';
 import { Eye, Pencil, Trash2 } from 'lucide-angular/src/icons';
+import { TableAgGridComponent } from '../../../../shared/components/table-ag-grid/table-ag-grid';
 
 @Component({
   selector: 'app-process-table',
   standalone: true,
   imports: [
-    AgGridAngular,
-    LucideAngularModule,
-    ButtonModule,
-    AsyncPipe
+    TableAgGridComponent
   ],
   templateUrl: './process-table.html',
   styleUrl: './process-table.css',
 })
 export class ProcessTableComponent {
 
-  // 🔹 Dados vêm de fora
   @Input({ required: true }) rowData$!: any;
 
-  // 🔹 Eventos sobem para o componente pai
   @Output() view = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
-
-  localeText = AG_GRID_LOCALE_PT_BR;
 
   colDefs: ColDef[] = [
     {
