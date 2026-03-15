@@ -28,6 +28,12 @@ namespace OctaPro.DTO.Response
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Phone { get; set; }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public DateOnly? BirthDate { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Address { get; set; }
+
 
         // PJ
         public string? CorporateName { get; set; }

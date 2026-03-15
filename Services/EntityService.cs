@@ -62,6 +62,10 @@ namespace OctaPro.Services
                     Email = e.EntityIndividual.Email,
                     Mobile = e.EntityIndividual.Mobile,
                     Phone = e.EntityIndividual.Phone,
+                    BirthDate = e.EntityIndividual.BirthDate,
+                    Address = e.EntityIndividual.Address,
+
+                    
 
                     // PJ
                     CorporateName = e.EntityCompany.CorporateName,

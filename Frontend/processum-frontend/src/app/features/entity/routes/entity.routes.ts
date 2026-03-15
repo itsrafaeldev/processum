@@ -9,6 +9,7 @@ export const ENTITY_ROUTES: Routes = [
     children: [
           { path: '', component: EntityComponent },
           { path: 'novo/pf', component: NewClientPfComponent },
+          { path: 'editar/pf/:id_public_entity', component: NewClientPfComponent },
           { path: 'novo/pj', component: NewClientPjComponent },
 
         ]

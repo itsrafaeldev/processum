@@ -11,7 +11,9 @@ export function maskProcessNumber(value: string): string {
   return `${n}-${d}.${a}.${j}.${t}.${u}`;
 }
 
-export function maskProcessDataPtBr(value: string): string {
+export function maskProcessDataPtBr(value?: string): string {
+
+   if (!value) return '';
 
   const unmasked = unMask(value);
   const year = unmasked.slice(0, 4);

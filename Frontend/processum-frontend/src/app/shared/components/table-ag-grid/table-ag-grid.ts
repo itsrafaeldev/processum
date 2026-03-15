@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { AsyncPipe } from '@angular/common';
@@ -25,8 +25,15 @@ export class TableAgGridComponent {
 
   @Input() gridOptions: any = {
     popupParent: document.body,
-    suppressRowTransform: true
+    suppressRowTransform: true,
+    onRowClicked: (event: any) => this.onRowClicked(event)
+
   };
+  @Output() rowClicked = new EventEmitter<any>();
+
+  onRowClicked(event: any) {
+    this.rowClicked.emit(event);
+  }
 
   localeText = AG_GRID_LOCALE_PT_BR;
 }

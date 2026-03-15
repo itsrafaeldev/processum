@@ -5,6 +5,7 @@
     [columnDefs]="colDefs"
     [defaultColDef]="defaultColDef"
     [localeText]="localeText"
-    [gridOptions]="gridOptions">
+    [gridOptions]="gridOptions"
+    (rowClicked)="onRowClicked($event)">
   </ag-grid-angular>
 </div>

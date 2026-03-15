@@ -7,7 +7,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
 import { EntityIndividualRequest } from '../../../../dto/entity-request';
-import { unMask } from '../../../../shared/utils/masks/masks';
+import { maskProcessDataPtBr, unMask } from '../../../../shared/utils/masks/masks';
 import { EntityService } from '../../services/entity-service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -53,8 +53,8 @@ export class NewClientPfComponent {
   }
 
   ngOnInit() {
-      this.entityId = this.activatedRoute.snapshot.paramMap.get('id') ?? undefined;
-
+      this.entityId = this.activatedRoute.snapshot.paramMap.get('id_public_entity') ?? undefined;
+      console.log(this.entityId)
       if (this.entityId) {
         this.isEdit = true;
         this.loadClient();
@@ -102,7 +102,7 @@ export class NewClientPfComponent {
 
                 this.clientForm.reset();
                 this.formSubmitted = false;
-          
+
 
             }
     }
@@ -111,18 +111,18 @@ export class NewClientPfComponent {
 
       this.entityService.getById(this.entityId!)
             .subscribe(entity => {
-
-              const individual = entity.entityIndividual;
+              const pf = entity;
+              console.log(pf)
 
               this.clientForm.patchValue({
-                name: individual?.name,
-                cpf: individual?.cpf,
-                rg: individual?.rg,
-                email: individual?.email,
-                mobile: individual?.mobile,
-                phone: individual?.phone,
-                birthDate: individual?.birthDate,
-                address: individual?.address
+                name: pf?.name,
+                cpf: pf?.cpf,
+                rg: pf?.rg,
+                email: pf?.email,
+                mobile: pf?.mobile,
+                phone: pf?.phone,
+                birthDate: maskProcessDataPtBr(pf?.birthDate),
+                address: pf?.address
               });
 
             });

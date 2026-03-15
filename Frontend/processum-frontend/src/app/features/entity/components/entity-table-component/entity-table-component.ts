@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 
 import { Eye, Pencil, Trash2 } from 'lucide-angular/src/icons';
 import { TableAgGridComponent } from '../../../../shared/components/table-ag-grid/table-ag-grid';
 import { ButtonActionGrid } from '../../../process/components/button-action-grid/button-action-grid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-entity-table',
@@ -22,6 +23,17 @@ export class EntityTableComponent {
   @Output() view = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
+
+  private router = inject(Router);
+
+  onRowClicked(event: any) {
+    const id = event.data.idPublic;
+
+    if (event.data.entityType === 'PF') {
+      this.router.navigate(['entidades/editar/pf', id]);
+    }
+  }
+
 
   colDefs: ColDef[] = [
     {
