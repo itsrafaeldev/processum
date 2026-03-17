@@ -6,8 +6,8 @@ import { MessageModule } from 'primeng/message';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
-import { EntityIndividualRequest } from '../../../../dto/entity-request';
-import { maskProcessDataPtBr, unMask } from '../../../../shared/utils/masks/masks';
+import { EntityIndividualRequest } from '../../../../dto/entity-individual-request';
+import { maskDataPtBr, unMask } from '../../../../shared/utils/masks/masks';
 import { EntityService } from '../../services/entity-service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -48,13 +48,13 @@ export class NewClientPfComponent {
         complement: [''],
         city: [''],
         district: [''],
-        uf: ['', Validators.maxLength(2)],
+        uf: ['', [Validators.pattern(/^[A-Z]{2}$/)]],
       });
   }
 
   ngOnInit() {
       this.entityId = this.activatedRoute.snapshot.paramMap.get('id_public_entity') ?? undefined;
-      console.log(this.entityId)
+
       if (this.entityId) {
         this.isEdit = true;
         this.loadClient();
@@ -74,7 +74,6 @@ export class NewClientPfComponent {
             this.formSubmitted = true;
             if (this.clientForm.valid) {
               const formValues = this.clientForm.value;
-              console.log('Formulário válido, valores:', formValues);
 
               const entity: EntityIndividualRequest = {
                 name: formValues.name,
@@ -84,11 +83,29 @@ export class NewClientPfComponent {
                 mobile: unMask(formValues.mobile),
                 phone: unMask(formValues.phone),
                 birthDate: new Date(formValues.birthDate).toISOString().split('T')[0],
-                address: formValues.address
+                address: formValues.address,
+                cep: unMask(formValues.cep),
+                houseNumber: formValues.houseNumber,
+                complement: formValues.complement,
+                city: formValues.city,
+                district: formValues.district,
+                uf: formValues.uf
               };
 
 
-              console.log(entity);
+              if(this.isEdit) {
+                this.entityService.updateEntityIndividual(this.entityId!, entity).subscribe({
+                  next: () =>{
+                    this.route.navigate(['/entidades']);
+                  },
+                  error: (err) => {
+                    console.error('Erro ao atualizar entidade', err);
+                  },
+                });
+
+                return;
+
+              }
 
               this.entityService.createEntityIndividual(entity).subscribe({
                 next: () =>{
@@ -98,12 +115,8 @@ export class NewClientPfComponent {
                   console.error('Erro ao criar entidade', err);
                 },
               })
-
-
-                this.clientForm.reset();
+                // this.clientForm.reset();
                 this.formSubmitted = false;
-
-
             }
     }
 
@@ -112,7 +125,7 @@ export class NewClientPfComponent {
       this.entityService.getById(this.entityId!)
             .subscribe(entity => {
               const pf = entity;
-              console.log(pf)
+
 
               this.clientForm.patchValue({
                 name: pf?.name,
@@ -121,12 +134,37 @@ export class NewClientPfComponent {
                 email: pf?.email,
                 mobile: pf?.mobile,
                 phone: pf?.phone,
-                birthDate: maskProcessDataPtBr(pf?.birthDate),
-                address: pf?.address
+                birthDate: maskDataPtBr(pf?.birthDate),
+                address: pf?.address,
+                cep: pf?.cep,
+                houseNumber: pf?.houseNumber,
+                complement: pf?.complement,
+                city: pf?.city,
+                district: pf?.district,
+                uf: pf?.uf
               });
 
             });
 
+    }
+
+    deleteClient() {
+      if(this.entityId) {
+        debugger
+        this.entityService.delete(this.entityId).subscribe({
+          next: () => {
+            this.route.navigate(['/entidades']);
+          },
+          error: (err) => {
+            console.error('Erro ao deletar entidade', err);
+          },
+        });
+      }
+    }
+
+    onUfInput(event: any) {
+      const value = event.target.value.toUpperCase();
+      this.clientForm.get('uf')?.setValue(value, { emitEvent: false });
     }
 
 }

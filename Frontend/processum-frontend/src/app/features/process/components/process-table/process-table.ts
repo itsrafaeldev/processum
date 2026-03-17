@@ -3,7 +3,7 @@ import { ColDef } from 'ag-grid-community';
 
 import { ButtonActionGrid } from '../button-action-grid/button-action-grid';
 
-import { maskProcessDataPtBr, maskProcessNumber } from '../../../../shared/utils/masks/masks';
+import { maskDataPtBr, maskProcessNumber } from '../../../../shared/utils/masks/masks';
 import { Eye, Pencil, Trash2 } from 'lucide-angular/src/icons';
 import { TableAgGridComponent } from '../../../../shared/components/table-ag-grid/table-ag-grid';
 
@@ -53,7 +53,7 @@ export class ProcessTableComponent {
     {
       field: 'initialDate',
       headerName: 'Data Inicial',
-      valueFormatter: p => maskProcessDataPtBr(p.value)
+      valueFormatter: p => maskDataPtBr(p.value)
     },
     {
       headerName: 'Ações',

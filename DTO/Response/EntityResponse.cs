@@ -12,41 +12,51 @@ namespace OctaPro.DTO.Response
         public string EntityType { get; set; } = null!;
 
          // PF
-        public string? Name { get; set; }
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        
+        
         public string? CPF { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        
         public string? RG { get; set; }
         
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        
         public string? Email { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        
         public string? Mobile { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        
         public string? Phone { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        
         public DateOnly? BirthDate { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        // PJ
+        
+        public string? CNPJ { get; set; }
+        public string? TradeName { get; set; }
+
+
+        // COMMON
+        public string? Name { get; set; }
+
         public string? Address { get; set; }
 
+        
+        public string? Cep { get; set; }
 
-        // PJ
-        public string? CorporateName { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? CNPJ { get; set; }
+        
+        public string? HouseNumber { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? CorporateEmail { get; set; }
+        
+        public string? Complement { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? CorporateMobile { get; set; }
+        
+        public string? City { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string? CorporatePhone { get; set; }
+        
+        public string? District { get; set; }
+
+        
+        public string? Uf { get; set; }
     }
 }

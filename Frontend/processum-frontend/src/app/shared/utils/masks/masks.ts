@@ -1,3 +1,8 @@
+export function unMask(value: string): string {
+  if (!value) return '';
+  return value.replace(/[^a-zA-Z0-9]/g, '');
+}
+
 export function maskProcessNumber(value: string): string {
   if(value == ''){
     return '';
@@ -11,7 +16,7 @@ export function maskProcessNumber(value: string): string {
   return `${n}-${d}.${a}.${j}.${t}.${u}`;
 }
 
-export function maskProcessDataPtBr(value?: string): string {
+export function maskDataPtBr(value?: string): string {
 
    if (!value) return '';
 
@@ -24,7 +29,29 @@ export function maskProcessDataPtBr(value?: string): string {
   return dataFormatada;
 }
 
-export function unMask(value: string): string {
+export function maskCpfCnpj(value: string | undefined | null): string {
   if (!value) return '';
-  return value.replace(/[^a-zA-Z0-9]/g, '');
+
+  const digits = unMask(value);
+
+  // CPF → 11 dígitos
+  if (digits.length === 11) {
+    return digits.replace(
+      /(\d{3})(\d{3})(\d{3})(\d{2})/,
+      '$1.$2.$3-$4'
+    );
+  }
+
+  // CNPJ → 14 dígitos
+  if (digits.length === 14) {
+    return digits.replace(
+      /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
+      '$1.$2.$3/$4-$5'
+    );
+  }
+
+
+  return digits;
 }
+
+

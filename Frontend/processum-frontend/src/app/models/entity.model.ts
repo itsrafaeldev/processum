@@ -29,6 +29,32 @@ export interface  Entity {
 
   updatedAt: string;
 
+  cep?: string;
+
+  houseNumber?: string;
+
+  complement?: string;
+
+  city: string;
+
+  district: string;
+
+  uf: string;
+
+  
+
+  cnpj: string;
+
+  corporateName: string;
+
+  tradeName: string;
+
+  corporateEmail: string;
+
+  corporateMobile?: string;
+
+  corporatePhone?: string;
+
   // legalFeesInstallments: LegalFeesInstallment[];
 
   // judicialProcessEntities: JudicialProcessEntity[];

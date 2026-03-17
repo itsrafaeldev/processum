@@ -15,4 +15,16 @@ export interface EntityIndividualRequest {
   birthDate: string;
 
   address?: string;
+
+  cep?: string;
+
+  houseNumber?: string;
+
+  complement?: string;
+
+  city?: string;
+
+  district?: string;
+
+  uf?: string;
 }

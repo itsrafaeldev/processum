@@ -15,7 +15,7 @@
     </div>
 
     <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="flex flex-col items-center gap-4 w-full">
-    <h1 class="text-3xl font-bold mb-2.5">Novo Cliente - Pessoa Física</h1>
+    <h1 class="text-3xl font-bold mb-2.5">@if(!isEdit) { Novo Cliente - Pessoa Física } @else { Editar Cliente - Pessoa Física }</h1>
 
       <div class="p-10 flex flex-col gap-5">
 
@@ -208,39 +208,36 @@
               pInputText
               formControlName="uf"
               maxlength="2"
-              placeholder="UF"/>
+              placeholder="UF"
+              (input)="onUfInput($event)"/>
           </div>
         </div>
-
-        <!-- </div> -->
-
-
-        <!-- Endereço -->
-        <!-- <div class="flex flex-col gap-1">
-          <span class="font-medium">Endereço</span>
-
-          <input
-            pInputText
-            formControlName="address"
-            placeholder="Digite o endereço"
-            class="w-full"/>
-        </div> -->
 
       </div>
 
 
       <!-- Botão -->
-      <div class="px-10 w-[inherit] ">
+      <div class="px-10 w-[inherit] flex gap-3">
         <button
           pButton
           severity="secondary"
           type="submit"
-          class="flex items-center gap-1 px-4 py-2 bg-primary-600 text-white rounded">
-
-          <!-- <i-lucide [img]="Save" class="size-4 text-gray-300"></i-lucide> -->
+          class="flex items-center gap-1 px-4 py-2 bg-primary-600 text-white rounded"
+          >
           <lucide-icon name="save"  class="size-4 text-gray-300"></lucide-icon>
 
           <span pButtonLabel>Salvar</span>
+        </button>
+        <button
+          pButton
+          severity="secondary"
+          type="button"
+          class="group flex items-center gap-1 px-4 py-2 bg-gray-500 text-white hover:text-red-600 hover:bg-red-200
+          transition duration-300 ease-in-out rounded"
+          (click)="deleteClient()">
+          <lucide-icon name="trash"  class="size-4 text-white group-hover:text-red-600"></lucide-icon>
+
+          <span class="group-hover:text-red-600" pButtonLabel>Excluir</span>
         </button>
       </div>
 

@@ -27,19 +27,17 @@ namespace OctaPro.Services
                     EntityType = e.EntityType,
 
                     // PF
-                    Name = e.EntityIndividual.Name,
+                    Name = e.EntityIndividual.Name ?? e.EntityCompany.CorporateName,
                     CPF = e.EntityIndividual.Cpf,
                     RG = e.EntityIndividual.Rg,
-                    Email = e.EntityIndividual.Email,
-                    Mobile = e.EntityIndividual.Mobile,
-                    Phone = e.EntityIndividual.Phone,
+                    Email = e.EntityIndividual.Email ?? e.EntityCompany.CorporateEmail,
+                    Mobile = e.EntityIndividual.Mobile ?? e.EntityCompany.CorporateMobile,
+                    Phone = e.EntityIndividual.Phone ?? e.EntityCompany.CorporatePhone,
 
                     // PJ
-                    CorporateName = e.EntityCompany.CorporateName,
+                    TradeName = e.EntityIndividual.Name ?? e.EntityCompany.TradeName,
                     CNPJ = e.EntityCompany.Cnpj,
-                    CorporateEmail = e.EntityCompany.CorporateEmail,
-                    CorporateMobile = e.EntityCompany.CorporateMobile,
-                    CorporatePhone = e.EntityCompany.CorporatePhone
+                 
                 })
                 .ToListAsync();
         }
@@ -56,23 +54,29 @@ namespace OctaPro.Services
                     EntityType = e.EntityType,
 
                     // PF
-                    Name = e.EntityIndividual.Name,
+                    Name = e.EntityIndividual.Name ?? e.EntityCompany.CorporateName,
                     CPF = e.EntityIndividual.Cpf,
                     RG = e.EntityIndividual.Rg,
-                    Email = e.EntityIndividual.Email,
-                    Mobile = e.EntityIndividual.Mobile,
-                    Phone = e.EntityIndividual.Phone,
+                    Email = e.EntityIndividual.Email ?? e.EntityCompany.CorporateEmail,
+                    Mobile = e.EntityIndividual.Mobile ?? e.EntityCompany.CorporateMobile,
+                    Phone = e.EntityIndividual.Phone ?? e.EntityCompany.CorporatePhone,
                     BirthDate = e.EntityIndividual.BirthDate,
                     Address = e.EntityIndividual.Address,
+                    Cep = e.EntityIndividual.Cep,
+                    HouseNumber = e.EntityIndividual.HouseNumber,
+                    Complement = e.EntityIndividual.Complement,
+                    City = e.EntityIndividual.City,
+                    District = e.EntityIndividual.District,
+                    Uf = e.EntityIndividual.Uf,
 
                     
 
                     // PJ
-                    CorporateName = e.EntityCompany.CorporateName,
+                    TradeName = e.EntityCompany.TradeName,
                     CNPJ = e.EntityCompany.Cnpj,
-                    CorporateEmail = e.EntityCompany.CorporateEmail,
-                    CorporateMobile = e.EntityCompany.CorporateMobile,
-                    CorporatePhone = e.EntityCompany.CorporatePhone
+                    // CorporateEmail = e.EntityCompany.CorporateEmail,
+                    // CorporateMobile = e.EntityCompany.CorporateMobile,
+                    // CorporatePhone = e.EntityCompany.CorporatePhone
                 })
                 .FirstOrDefaultAsync();
         }
@@ -96,7 +100,13 @@ namespace OctaPro.Services
                 Mobile = request.Mobile,
                 Phone = request.Phone,
                 BirthDate = request.BirthDate,
-                Address = request.Address
+                Address = request.Address,
+                Cep = request.Cep,
+                HouseNumber = request.HouseNumber,
+                Complement = request.Complement,
+                City = request.City,
+                District = request.District,
+                Uf = request.Uf
             };
 
             _context.EntitiesIndividuals.Add(entityIndividual);
@@ -120,7 +130,14 @@ namespace OctaPro.Services
                 TradeName = request.TradeName,
                 CorporateEmail = request.CorporateEmail,
                 CorporateMobile = request.CorporateMobile,
-                CorporatePhone = request.CorporatePhone
+                CorporatePhone = request.CorporatePhone,
+                Address = request.Address,
+                Cep = request.Cep,
+                HouseNumber = request.HouseNumber,
+                Complement = request.Complement,
+                City = request.City,
+                District = request.District,
+                Uf = request.Uf?.Trim().ToUpper()
             };
 
             _context.EntitiesCompanies.Add(entityCompany);
@@ -144,6 +161,12 @@ namespace OctaPro.Services
             entityIndividual.Phone = request.Phone;
             entityIndividual.BirthDate = request.BirthDate;
             entityIndividual.Address = request.Address;
+            entityIndividual.Cep = request.Cep;
+            entityIndividual.HouseNumber = request.HouseNumber;
+            entityIndividual.Complement = request.Complement;
+            entityIndividual.City = request.City;
+            entityIndividual.District = request.District;
+            entityIndividual.Uf = request.Uf?.Trim().ToUpper();
 
             entityIndividual.Entity.UpdatedAt = DateTime.UtcNow;
 
@@ -166,6 +189,13 @@ namespace OctaPro.Services
             entityCompany.CorporateEmail = request.CorporateEmail;
             entityCompany.CorporateMobile = request.CorporateMobile;
             entityCompany.CorporatePhone = request.CorporatePhone;
+            entityCompany.Address = request.Address;
+            entityCompany.Cep = request.Cep;
+            entityCompany.HouseNumber = request.HouseNumber;
+            entityCompany.Complement = request.Complement;
+            entityCompany.City = request.City;
+            entityCompany.District = request.District;
+            entityCompany.Uf = request.Uf?.Trim().ToUpper();
 
             entityCompany.Entity.UpdatedAt = DateTime.UtcNow;
 

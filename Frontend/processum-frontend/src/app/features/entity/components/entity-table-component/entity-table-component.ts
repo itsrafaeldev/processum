@@ -6,6 +6,7 @@ import { Eye, Pencil, Trash2 } from 'lucide-angular/src/icons';
 import { TableAgGridComponent } from '../../../../shared/components/table-ag-grid/table-ag-grid';
 import { ButtonActionGrid } from '../../../process/components/button-action-grid/button-action-grid';
 import { Router } from '@angular/router';
+import { maskCpfCnpj } from '../../../../shared/utils/masks/masks';
 
 @Component({
   selector: 'app-entity-table',
@@ -31,6 +32,8 @@ export class EntityTableComponent {
 
     if (event.data.entityType === 'PF') {
       this.router.navigate(['entidades/editar/pf', id]);
+    }else {
+      this.router.navigate(['entidades/editar/pj', id]);
     }
   }
 
@@ -43,7 +46,7 @@ export class EntityTableComponent {
       minWidth: 200
     },
     {
-      field: 'corporateName',
+      field: 'tradeName',
       headerName: 'Razão Social',
       flex: 1,
       minWidth: 250
@@ -56,14 +59,22 @@ export class EntityTableComponent {
         if (!data) return '';
 
         return data.entityType === 'PF'
-          ? data?.cpf
-          : data?.cnpj;
+          ? maskCpfCnpj(data?.cpf)
+          : maskCpfCnpj(data?.cnpj);
       }
     },
     {
       field: 'entityType',
       headerName: 'Pessoa',
-      flex: 1
+      flex: 1,
+      valueGetter: ({ data }) => {
+
+        if (!data) return '';
+
+        return data.entityType === 'PF'
+          ? 'Física'
+          : 'Jurídica';
+      }
     },
     {
       field: 'email',

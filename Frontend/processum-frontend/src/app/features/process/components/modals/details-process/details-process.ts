@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { ProcessModalService } from './services/process-modal-service';
 import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
-import { maskProcessDataPtBr } from '../../../../../shared/utils/masks/masks';
+import { maskDataPtBr } from '../../../../../shared/utils/masks/masks';
 import { map } from 'rxjs';
 
 
@@ -23,7 +23,7 @@ export class DetailsProcess {
         console.log(process);
         return {
           ...process,
-          initialDate: maskProcessDataPtBr(process.initialDate),
+          initialDate: maskDataPtBr(process.initialDate),
           isArchived: process.isArchived ? 'Arquivado' : 'Em Andamento'
         };
       })

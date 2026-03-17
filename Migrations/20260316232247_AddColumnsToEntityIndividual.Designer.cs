@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OctaPro.Data;
@@ -11,9 +12,11 @@ using OctaPro.Data;
 namespace OctaPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260316232247_AddColumnsToEntityIndividual")]
+    partial class AddColumnsToEntityIndividual
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -390,24 +393,10 @@ namespace OctaPro.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Cep")
-                        .HasMaxLength(8)
-                        .HasColumnType("character varying(8)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("text");
-
                     b.Property<string>("Cnpj")
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
                         .HasColumnName("cnpj");
-
-                    b.Property<string>("Complement")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("CorporateEmail")
                         .HasMaxLength(255)
@@ -435,24 +424,14 @@ namespace OctaPro.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<string>("District")
-                        .HasColumnType("text");
-
                     b.Property<long>("EntityId")
                         .HasColumnType("bigint")
                         .HasColumnName("entity_id");
-
-                    b.Property<string>("HouseNumber")
-                        .HasColumnType("text");
 
                     b.Property<string>("TradeName")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
                         .HasColumnName("trade_name");
-
-                    b.Property<string>("Uf")
-                        .HasMaxLength(2)
-                        .HasColumnType("character varying(2)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
