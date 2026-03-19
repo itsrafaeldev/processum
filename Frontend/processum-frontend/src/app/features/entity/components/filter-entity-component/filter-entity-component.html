@@ -23,16 +23,17 @@
       </p-floatlabel>
 
       <p-floatlabel variant="on">
-        <p-datepicker
-          formControlName="dataAbertura"
-          dateFormat="dd/mm/yy"
-          showIcon
-          iconDisplay="input">
-        </p-datepicker>
-        <label>Data de Abertura</label>
+        <p-inputmask
+          mask="999.999.999-99"
+          formControlName="cpf"
+          placeholder="000.000.000-00"
+          class="w-full md:w-56"/>
+        <label>CPF</label>
       </p-floatlabel>
 
-      <button class="bg-primary-200 w-[40px] text-primary-600 rounded-[6px]" title="Pesquisar">
+
+
+      <button class="bg-primary-200 w-[40px] text-primary-600 rounded-[6px]" title="Pesquisar" (click)="applyFilter()">
         <i-lucide [img]="Search" size="16" class="flex justify-center"></i-lucide>
       </button>
 

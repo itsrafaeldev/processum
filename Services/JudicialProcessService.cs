@@ -59,7 +59,7 @@ namespace OctaPro.Services
                     {
                         IdPublic = jpe.Entity.IdPublic,
                         EntityType = jpe.Entity.EntityType,
-                        Name = jpe.Entity.EntityIndividual?.Name ?? jpe.Entity.EntityCompany?.CorporateName,
+                        // Name = jpe.Entity.EntityIndividual?.Name ?? jpe.Entity.EntityCompany?.CorporateName,
                         // CorporateName = jpe.Entity.EntityCompany?.CorporateName,
                         
                     })

@@ -48,7 +48,10 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": false,
+              "vendorSourceMap": false,
+              "namedChunks": false,
+              "inline": true
             }
           },
           "defaultConfiguration": "production"

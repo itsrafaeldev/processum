@@ -36,7 +36,7 @@ namespace OctaPro.Controllers
                         {
                             IdPublic = lfe.Entity.IdPublic,
                             EntityType = lfe.Entity.EntityType,
-                            Name = lfe.Entity.EntityIndividual != null ? lfe.Entity.EntityIndividual.Name : lfe.Entity.EntityCompany != null ? lfe.Entity.EntityCompany.CorporateName : null,
+                            // Name = lfe.Entity.EntityIndividual != null ? lfe.Entity.EntityIndividual.Name : lfe.Entity.EntityCompany != null ? lfe.Entity.EntityCompany.CorporateName : null,
                             // CorporateName = lfe.Entity.EntityCompany != null ? lfe.Entity.EntityCompany.CorporateName : null
                         })
                         .ToList(),
@@ -67,7 +67,7 @@ namespace OctaPro.Controllers
                         {
                             IdPublic = lfe.Entity.IdPublic,
                             EntityType = lfe.Entity.EntityType,
-                            Name = lfe.Entity.EntityIndividual != null ? lfe.Entity.EntityIndividual.Name : lfe.Entity.EntityCompany != null ? lfe.Entity.EntityCompany.CorporateName : null,
+                            // Name = lfe.Entity.EntityIndividual != null ? lfe.Entity.EntityIndividual.Name : lfe.Entity.EntityCompany != null ? lfe.Entity.EntityCompany.CorporateName : null,
                             // CorporateName = lfe.Entity.EntityCompany != null ? lfe.Entity.EntityCompany.CorporateName : null
                         })
                         .ToList(),

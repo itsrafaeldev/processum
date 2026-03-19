@@ -13,7 +13,7 @@ public partial class EntityCompany
     public long EntityId { get; set; }
 
     public string? Cnpj { get; set; }
-
+    [Column("corporate_name")]
     public string? CorporateName { get; set; }
 
     public string? TradeName { get; set; }

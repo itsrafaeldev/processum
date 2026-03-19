@@ -123,25 +123,22 @@ export class NewClientPfComponent {
     loadClient() {
 
       this.entityService.getById(this.entityId!)
-            .subscribe(entity => {
-              const pf = entity;
-
-
+            .subscribe(pf => {
               this.clientForm.patchValue({
-                name: pf?.name,
-                cpf: pf?.cpf,
-                rg: pf?.rg,
-                email: pf?.email,
-                mobile: pf?.mobile,
-                phone: pf?.phone,
-                birthDate: maskDataPtBr(pf?.birthDate),
-                address: pf?.address,
-                cep: pf?.cep,
-                houseNumber: pf?.houseNumber,
-                complement: pf?.complement,
-                city: pf?.city,
-                district: pf?.district,
-                uf: pf?.uf
+                name: pf?.entityIndividual?.name,
+                cpf: pf?.entityIndividual?.cpf,
+                rg: pf?.entityIndividual?.rg,
+                email: pf?.entityIndividual?.email,
+                mobile: pf?.entityIndividual?.mobile,
+                phone: pf?.entityIndividual?.phone,
+                birthDate: maskDataPtBr(pf?.entityIndividual?.birthDate),
+                address: pf?.entityIndividual?.address,
+                cep: pf?.entityIndividual?.cep,
+                houseNumber: pf?.entityIndividual?.houseNumber,
+                complement: pf?.entityIndividual?.complement,
+                city: pf?.entityIndividual?.city,
+                district: pf?.entityIndividual?.district,
+                uf: pf?.entityIndividual?.uf
               });
 
             });

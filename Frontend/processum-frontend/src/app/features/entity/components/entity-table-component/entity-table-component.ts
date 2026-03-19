@@ -46,7 +46,7 @@ export class EntityTableComponent {
       minWidth: 200
     },
     {
-      field: 'tradeName',
+      field: 'corporateName',
       headerName: 'Razão Social',
       flex: 1,
       minWidth: 250
@@ -81,35 +81,6 @@ export class EntityTableComponent {
       headerName: 'Email',
       flex: 1
     },
-    {
-      headerName: 'Ações',
-      cellRenderer: ButtonActionGrid,
-      headerClass: 'ag-center-header',
-      filter: false,
-      cellRendererParams: {
-        useDropdown: true,
-        actions: [
-          {
-            icon: Eye,
-            label: 'Visualizar',
-            class: 'text-primary-400 hover:bg-primary-100',
-            onClick: (row: any) => this.view.emit(row)
-          },
-          {
-            icon: Pencil,
-            label: 'Editar',
-            class: 'text-primary-400 hover:bg-primary-100',
-            onClick: (row: any) => this.edit.emit(row)
-          },
-          {
-            icon: Trash2,
-            label: 'Excluir',
-            class: 'text-red-600 hover:bg-red-200',
-            onClick: (row: any) => this.delete.emit(row)
-          }
-        ]
-      }
-    }
   ];
 
   defaultColDef: ColDef = {

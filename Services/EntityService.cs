@@ -25,18 +25,43 @@ namespace OctaPro.Services
                 {
                     IdPublic = e.IdPublic,
                     EntityType = e.EntityType,
-
+                    CreatedAt = e.CreatedAt,
+                    UpdatedAt = e.UpdatedAt,
                     // PF
-                    Name = e.EntityIndividual.Name ?? e.EntityCompany.CorporateName,
-                    CPF = e.EntityIndividual.Cpf,
-                    RG = e.EntityIndividual.Rg,
-                    Email = e.EntityIndividual.Email ?? e.EntityCompany.CorporateEmail,
-                    Mobile = e.EntityIndividual.Mobile ?? e.EntityCompany.CorporateMobile,
-                    Phone = e.EntityIndividual.Phone ?? e.EntityCompany.CorporatePhone,
-
+                    EntityIndividual = e.EntityIndividual == null ? null : new EntityIndividualResponse
+                    {
+                        Name = e.EntityIndividual.Name,
+                        CPF = e.EntityIndividual.Cpf,
+                        RG = e.EntityIndividual.Rg,
+                        Email = e.EntityIndividual.Email,
+                        Mobile = e.EntityIndividual.Mobile,
+                        Phone = e.EntityIndividual.Phone,
+                        BirthDate = e.EntityIndividual.BirthDate,
+                        Address = e.EntityIndividual.Address,
+                        Cep = e.EntityIndividual.Cep,
+                        HouseNumber = e.EntityIndividual.HouseNumber,
+                        Complement = e.EntityIndividual.Complement,
+                        City = e.EntityIndividual.City,
+                        District = e.EntityIndividual.District,
+                        Uf = e.EntityIndividual.Uf
+                    },
                     // PJ
-                    TradeName = e.EntityIndividual.Name ?? e.EntityCompany.TradeName,
-                    CNPJ = e.EntityCompany.Cnpj,
+                    EntityCompany = e.EntityCompany == null ? null : new EntityCompanyResponse
+                    {
+                        TradeName = e.EntityCompany.TradeName,
+                        CNPJ = e.EntityCompany.Cnpj,
+                        CorporateName = e.EntityCompany.CorporateName,
+                        Email = e.EntityCompany.CorporateEmail,
+                        Mobile = e.EntityCompany.CorporateMobile,
+                        Phone = e.EntityCompany.CorporatePhone,
+                        Address = e.EntityCompany.Address,
+                        Cep = e.EntityCompany.Cep,
+                        HouseNumber = e.EntityCompany.HouseNumber,
+                        Complement = e.EntityCompany.Complement,
+                        City = e.EntityCompany.City,
+                        District = e.EntityCompany.District,
+                        Uf = e.EntityCompany.Uf
+                    }
                  
                 })
                 .ToListAsync();
@@ -52,31 +77,42 @@ namespace OctaPro.Services
                 {
                     IdPublic = e.IdPublic,
                     EntityType = e.EntityType,
-
                     // PF
-                    Name = e.EntityIndividual.Name ?? e.EntityCompany.CorporateName,
-                    CPF = e.EntityIndividual.Cpf,
-                    RG = e.EntityIndividual.Rg,
-                    Email = e.EntityIndividual.Email ?? e.EntityCompany.CorporateEmail,
-                    Mobile = e.EntityIndividual.Mobile ?? e.EntityCompany.CorporateMobile,
-                    Phone = e.EntityIndividual.Phone ?? e.EntityCompany.CorporatePhone,
-                    BirthDate = e.EntityIndividual.BirthDate,
-                    Address = e.EntityIndividual.Address,
-                    Cep = e.EntityIndividual.Cep,
-                    HouseNumber = e.EntityIndividual.HouseNumber,
-                    Complement = e.EntityIndividual.Complement,
-                    City = e.EntityIndividual.City,
-                    District = e.EntityIndividual.District,
-                    Uf = e.EntityIndividual.Uf,
-
-                    
-
+                    EntityIndividual = e.EntityIndividual == null ? null : new EntityIndividualResponse
+                    {
+                        Name = e.EntityIndividual.Name,
+                        CPF = e.EntityIndividual.Cpf,
+                        RG = e.EntityIndividual.Rg,
+                        Email = e.EntityIndividual.Email,
+                        Mobile = e.EntityIndividual.Mobile,
+                        Phone = e.EntityIndividual.Phone,
+                        BirthDate = e.EntityIndividual.BirthDate,
+                        Address = e.EntityIndividual.Address,
+                        Cep = e.EntityIndividual.Cep,
+                        HouseNumber = e.EntityIndividual.HouseNumber,
+                        Complement = e.EntityIndividual.Complement,
+                        City = e.EntityIndividual.City,
+                        District = e.EntityIndividual.District,
+                        Uf = e.EntityIndividual.Uf
+                    },
                     // PJ
-                    TradeName = e.EntityCompany.TradeName,
-                    CNPJ = e.EntityCompany.Cnpj,
-                    // CorporateEmail = e.EntityCompany.CorporateEmail,
-                    // CorporateMobile = e.EntityCompany.CorporateMobile,
-                    // CorporatePhone = e.EntityCompany.CorporatePhone
+                    EntityCompany = e.EntityCompany == null ? null : new EntityCompanyResponse
+                    {
+                        TradeName = e.EntityCompany.TradeName,
+                        CNPJ = e.EntityCompany.Cnpj,
+                        CorporateName = e.EntityCompany.CorporateName,
+                        Email = e.EntityCompany.CorporateEmail,
+                        Mobile = e.EntityCompany.CorporateMobile,
+                        Phone = e.EntityCompany.CorporatePhone,
+                        Address = e.EntityCompany.Address,
+                        Cep = e.EntityCompany.Cep,
+                        HouseNumber = e.EntityCompany.HouseNumber,
+                        Complement = e.EntityCompany.Complement,
+                        City = e.EntityCompany.City,
+                        District = e.EntityCompany.District,
+                        Uf = e.EntityCompany.Uf
+                    }
+
                 })
                 .FirstOrDefaultAsync();
         }

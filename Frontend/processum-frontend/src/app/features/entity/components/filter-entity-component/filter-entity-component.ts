@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectEntityComponent } from "../../../../shared/components/select-entity-component/select-entity-component";
 import { LucideAngularModule } from 'lucide-angular';
@@ -10,6 +10,8 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { NewClientButtonComponent } from "../new-client-button-component/new-client-button-component";
+import { ClickOutsideDirective } from "../../../../shared/directives/ClickOutsideDirective";
+import { unMask } from '../../../../shared/utils/masks/masks';
 
 const MODULES = [FloatLabelModule, InputMaskModule, FormsModule, LucideAngularModule, InputTextModule, SelectModule, DatePickerModule,
   ReactiveFormsModule,
@@ -24,7 +26,7 @@ interface StatusEntity {
 
 @Component({
   selector: 'app-filter-entity-component',
-  imports: [...MODULES, NewClientButtonComponent],
+  imports: [...MODULES, NewClientButtonComponent, ClickOutsideDirective],
   templateUrl: './filter-entity-component.html',
   styleUrl: './filter-entity-component.css',
 })
@@ -33,6 +35,7 @@ export class FilterEntityComponent {
   protected readonly Funnel = Funnel;
   protected readonly Search = Search;
   protected readonly Eraser = Eraser;
+  @Output() filterValues = new EventEmitter<any>();
 
   statusEntity: StatusEntity[] = [
       { name: 'Ativo', code: '1' },
@@ -41,7 +44,19 @@ export class FilterEntityComponent {
   filterForm = new FormGroup({
     reclamante: new FormControl(null),
     status: new FormControl(this.statusEntity[0]),
-    dataAbertura: new FormControl(null)
+    cpf: new FormControl(null)
   });
+
+  applyFilter() {
+
+    const form = this.filterForm.value;
+
+    const filterFormTrated = {
+      ...form,
+      cpf: form.cpf ? unMask(form.cpf) : null,
+      status: form.status ? form.status.code : null
+    };
+    this.filterValues.emit(filterFormTrated);
+  }
 
 }

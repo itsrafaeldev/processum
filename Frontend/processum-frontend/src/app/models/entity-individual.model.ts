@@ -4,6 +4,8 @@ export interface EntityIndividual {
 
   entityId: number;
 
+  name?: string;
+
   cpf?: string;
 
   rg?: string;
@@ -22,6 +24,17 @@ export interface EntityIndividual {
 
   address?: string;
 
-  name?: string;
+  cep?: string;
+
+  houseNumber?: string;
+
+  complement?: string;
+
+  city: string;
+
+  district: string;
+
+  uf: string;
+
 
 }

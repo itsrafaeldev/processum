@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule, Location, NgClass } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LucideAngularModule } from "lucide-angular";
 import { MessageModule } from 'primeng/message';
@@ -13,7 +13,6 @@ import { unMask } from '../../../../shared/utils/masks/masks';
   selector: 'app-new-client-pj-component',
   imports: [
     LucideAngularModule,
-    NgClass,
     MessageModule,
     InputMaskModule,
     InputTextModule,
@@ -122,22 +121,22 @@ export class NewClientPjComponent {
 
   loadCompany() {
     this.entityService.getById(this.entityId!)
-      .subscribe(company => {
+      .subscribe(pj => {
 
         this.companyForm.patchValue({
-          cnpj: company?.cnpj,
-          corporateName: company?.corporateName,
-          tradeName: company?.tradeName,
-          corporateEmail: company?.corporateEmail,
-          corporateMobile: company?.corporateMobile,
-          corporatePhone: company?.corporatePhone,
-          address: company?.address,
-          cep: company?.cep,
-          houseNumber: company?.houseNumber,
-          complement: company?.complement,
-          city: company?.city,
-          district: company?.district,
-          uf: company?.uf
+          cnpj: pj?.entityCompany?.cnpj,
+          corporateName: pj?.entityCompany?.corporateName,
+          tradeName: pj?.entityCompany?.tradeName,
+          corporateEmail: pj?.entityCompany?.email,
+          corporateMobile: pj?.entityCompany?.mobile,
+          corporatePhone: pj?.entityCompany?.phone,
+          address: pj?.entityCompany?.address,
+          cep: pj?.entityCompany?.cep,
+          houseNumber: pj?.entityCompany?.houseNumber,
+          complement: pj?.entityCompany?.complement,
+          city: pj?.entityCompany?.city,
+          district: pj?.entityCompany?.district,
+          uf: pj?.entityCompany?.uf
         });
 
       });

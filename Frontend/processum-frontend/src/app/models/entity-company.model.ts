@@ -1,15 +1,22 @@
 export interface EntityCompany {
-  id: number;
-  entityId: number;
+  idPublic: string;
+  entityType?: string | null;
 
-  cnpj?: string;
-  corporateName?: string;
-  tradeName?: string;
+  cnpj?: string | null;
+  corporateName?: string | null;
+  tradeName?: string | null;
 
-  corporateEmail?: string;
-  corporateMobile?: string;
-  corporatePhone?: string;
+  email?: string | null;
+  mobile?: string | null;
+  phone?: string | null;
 
-  createdAt: string;
-  updatedAt: string;
+  address?: string | null;
+  cep?: string | null;
+  houseNumber?: string | null;
+  complement?: string | null;
+  city?: string | null;
+  district?: string | null;
+  uf?: string | null;
+
+  rg?: string | null;
 }

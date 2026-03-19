@@ -55,35 +55,35 @@ export class ProcessTableComponent {
       headerName: 'Data Inicial',
       valueFormatter: p => maskDataPtBr(p.value)
     },
-    {
-      headerName: 'Ações',
-      cellRenderer: ButtonActionGrid,
-      headerClass: 'ag-center-header',
-      filter: false,
-      cellRendererParams: {
-        useDropdown: true,
-        actions: [
-          {
-            icon: Eye,
-            label: 'Visualizar',
-            class: 'text-primary-400 hover:bg-primary-100',
-            onClick: (row: any) => this.view.emit(row)
-          },
-          {
-            icon: Pencil,
-            label: 'Editar',
-            class: 'text-primary-400 hover:bg-primary-100',
-            onClick: (row: any) => this.edit.emit(row)
-          },
-          {
-            icon: Trash2,
-            label: 'Excluir',
-            class: 'text-red-600 hover:bg-red-300',
-            onClick: (row: any) => this.delete.emit(row)
-          }
-        ]
-      }
-    }
+    // {
+    //   headerName: 'Ações',
+    //   cellRenderer: ButtonActionGrid,
+    //   headerClass: 'ag-center-header',
+    //   filter: false,
+    //   cellRendererParams: {
+    //     useDropdown: true,
+    //     actions: [
+    //       {
+    //         icon: Eye,
+    //         label: 'Visualizar',
+    //         class: 'text-primary-400 hover:bg-primary-100',
+    //         onClick: (row: any) => this.view.emit(row)
+    //       },
+    //       {
+    //         icon: Pencil,
+    //         label: 'Editar',
+    //         class: 'text-primary-400 hover:bg-primary-100',
+    //         onClick: (row: any) => this.edit.emit(row)
+    //       },
+    //       {
+    //         icon: Trash2,
+    //         label: 'Excluir',
+    //         class: 'text-red-600 hover:bg-red-300',
+    //         onClick: (row: any) => this.delete.emit(row)
+    //       }
+    //     ]
+    //   }
+    // }
   ];
 
   defaultColDef: ColDef = {
