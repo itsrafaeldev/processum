@@ -10,7 +10,6 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { NewClientButtonComponent } from "../new-client-button-component/new-client-button-component";
-import { ClickOutsideDirective } from "../../../../shared/directives/ClickOutsideDirective";
 import { unMask } from '../../../../shared/utils/masks/masks';
 
 const MODULES = [FloatLabelModule, InputMaskModule, FormsModule, LucideAngularModule, InputTextModule, SelectModule, DatePickerModule,
@@ -26,7 +25,7 @@ interface StatusEntity {
 
 @Component({
   selector: 'app-filter-entity-component',
-  imports: [...MODULES, NewClientButtonComponent, ClickOutsideDirective],
+  imports: [...MODULES, NewClientButtonComponent],
   templateUrl: './filter-entity-component.html',
   styleUrl: './filter-entity-component.css',
 })
@@ -44,7 +43,7 @@ export class FilterEntityComponent {
   filterForm = new FormGroup({
     reclamante: new FormControl(null),
     status: new FormControl(this.statusEntity[0]),
-    cpf: new FormControl(null)
+    cpf_cnpj: new FormControl(null)
   });
 
   applyFilter() {
@@ -53,7 +52,7 @@ export class FilterEntityComponent {
 
     const filterFormTrated = {
       ...form,
-      cpf: form.cpf ? unMask(form.cpf) : null,
+      cpf_cnpj: form.cpf_cnpj ? unMask(form.cpf_cnpj) : null,
       status: form.status ? form.status.code : null
     };
     this.filterValues.emit(filterFormTrated);

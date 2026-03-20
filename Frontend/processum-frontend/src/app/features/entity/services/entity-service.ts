@@ -7,6 +7,7 @@ import { EntityIndividualRequest } from '../../../dto/entity-individual-request'
 import { Observable } from 'rxjs';
 import { Entity } from '../../../models/entity.model';
 import { EntityCompanyRequest } from '../../../dto/entity-company-request';
+import { FilterEntitiesRequest } from '../../../dto/filter-entities-request';
 
 
 @Injectable({
@@ -16,6 +17,11 @@ export class EntityService extends HttpBaseService<Entity, string> {
     constructor(http: HttpClient) {
       super(http, `${environment.apiUrl}/entity`);
     }
+
+    filterClients(filter: FilterEntitiesRequest): Observable<any[]> {
+      return this.http.get<any[]>(`${this.baseUrl}?IdPublicEntity=${filter.idPublicEntity}&status=${filter.statusId}&cpfCnpj=${filter.cpf_cnpj}`);
+    }
+
 
     searchClients(client: string) {
       return this.http.get<any[]>(`${this.baseUrl}/clients?name=${client}`);

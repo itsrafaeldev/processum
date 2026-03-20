@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OctaPro.DTO;
+using OctaPro.DTO.Request;
 using OctaPro.DTO.Response;
 using OctaPro.Services.interfaces;
 
@@ -16,10 +17,15 @@ namespace OctaPro.Controllers
             _service = service;
         }
 
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<EntityResponse>>> GetEntities()
+        // {
+        //     return Ok(await _service.GetEntitiesAsync());
+        // }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EntityResponse>>> GetEntities()
+        public async Task<ActionResult<IEnumerable<EntityResponse>>> GetEntities([FromQuery] EntityFilterRequest filter)
         {
-            return Ok(await _service.GetEntitiesAsync());
+            return Ok(await _service.GetEntitiesAsync(filter));
         }
 
         [HttpGet("{idPublic:guid}")]

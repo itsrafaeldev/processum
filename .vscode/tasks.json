@@ -33,9 +33,11 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/OctaPro.sln"
+                "${workspaceFolder}/OctaPro.sln",
+                "--no-hot-reload"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "isBackground": true
         }
     ]
 }

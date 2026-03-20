@@ -1,11 +1,12 @@
 using OctaPro.DTO;
+using OctaPro.DTO.Request;
 using OctaPro.DTO.Response;
 
 namespace OctaPro.Services.interfaces
 {
     public interface IEntityService
     {
-        Task<IEnumerable<EntityResponse>> GetEntitiesAsync();
+        Task<IEnumerable<EntityResponse>> GetEntitiesAsync(EntityFilterRequest filter = null!);
         Task<EntityResponse?> GetByIdAsync(Guid idPublic);
 
         Task CreateEntityIndividualAsync(EntityIndividualRequest request);

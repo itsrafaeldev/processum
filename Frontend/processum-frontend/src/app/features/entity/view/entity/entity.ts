@@ -7,6 +7,7 @@ import { EntityTableComponent } from '../../components/entity-table-component/en
 import { User, Building } from 'lucide-angular/src/icons';
 import { EntityService } from '../../services/entity-service';
 import { FilterEntityComponent } from "../../components/filter-entity-component/filter-entity-component";
+import { FilterEntitiesRequest } from '../../../../dto/filter-entities-request';
 
 @Component({
   selector: 'app-entity',
@@ -23,6 +24,7 @@ export class EntityComponent {
   public readonly User = User;
   public readonly Building = Building;
   private entityService = inject(EntityService);
+  private filterRequest!: FilterEntitiesRequest;
 
   entities$ = this.entityService.getAll().pipe(
     map((entities: any[]) => entities.map(e => {
@@ -44,33 +46,36 @@ export class EntityComponent {
   );
 
   onFilter(filter: any) {
-    console.log(filter);
-
+    this.filterRequest = {
+      idPublicEntity: filter.reclamante ? filter.reclamante : null,
+      statusId: filter.status ? filter.status : null,
+      cpf_cnpj: filter.cpf_cnpj  ? filter.cpf_cnpj : null
+    };
     // exemplo:
-    // this.entities$ = this.entityService.getAll().pipe(
-    //   map((entities: any[]) =>
-    //     entities
-    //       .filter(e => {
-    //         if (filter.cpf) {
-    //           return e.entityIndividual?.cpf?.includes(filter.cpf);
-    //         }
-    //         return true;
-    //       })
-    //       .map(e => {
-    //         const isPF = e.entityType === 'PF';
+    this.entities$ = this.entityService.filterClients(this.filterRequest).pipe(
+      map((entities: any[]) =>
+        entities
+          .filter(e => {
+            if (filter.cpf) {
+              return e.entityIndividual?.cpf?.includes(filter.cpf);
+            }
+            return true;
+          })
+          .map(e => {
+            const isPF = e.entityType === 'PF';
 
-    //         return {
-    //           idPublic: e.idPublic,
-    //           entityType: e.entityType,
-    //           name: isPF ? e.entityIndividual?.name : e.entityCompany?.tradeName,
-    //           corporateName: isPF ? null : e.entityCompany?.corporateName,
-    //           cpf: isPF ? e.entityIndividual?.cpf : null,
-    //           cnpj: isPF ? null : e.entityCompany?.cnpj,
-    //           email: isPF ? e.entityIndividual?.email : e.entityCompany?.email
-    //         };
-    //       })
-    //   )
-    // );
+            return {
+              idPublic: e.idPublic,
+              entityType: e.entityType,
+              name: isPF ? e.entityIndividual?.name : e.entityCompany?.tradeName,
+              corporateName: isPF ? null : e.entityCompany?.corporateName,
+              cpf: isPF ? e.entityIndividual?.cpf : null,
+              cnpj: isPF ? null : e.entityCompany?.cnpj,
+              email: isPF ? e.entityIndividual?.email : e.entityCompany?.email
+            };
+          })
+      )
+    );
   }
 
 
