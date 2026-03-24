@@ -1,11 +1,12 @@
 using OctaPro.DTO;
+using OctaPro.DTO.Request;
 using OctaPro.DTO.Response;
 
 namespace OctaPro.Services.interfaces
 {
     public interface IJudicialProcessService
     {
-        Task<IEnumerable<JudicialProcessResponse>> GetAllAsync();
+        Task<IEnumerable<JudicialProcessResponse>> GetAllAsync(ProcessFilterRequest filter = null!);
         Task<JudicialProcessResponse?> GetByIdAsync(Guid idPublic);
         Task CreateAsync(JudicialProcessRequest request, Guid userLoggedUUID);
         Task<bool> DeleteAsync(Guid idPublic);

@@ -8,6 +8,7 @@ import { User, Building } from 'lucide-angular/src/icons';
 import { EntityService } from '../../services/entity-service';
 import { FilterEntityComponent } from "../../components/filter-entity-component/filter-entity-component";
 import { FilterEntitiesRequest } from '../../../../dto/filter-entities-request';
+import { unMask } from '../../../../shared/utils/masks/masks';
 
 @Component({
   selector: 'app-entity',
@@ -47,9 +48,9 @@ export class EntityComponent {
 
   onFilter(filter: any) {
     this.filterRequest = {
-      idPublicEntity: filter.reclamante ? filter.reclamante : null,
-      statusId: filter.status ? filter.status : null,
-      cpf_cnpj: filter.cpf_cnpj  ? filter.cpf_cnpj : null
+      idPublicEntity: filter.reclamante ? filter.reclamante : "",
+      statusId: filter.status ? filter.status : "",
+      cpf_cnpj: filter.cpf_cnpj  ? unMask(filter.cpf_cnpj) : ""
     };
     // exemplo:
     this.entities$ = this.entityService.filterClients(this.filterRequest).pipe(

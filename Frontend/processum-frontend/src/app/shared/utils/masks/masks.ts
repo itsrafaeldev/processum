@@ -29,6 +29,16 @@ export function maskDataPtBr(value?: string): string {
   return dataFormatada;
 }
 
+export function maskDataUSA(value?: string | Date): string {
+  if (!value) return '';
+
+  const date = value instanceof Date ? value : new Date(value);
+
+  const result = date.toISOString().split('T')[0];
+
+  return result;
+}
+
 export function maskCpfCnpj(value: string | undefined | null): string {
   if (!value) return '';
 

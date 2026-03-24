@@ -14,7 +14,5 @@ export interface ProcessRequest {
 
   judicialActionId: number;
 
-  // userId: number;
-
   EntityIds: ProcessEntity[];
 }

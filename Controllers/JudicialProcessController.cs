@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using OctaPro.DTO;
+using OctaPro.DTO.Request;
 using OctaPro.DTO.Response;
 using OctaPro.Services.interfaces;
 
@@ -18,9 +19,9 @@ namespace OctaPro.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JudicialProcessResponse>>> GetAll()
+        public async Task<ActionResult<IEnumerable<JudicialProcessResponse>>> GetAll([FromQuery] ProcessFilterRequest filter)
         {
-            return Ok(await _service.GetAllAsync());
+            return Ok(await _service.GetAllAsync(filter));
         }
 
         [HttpGet("{idPublic:guid}")]

@@ -1,8 +1,8 @@
 export interface FilterEntitiesRequest {
 
-  idPublicEntity?: string;
+  idPublicEntity?: string | null;
 
-  statusId?: number;
+  statusId?: number | null;
 
-  cpf_cnpj?: string;
+  cpf_cnpj?: string | null;
 }

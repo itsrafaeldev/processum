@@ -1,4 +1,8 @@
 <nav class="navbar bg-white">
+  <!-- <button class="lg:hidden p-2" (click)="layoutService.toggleSidebar()">
+    <i-lucide [img]="Menu" class="size-6 text-gray-600"></i-lucide>
+  </button> -->
+
     <div
       class="lg:hidden cursor-pointer"
       (click)="layoutService.toggleSidebar()"
@@ -26,8 +30,8 @@
       <input type="search" required placeholder="Pesquisar" />
     </label>
   </div>
-  <div class="w-[60px]">
-    <button class="flex gap-2 cursor-pointer bg-primary-100 p-2.5 rounded-2xl" (click)="sair()" >
+  <div>
+    <button class="flex gap-2 cursor-pointer hover:underline hover:text-primary-600" (click)="sair()" >
       Sair
       <i-lucide [img]="LogOut" class="size-6 "></i-lucide>
     </button>

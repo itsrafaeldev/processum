@@ -3,7 +3,7 @@
 
 /* #7a56df */
 
-@theme {
+/* @theme {
   --color-primary-50: #f8f8fb;
   --color-primary-75: #f0edf7;
   --color-primary-100: #D7CAF0;
@@ -17,10 +17,32 @@
 
   --font-sans: "Geist", cursive;
   --font-mono: "Geist Mono", ui-monospace, monospace;
+} */
+ @theme {
+  --color-primary-50:  #f5f8ff;
+  --color-primary-75:  #eef3ff;
+  --color-primary-100: #dbe7ff;
+  --color-primary-200: #b6ccff;
+  --color-primary-300: #7fa8ff;
+  --color-primary-400: #102d81;
+  --color-primary-500: #0b155a;
+  --color-primary-600: #09124e;
+  --color-primary-700: #070f42;
+  --color-primary-800: #050c36;
+  --color-primary-900: #03082a;
+
+  --color-primary-selected: #7fa8ff;
+
+  --font-sans: "Geist", cursive;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
 }
 
 body{
   font-family: var(--font-sans);
+}
+
+html, body {
+  height: 100%;
 }
 
 .ag-center-header .ag-header-cell-label {

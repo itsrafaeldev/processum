@@ -37,9 +37,9 @@ export class ProcessTableComponent {
       flex: 1,
       minWidth: 250,
       valueGetter: p =>
-        p.data?.entities?.[0]?.name ??
-        p.data?.entities?.[0]?.corporateName ??
-        ''
+        p.data.entities[0]?.entityType === 'PF'
+          ? p.data.entities[0]?.entityIndividual?.name
+          : p.data.entities[0]?.entityCompany?.tradeName
     },
     {
       headerName: 'Natureza',

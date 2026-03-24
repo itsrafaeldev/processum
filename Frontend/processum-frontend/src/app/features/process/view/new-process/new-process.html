@@ -1,5 +1,4 @@
 
-<h1 class="text-3xl font-bold mb-2.5">Novo Processo</h1>
 <div>
   <div class="p-4 rounded-[10px] shadow-container bg-white text-black flex flex-col">
     <div>
@@ -11,8 +10,10 @@
         Voltar
       </button>
     </div>
-    <form [formGroup]="processForm" (ngSubmit)="onSubmit()" class="flex flex-col items-center gap-4 w-full">
+    <form [formGroup]="processForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 w-full">
         <div class="p-10 flex flex-col gap-5">
+          <h1 class="text-3xl font-bold mb-2.5">Novo Processo</h1>
+
           <div class="flex gap-10">
             <div class="flex flex-col gap-1">
               <span class="font-medium">Nº Processo</span>
@@ -67,14 +68,15 @@
                  <textarea rows="5" cols="30" pTextarea formControlName="observacoes"></textarea>
             </div>
           </div>
+
+          <div>
+            <button pButton severity="secondary" type="submit" class="flex items-center gap-1 mt-4 px-4 py-2 bg-primary-600 text-white rounded">
+              <i-lucide [img]="Save" class="size-4 text-gray-300 group-hover:text-white group-[.active]:text-white"></i-lucide>
+              <span pButtonLabel>Salvar</span>
+            </button>
+          </div>
         </div>
 
-        <div>
-          <button pButton severity="secondary" type="submit" class="flex items-center gap-1 mt-4 px-4 py-2 bg-primary-600 text-white rounded">
-            <i-lucide [img]="Save" class="size-4 text-gray-300 group-hover:text-white group-[.active]:text-white"></i-lucide>
-            <span pButtonLabel>Salvar</span>
-          </button>
-        </div>
     </form>
 
   </div>

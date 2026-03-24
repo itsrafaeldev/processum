@@ -5,6 +5,10 @@ import { DetailsProcess } from '../../components/modals/details-process/details-
 import { ProcessTableComponent } from '../../components/process-table/process-table';
 import { FilterInputs } from "../../../../shared/components/filter-inputs/filter-inputs";
 import { NewProcessButton } from '../../components/new-process-button/new-process-button';
+import { ProcessFilterRequest } from '../../../../dto/process-filter-request';
+import { unMask } from '../../../../shared/utils/masks/masks';
+import { map, Observable } from 'rxjs';
+import { Process } from '../../../../models/process.model';
 
 
 @Component({
@@ -18,6 +22,8 @@ export class ProcessComponent {
 
   private processService = inject(ProcessService);
   private detailsProcess = inject(ProcessModalService);
+  private processFiltrerRequest!: ProcessFilterRequest;
+  // processes$!: Observable<Process[]>;
 
   processes$ = this.processService.getAll();
 
@@ -30,4 +36,43 @@ export class ProcessComponent {
 
   onDelete(row: any) {
   }
+
+  onFilter(filter: any) {
+      this.processFiltrerRequest = {
+        processNumber: filter.processNumber ? unMask(filter.processNumber) : "",
+        idPublicEntity: filter.idPublicEntity ? filter.idPublicEntity : "",
+        statusId: filter.status ? filter.status : "",
+        initialDate: filter.initialDate ? filter.initialDate : ""
+      };
+      console.log(this.processFiltrerRequest);
+      debugger
+      this.processes$ = this.processService.filterProcesses(this.processFiltrerRequest);
+
+
+
+
+      // this.processes$ = this.processService.filterProcesses(this.processFiltrerRequest).pipe(
+      //   map((process: any[]) =>
+      //     process
+      //       .filter(e => {
+      //         if (filter.cpf) {
+      //           return e.entityIndividual?.cpf?.includes(filter.cpf);
+      //         }
+      //         return true;
+      //       })
+      //       .map(e => {
+      //         return {
+      //            idPublic: e.idPublic,
+      //             userId: e.user,
+      //             judicialProcessId: e.processNumber,
+      //             statusPaymentId: e.isArchived ? 1 : 0,
+      //             note: e.description,
+      //             entities: e.entities,
+      //             createdAt: e.createdAt,
+      //             updatedAt: e.createdAt
+      //         };
+      //       })
+      //   )
+      // );
+    }
 }

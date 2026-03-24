@@ -83,8 +83,8 @@ namespace OctaPro.Services
 
             if (!string.IsNullOrEmpty(filter.Status))
                 query = query.Where(e => e.StatusId == int.Parse(filter.Status));
-
-            if (filter.CpfCnpj != "null")
+            
+            if (filter.CpfCnpj != null)
                 query = query.Where(e =>
                     e.EntityIndividual != null && e.EntityIndividual.Cpf == filter.CpfCnpj ||
                     e.EntityCompany != null && e.EntityCompany.Cnpj == filter.CpfCnpj);

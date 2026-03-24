@@ -14,10 +14,10 @@
       </button>
     </div>
 
-    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="flex flex-col items-center gap-4 w-full">
-    <h1 class="text-3xl font-bold mb-2.5">@if(!isEdit) { Novo Cliente - Pessoa Física } @else { Editar Cliente - Pessoa Física }</h1>
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 w-full">
 
       <div class="p-10 flex flex-col gap-5">
+        <h1 class="text-3xl font-bold mb-2.5">@if(!isEdit) { Novo Cliente - Pessoa Física } @else { Editar Cliente - Pessoa Física }</h1>
 
         <!-- Nome -->
         <div class="flex flex-col gap-1">

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../shared/environments/environment';
 import { Observable } from 'rxjs';
 import { ProcessRequest } from '../../../dto/process-request.model';
+import { ProcessFilterRequest } from '../../../dto/process-filter-request';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,10 @@ export class ProcessService extends HttpBaseService<Process, string> {
 
   createProcess(entity: ProcessRequest): Observable<Process> {
     return this.http.post<Process>(`${this.baseUrl}`, entity);
+  }
+
+  filterProcesses(filter: ProcessFilterRequest): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}?processNumber=${filter.processNumber}&idPublicEntity=${filter.idPublicEntity}&status=${filter.statusId}&initialDate=${filter.initialDate}`);
   }
 
 

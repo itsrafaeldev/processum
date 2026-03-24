@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OctaPro.Data;
 using OctaPro.DTO;
+using OctaPro.DTO.Request;
 using OctaPro.DTO.Response;
 using OctaPro.Models;
 using OctaPro.Services.interfaces;
@@ -10,15 +11,15 @@ namespace OctaPro.Services
     public class JudicialProcessService : IJudicialProcessService
     {
         private readonly AppDbContext _context;
-
+        private readonly int IS_ARCHIVED = 2;
         public JudicialProcessService(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<JudicialProcessResponse>> GetAllAsync()
+        public async Task<IEnumerable<JudicialProcessResponse>> GetAllAsync(ProcessFilterRequest filter)
         {
-            var processes = await _context.JudicialProcesses
+            var query = _context.JudicialProcesses
                 .Include(p => p.NatureAction)
                 .Include(p => p.JudicialAction)
                 .Include(p => p.User)
@@ -28,45 +29,80 @@ namespace OctaPro.Services
                 .Include(p => p.JudicialProcessEntities)
                     .ThenInclude(jpe => jpe.Entity)
                         .ThenInclude(e => e.EntityCompany)
-                .ToListAsync();
+                .AsQueryable();
 
-            var response = processes.Select(p => new JudicialProcessResponse
+
+            if (!string.IsNullOrEmpty(filter.ProcessNumber))
             {
-                IdPublic = p.IdPublic,
-                ProcessNumber = p.ProcessNumber,
-                InitialDate = p.InitialDate,
-                Respondent = p.Respondent,
-                Description = p.Description,
-                IsArchived = p.IsArchived,
-                CreatedAt = p.CreatedAt,
+                query = query.Where(p => p.ProcessNumber.Contains(filter.ProcessNumber));
+            }
 
-                NatureAction = new SelectOptionResponse
+            if (filter.IdPublicEntity.HasValue)
+            {
+                query = query.Where(p =>
+                    p.JudicialProcessEntities.Any(jpe => jpe.Entity.IdPublic == filter.IdPublicEntity.Value)
+                );
+            }
+
+            if (!string.IsNullOrEmpty(filter.Status))
+            {
+                var status = int.Parse(filter.Status) == IS_ARCHIVED ? true : false;
+                query = query.Where(p => p.IsArchived == status);
+            }
+
+            if (filter.InitialDate.HasValue)
+            {
+                query = query.Where(p => p.InitialDate == filter.InitialDate);
+            }
+
+            return await query
+                .Select(p => new JudicialProcessResponse
                 {
-                    Id = p.NatureAction.Id,
-                    Text = p.NatureAction.Nature
-                },
+                    IdPublic = p.IdPublic,
+                    ProcessNumber = p.ProcessNumber,
+                    InitialDate = p.InitialDate,
+                    Respondent = p.Respondent,
+                    Description = p.Description,
+                    IsArchived = p.IsArchived,
+                    CreatedAt = p.CreatedAt,
 
-                JudicialAction = new SelectOptionResponse
-                {
-                    Id = p.JudicialAction.Id,
-                    Text = p.JudicialAction.Action
-                },
-
-                User = p.User.Id,
-
-                Entities = p.JudicialProcessEntities
-                    .Select(jpe => new EntityResponse
+                    NatureAction = new SelectOptionResponse
                     {
-                        IdPublic = jpe.Entity.IdPublic,
-                        EntityType = jpe.Entity.EntityType,
-                        // Name = jpe.Entity.EntityIndividual?.Name ?? jpe.Entity.EntityCompany?.CorporateName,
-                        // CorporateName = jpe.Entity.EntityCompany?.CorporateName,
-                        
-                    })
-                    .ToList()
-            }).ToList();
+                        Id = p.NatureAction.Id,
+                        Text = p.NatureAction.Nature
+                    },
 
-            return response;
+                    JudicialAction = new SelectOptionResponse
+                    {
+                        Id = p.JudicialAction.Id,
+                        Text = p.JudicialAction.Action
+                    },
+
+                    User = p.User.Id,
+
+                    Entities = p.JudicialProcessEntities
+                        .Select(jpe => new EntityResponse
+                        {
+                            IdPublic = jpe.Entity.IdPublic,
+                            EntityType = jpe.Entity.EntityType,
+
+                            EntityIndividual = jpe.Entity.EntityIndividual != null
+                                ? new EntityIndividualResponse
+                                {
+                                    Name = jpe.Entity.EntityIndividual.Name
+                                }
+                                : null,
+
+                            EntityCompany = jpe.Entity.EntityCompany != null
+                                ? new EntityCompanyResponse
+                                {
+                                    TradeName = jpe.Entity.EntityCompany.TradeName
+                                }
+                                : null
+                        })
+                        .ToList()
+                })
+                .ToListAsync();
         }
 
         public async Task<JudicialProcessResponse?> GetByIdAsync(Guid idPublic)

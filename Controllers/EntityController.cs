@@ -17,11 +17,6 @@ namespace OctaPro.Controllers
             _service = service;
         }
 
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<EntityResponse>>> GetEntities()
-        // {
-        //     return Ok(await _service.GetEntitiesAsync());
-        // }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EntityResponse>>> GetEntities([FromQuery] EntityFilterRequest filter)
         {

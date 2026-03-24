@@ -1,4 +1,4 @@
-<aside class="h-screen">
+<!-- <aside class="h-screen">
 
   <div class="drawer lg:drawer-open">
   <input id="my-drawer-4" type="checkbox" class="drawer-toggle"  [checked]="!layoutService.currentState"/>
@@ -44,4 +44,72 @@
   </div>
 </div>
 
-</aside>
+</aside> -->
+
+<!-- Botão de toggle (fixo no canto, independente do layout) -->
+<div
+  class="hidden lg:flex fixed top-3 z-50 transition-all duration-300"
+  [style.left]="!(layoutService.sidebarState$ | async) ? 'calc(16rem - 12px)' : 'calc(3.5rem - 12px)'"
+  (click)="layoutService.toggleSidebar()"
+>
+  <i-lucide
+    [img]="(layoutService.sidebarState$ | async) ? ChevronRight : ChevronLeft"
+    class="text-white bg-primary-600 rounded-full border border-white hover:bg-primary-500 cursor-pointer"
+  ></i-lucide>
+</div>
+
+<!-- Sidebar simples, sem drawer, ocupa 100% do aside pai -->
+<div class="h-full flex flex-col pt-10 items-start bg-primary-700">
+  <ul class="menu w-full grow flex gap-1">
+    <li>
+      <button
+        routerLink="/processos"
+        routerLinkActive="active bg-primary-400"
+        class="group sidebar-item hover:bg-primary-500"
+        [class.tooltip]="layoutService.sidebarState$ | async"
+        [class.tooltip-right]="layoutService.sidebarState$ | async"
+        data-tip="Processos Judiciais"
+      >
+        <i-lucide [img]="Scale" class="size-6 text-gray-300 group-hover:text-white group-[.active]:text-white"></i-lucide>
+        <span
+          class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
+          [class.hidden]="layoutService.sidebarState$ | async"
+        >Processos</span>
+      </button>
+    </li>
+
+    <li>
+      <button
+        routerLink="/financeiro"
+        routerLinkActive="active bg-primary-400"
+        class="group sidebar-item hover:bg-primary-500"
+        [class.tooltip]="layoutService.sidebarState$ | async"
+        [class.tooltip-right]="layoutService.sidebarState$ | async"
+        data-tip="Financeiro"
+      >
+        <i-lucide [img]="BadgeDollarSign" class="size-6 text-gray-400 group-hover:text-white group-[.active]:text-white"></i-lucide>
+        <span
+          class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
+          [class.hidden]="layoutService.sidebarState$ | async"
+        >Financeiro</span>
+      </button>
+    </li>
+
+    <li>
+      <button
+        routerLink="/entidades"
+        routerLinkActive="active bg-primary-400"
+        class="group sidebar-item hover:bg-primary-400"
+        [class.tooltip]="layoutService.sidebarState$ | async"
+        [class.tooltip-right]="layoutService.sidebarState$ | async"
+        data-tip="Entidades"
+      >
+        <i-lucide [img]="BookUser" class="size-6 text-gray-400 group-hover:text-white group-[.active]:text-white"></i-lucide>
+        <span
+          class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
+          [class.hidden]="layoutService.sidebarState$ | async"
+        >Entidades</span>
+      </button>
+    </li>
+  </ul>
+</div>
