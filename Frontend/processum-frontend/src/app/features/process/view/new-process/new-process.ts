@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -14,10 +14,15 @@ import { EntityService } from '../../../entity/services/entity-service';
 import { Save, CircleArrowLeft } from 'lucide-angular/src/icons';
 import { LucideAngularModule } from 'lucide-angular';
 import { ProcessRequest } from '../../../../dto/process-request.model';
-import { unMask } from '../../../../shared/utils/masks/masks';
-import { filter } from 'rxjs';
-import { Router } from '@angular/router';
+import { maskCpfCnpj, unMask } from '../../../../shared/utils/masks/masks';
+import { BehaviorSubject, filter, of } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectEntityComponent } from "../../../../shared/components/select-entity-component/select-entity-component";
+import { EntityTableComponent } from "../../../entity/components/entity-table-component/entity-table-component";
+import { ColDef } from 'ag-grid-community';
+import { RemoveButtonCellRendererComponent } from '../../../../shared/components/remove-button-cell-renderer-component/remove-button-cell-renderer-component';
+import { mapEntityToTable } from '../../../../shared/utils/helpers/helper';
+
 
 
 
@@ -32,7 +37,7 @@ const MODULES = [FloatLabelModule,
 
 @Component({
   selector: 'app-new-process',
-  imports: [...MODULES, SelectEntityComponent],
+  imports: [...MODULES, SelectEntityComponent, EntityTableComponent],
   templateUrl: './new-process.html',
   styleUrl: './new-process.css',
 })
@@ -44,6 +49,9 @@ export class NewProcess {
     private entityService = inject(EntityService);
     private changeDetector = inject(ChangeDetectorRef);
     private route = inject(Router);
+    private activatedRoute = inject(ActivatedRoute);
+    @ViewChild('selectEntity') selectEntity!: SelectEntityComponent;
+
     private searchTimeout: any;
     protected readonly Save = Save;
     protected readonly CircleArrowLeft = CircleArrowLeft;
@@ -56,19 +64,67 @@ export class NewProcess {
     value: string | undefined;
     processForm: FormGroup;
     formSubmitted: boolean = false;
+    isEdit = false;
+    processId?: string;
+    entitiesTable$ = new BehaviorSubject<any[]>([]);
 
+   getProcessColDefs(): ColDef[] {
+    const cols: ColDef[] = [
+      {
+        field: 'text',
+        headerName: 'Nome',
+        flex: 1
+      },
+      {
+        field: 'cpfCnpj',
+        headerName: 'CPF/CNPJ',
+        flex: 1,
+        valueGetter: ({ data }) => maskCpfCnpj(data?.cpfCnpj)
+      },
+      {
+        field: 'email',
+        headerName: 'Email',
+        flex: 1
+      },
+      {
+        field: 'mobile',
+        headerName: 'Celular',
+        flex: 1
+      }
+    ];
+
+    // 🔥 só adiciona se NÃO for edição
+    if (!this.isEdit) {
+      cols.push({
+        headerName: 'Excluir',
+        width: 100,
+        sortable: false,
+        filter: false,
+        cellRenderer: RemoveButtonCellRendererComponent,
+        cellRendererParams: {
+          onRemove: (data: any) => {
+            const current = this.entitiesTable$.getValue();
+            this.entitiesTable$.next(current.filter(e => e.id !== data.id));
+          }
+        }
+      });
+    }
+
+    return cols;
+  }
 
     constructor() {
       this.processForm = this.formBuilder.group({
                   numeroProcesso: ['', Validators.required],
                   dataAbertura: ['', Validators.required],
-                  reclamante: [[], Validators.required],
+                  reclamante: [null],
                   reclamado: ['', Validators.required],
                   naturezaAcao: ['', Validators.required],
                   acaoJudicial: ['', Validators.required],
                   observacoes: [''] // opcional
               });
     }
+
 
     onSubmit() {
           this.formSubmitted = true;
@@ -84,8 +140,13 @@ export class NewProcess {
               judicialActionId: formValues.acaoJudicial,
               EntityIds: formValues.reclamante
             };
-
-            console.log(process);
+            if (this.isEdit) {
+              this.processService.updateProcess(this.processId!, process).subscribe({
+                next: () => this.route.navigate(['/processos']),
+                error: err => console.error('Erro ao atualizar processo', err)
+              });
+              return;
+            }
 
             this.processService.createProcess(process).subscribe({
               next: () =>{
@@ -96,8 +157,6 @@ export class NewProcess {
               },
             })
 
-
-              this.processForm.reset();
               this.formSubmitted = false;
               this.actions = [];
           }
@@ -105,13 +164,19 @@ export class NewProcess {
     goBack() {
       this.location.back();
     }
-
     isInvalid(controlName: string) {
           const control = this.processForm.get(controlName);
           return control?.invalid && (control.touched || this.formSubmitted);
     }
 
     ngOnInit(): void {
+      this.processId = this.activatedRoute.snapshot.paramMap.get('id_public_process') ?? undefined;
+
+      if (this.processId) {
+        this.isEdit = true;
+        this.loadProcess();
+      }
+
       this.loadNatures();
       const natureAction = this.processForm.get('naturezaAcao');
 
@@ -140,60 +205,83 @@ export class NewProcess {
       });
     }
 
-    searchClients(event: any) {
-      const query = event.filter;
+    loadProcess() {
+      this.processService.getById(this.processId!)
+        .subscribe(proc => {
 
-      if (!query || query.length < 2) {
-        if (this.searchTimeout) {
-          clearTimeout(this.searchTimeout);
-        }
-        return;
-      }
-
-      if (this.searchTimeout) {
-        clearTimeout(this.searchTimeout);
-      }
-
-      this.searchTimeout = setTimeout(() => {
-
-        this.loadingClients = true;
-
-        this.entityService.searchClients(query)
-          .subscribe({
-            next: (data) => {
-
-              const selectedIds = this.processForm.get('reclamante')?.value || [];
-
-              // guarda tudo que já veio
-              this.allClients = [
-                ...this.allClients,
-                ...data.filter(d => !this.allClients.some(a => a.id === d.id))
-              ];
-
-              // pega os selecionados completos
-              const selectedItems = this.allClients.filter(c =>
-                selectedIds.includes(c.id)
-              );
-
-              this.client = [
-                ...selectedItems.map(i => ({ ...i })),
-                ...data
-                  .filter(d => !selectedIds.includes(d.id))
-                  .map(i => ({ ...i }))
-              ];
-
-              this.loadingClients = false;
-              this.changeDetector.detectChanges();
-            },
-            error: () => {
-              this.loadingClients = false;
-            }
+          this.processForm.patchValue({
+            numeroProcesso: proc?.processNumber,
+            dataAbertura: proc?.initialDate,
+            // reclamante: proc?.entities?.map((e: any) => e.id) || [],
+            reclamado: proc?.respondent,
+            naturezaAcao: proc?.natureAction.id,
+            acaoJudicial: proc?.judicialAction.id,
+            observacoes: proc?.description
           });
 
-      }, 1000);
+        const entitiesFormatted = (proc.entities || [])
+          .map((e: any) => mapEntityToTable(e))
+          .filter(Boolean);
+        console.log('entitiesFormatted: ', entitiesFormatted)
+        this.entitiesTable$.next(entitiesFormatted)
+
+          // carregar actions baseado na natureza
+          if (proc?.natureAction.id) {
+            this.loadActions(proc.natureAction.id);
+          }
+
+
+
+
+
+
+        });
+    }
+
+    deleteProcess() {
+      if (this.processId) {
+        this.processService.deleteProcess(this.processId).subscribe({
+          next: () => this.route.navigate(['/processos']),
+          error: err => console.error('Erro ao deletar processo', err)
+        });
+      }
     }
 
 
+  onEntitiesSelected(items: any[]) {
+      const dataSourceCurrent = this.entitiesTable$.getValue();
+
+      const updated = [
+        ...dataSourceCurrent.filter(e => !items.some(i => i.id === e.id)),
+        ...items
+      ];
+
+      this.entitiesTable$.next(updated);
+
+      this.selectEntity.clear();
+  }
+
+  launchSelectedClient() {
+    const selectedId = this.processForm.get('reclamante')?.value;
+    if (!selectedId) return;
+
+    // pega o objeto completo do select
+    const selectedItem = this.selectEntity.allClients.find(c => c.id === selectedId);
+
+    if (!selectedItem) return;
+
+    const current = this.entitiesTable$.getValue();
+
+    // evita duplicidade
+    if (current.some(e => e.id === selectedItem.id)) {
+      return;
+    }
+
+    this.entitiesTable$.next([...current, selectedItem]);
+
+    // limpa select
+    this.selectEntity.clear();
+  }
 
 
 

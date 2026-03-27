@@ -113,6 +113,10 @@ namespace OctaPro.Services
                 .Include(p => p.User)
                 .Include(p => p.JudicialProcessEntities)
                     .ThenInclude(jpe => jpe.Entity)
+                        .ThenInclude(e => e.EntityIndividual)
+                .Include(p => p.JudicialProcessEntities)
+                    .ThenInclude(jpe => jpe.Entity)
+                        .ThenInclude(e => e.EntityCompany)
                 .FirstOrDefaultAsync(p => p.IdPublic == idPublic);
 
             if (process == null)
@@ -141,12 +145,33 @@ namespace OctaPro.Services
                 },
 
                 User = process.User.Id,
-
+                
                 Entities = process.JudicialProcessEntities
                     .Select(jpe => new EntityResponse
                     {
                         IdPublic = jpe.Entity.IdPublic,
-                        EntityType = jpe.Entity.EntityType
+                        EntityType = jpe.Entity.EntityType,
+
+                        EntityIndividual = jpe.Entity.EntityIndividual != null
+                            ? new EntityIndividualResponse
+                            {
+                                Name = jpe.Entity.EntityIndividual.Name,
+                                CPF = jpe.Entity.EntityIndividual.Cpf,
+                                Email = jpe.Entity.EntityIndividual.Email,
+                                Mobile = jpe.Entity.EntityIndividual.Mobile,
+                            }
+                            : null,
+
+                        EntityCompany = jpe.Entity.EntityCompany != null
+                            ? new EntityCompanyResponse
+                            {
+                                TradeName = jpe.Entity.EntityCompany.TradeName,
+                                CNPJ = jpe.Entity.EntityCompany.Cnpj,
+                                Email = jpe.Entity.EntityCompany.CorporateEmail,
+                                Mobile = jpe.Entity.EntityCompany.CorporateMobile,
+
+                            }
+                            : null
                     })
                     .ToList()
             };

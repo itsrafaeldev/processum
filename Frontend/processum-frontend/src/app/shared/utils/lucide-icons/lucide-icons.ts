@@ -1,4 +1,4 @@
-import { CirclePlus, Trash, Pencil, Search, Plus, CircleArrowLeft, Save } from 'lucide-angular';
+import { CirclePlus, Trash, Pencil, Search, Plus, CircleArrowLeft, Save, Trash2, ArrowDown } from 'lucide-angular';
 
 export const IconsLucide = {
   CirclePlus,
@@ -7,5 +7,7 @@ export const IconsLucide = {
   Search,
   Plus,
   CircleArrowLeft,
-  Save
+  Save,
+  Trash2,
+  ArrowDown
 };

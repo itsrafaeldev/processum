@@ -7,9 +7,7 @@
 
       <form [formGroup]="filterForm" class="flex flex-wrap gap-4">
 
-      <app-select-entity-component
-        formControlName="reclamante">
-      </app-select-entity-component>
+      <app-select-entity-component formControlName="reclamante" [multiple]="false" label="Cliente"></app-select-entity-component>
 
       <p-floatlabel variant="on">
         <p-select
@@ -37,11 +35,11 @@
         <i-lucide [img]="Search" size="16" class="flex justify-center"></i-lucide>
       </button>
 
-      <button class="bg-primary-200 w-[40px] text-primary-600 rounded-[6px]" title="Limpar Filtros">
+      <button class="bg-primary-200 w-[40px] text-primary-600 rounded-[6px]" title="Limpar Filtros" (click)="resetFilter()">
         <i-lucide [img]="Eraser" size="16" class="flex justify-center"></i-lucide>
       </button>
 
-      <app-new-client-button-component></app-new-client-button-component>
+
 
 
     </form>

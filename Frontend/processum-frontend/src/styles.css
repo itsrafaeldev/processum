@@ -26,20 +26,31 @@
   --color-primary-300: #7fa8ff;
   --color-primary-400: #102d81;
   --color-primary-500: #0b155a;
-  --color-primary-600: #09124e;
+  --color-primary-600: #0C368F;
   --color-primary-700: #070f42;
   --color-primary-800: #050c36;
   --color-primary-900: #03082a;
 
   --color-primary-selected: #7fa8ff;
 
-  --font-sans: "Geist", cursive;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-sans: "Lora", cursive;
+  --font-sans-body: "IBM Plex Sans", cursive;
+
+  /* --font-mono: "Geist Mono", ui-monospace, monospace; */
 }
 
 body{
+  font-family: var(--font-sans-body);
+}
+
+h1,h2,h3,h4,h5,h6{
   font-family: var(--font-sans);
 }
+
+p{
+  font-family: var(--font-sans-body);
+}
+
 
 html, body {
   height: 100%;

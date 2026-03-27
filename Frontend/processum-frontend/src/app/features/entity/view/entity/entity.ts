@@ -1,7 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
-
-import { CardRegisterEntityComponent } from '../../components/card-register-entity-component/card-register-entity-component';
 import { EntityTableComponent } from '../../components/entity-table-component/entity-table-component';
 
 import { User, Building } from 'lucide-angular/src/icons';
@@ -9,6 +7,7 @@ import { EntityService } from '../../services/entity-service';
 import { FilterEntityComponent } from "../../components/filter-entity-component/filter-entity-component";
 import { FilterEntitiesRequest } from '../../../../dto/filter-entities-request';
 import { unMask } from '../../../../shared/utils/masks/masks';
+import { NewClientButtonComponent } from "../../components/new-client-button-component/new-client-button-component";
 
 @Component({
   selector: 'app-entity',
@@ -16,6 +15,7 @@ import { unMask } from '../../../../shared/utils/masks/masks';
   imports: [
     EntityTableComponent,
     FilterEntityComponent,
+    NewClientButtonComponent
 ],
   templateUrl: './entity.html',
   styleUrl: './entity.css',

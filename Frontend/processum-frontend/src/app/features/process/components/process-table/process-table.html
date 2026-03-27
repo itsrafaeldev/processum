@@ -1,6 +1,9 @@
-<app-table-ag-grid
-  [rowData$]="rowData$"
-  [colDefs]="colDefs"
-  [defaultColDef]="defaultColDef"
-  [gridOptions]="gridOptions">
-</app-table-ag-grid>
+  <app-table-ag-grid
+    [rowData$]="rowData$"
+    [colDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [gridOptions]="gridOptions"
+    (rowClicked)="onRowClicked($event)"
+
+    >
+  </app-table-ag-grid>

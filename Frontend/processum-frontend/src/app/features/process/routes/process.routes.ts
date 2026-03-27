@@ -8,6 +8,9 @@ export const PROCESS_ROUTES: Routes = [
     children: [
       { path: '', component: ProcessComponent },
       { path: 'novo', component: NewProcess },
+      { path: 'editar/:id_public_process', component: NewProcess },
+
+
     ]
   }
 ];

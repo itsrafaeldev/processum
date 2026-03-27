@@ -7,6 +7,7 @@ import { TableAgGridComponent } from '../../../../shared/components/table-ag-gri
 import { ButtonActionGrid } from '../../../process/components/button-action-grid/button-action-grid';
 import { Router } from '@angular/router';
 import { maskCpfCnpj } from '../../../../shared/utils/masks/masks';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-entity-table',
@@ -20,6 +21,12 @@ import { maskCpfCnpj } from '../../../../shared/utils/masks/masks';
 export class EntityTableComponent {
 
   @Input({ required: true }) rowData$!: any;
+  @Input() enableNavigation = true;
+  @Input() customColDefs?: ColDef[];
+
+  get colDefs(): ColDef[] {
+    return this.customColDefs ?? this.defaultColDefs;
+  }
 
   @Output() view = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
@@ -28,6 +35,10 @@ export class EntityTableComponent {
   private router = inject(Router);
 
   onRowClicked(event: any) {
+    if (!this.enableNavigation) {
+    this.view.emit(event.data);
+    return;
+  }
     const id = event.data.idPublic;
 
     if (event.data.entityType === 'PF') {
@@ -38,7 +49,52 @@ export class EntityTableComponent {
   }
 
 
-  colDefs: ColDef[] = [
+  // colDefs: ColDef[] = [
+  //   {
+  //     field: 'name',
+  //     headerName: 'Nome',
+  //     flex: 1,
+  //     minWidth: 200
+  //   },
+  //   {
+  //     field: 'corporateName',
+  //     headerName: 'Razão Social',
+  //     flex: 1,
+  //     minWidth: 250
+  //   },
+  //   {
+  //     headerName: 'Documento',
+  //     flex: 1,
+  //     valueGetter: ({ data }) => {
+
+  //       if (!data) return '';
+
+  //       return data.entityType === 'PF'
+  //         ? maskCpfCnpj(data?.cpf)
+  //         : maskCpfCnpj(data?.cnpj);
+  //     }
+  //   },
+  //   {
+  //     field: 'entityType',
+  //     headerName: 'Pessoa',
+  //     flex: 1,
+  //     valueGetter: ({ data }) => {
+
+  //       if (!data) return '';
+
+  //       return data.entityType === 'PF'
+  //         ? 'Física'
+  //         : 'Jurídica';
+  //     }
+  //   },
+  //   {
+  //     field: 'email',
+  //     headerName: 'Email',
+  //     flex: 1
+  //   },
+  // ];
+
+  private defaultColDefs: ColDef[] = [
     {
       field: 'name',
       headerName: 'Nome',
@@ -55,9 +111,7 @@ export class EntityTableComponent {
       headerName: 'Documento',
       flex: 1,
       valueGetter: ({ data }) => {
-
         if (!data) return '';
-
         return data.entityType === 'PF'
           ? maskCpfCnpj(data?.cpf)
           : maskCpfCnpj(data?.cnpj);
@@ -68,19 +122,15 @@ export class EntityTableComponent {
       headerName: 'Pessoa',
       flex: 1,
       valueGetter: ({ data }) => {
-
         if (!data) return '';
-
-        return data.entityType === 'PF'
-          ? 'Física'
-          : 'Jurídica';
+        return data.entityType === 'PF' ? 'Física' : 'Jurídica';
       }
     },
     {
       field: 'email',
       headerName: 'Email',
       flex: 1
-    },
+    }
   ];
 
   defaultColDef: ColDef = {
@@ -90,7 +140,16 @@ export class EntityTableComponent {
   };
 
   gridOptions = {
-    popupParent: document.body,
-    suppressRowTransform: true
+    // popupParent: document.body,
+    // suppressRowTransform: true
+    enableCellTextSelection: true,
+    ensureDomOrder: true,
+    domLayout: 'normal'
+
   };
+
+  ngOnInit() {
+    this.rowData$.pipe(startWith([])).subscribe(); // garante emissão inicial
+  }
+
 }

@@ -32,5 +32,13 @@ export class ProcessService extends HttpBaseService<Process, string> {
     return this.http.get<any[]>(`${this.baseUrl}?processNumber=${filter.processNumber}&idPublicEntity=${filter.idPublicEntity}&status=${filter.statusId}&initialDate=${filter.initialDate}`);
   }
 
+  updateProcess(idPublic: string, process: ProcessRequest): Observable<void> {
+  return this.http.put<void>(`${this.baseUrl}/${idPublic}`, process);
+  }
+
+  deleteProcess(idPublic: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${idPublic}`);
+  }
+
 
 }

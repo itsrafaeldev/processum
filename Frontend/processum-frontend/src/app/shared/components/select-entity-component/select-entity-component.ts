@@ -1,8 +1,10 @@
-import { Component, ChangeDetectorRef, forwardRef } from '@angular/core';
+import { Component, ChangeDetectorRef, forwardRef, Input, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { EntityService } from '../../../features/entity/services/entity-service';
+import { SelectModule } from 'primeng/select';
+import { FloatLabelModule } from "primeng/floatlabel";
 
 
 @Component({
@@ -11,8 +13,10 @@ import { EntityService } from '../../../features/entity/services/entity-service'
   imports: [
     CommonModule,
     FormsModule,
-    MultiSelectModule
-  ],
+    MultiSelectModule,
+    SelectModule,
+    FloatLabelModule
+],
   templateUrl: './select-entity-component.html',
   styleUrl: './select-entity-component.css',
   providers: [
@@ -24,6 +28,11 @@ import { EntityService } from '../../../features/entity/services/entity-service'
   ]
 })
 export class SelectEntityComponent implements ControlValueAccessor {
+  @Input() multiple: boolean = true;
+  @Input() placeholder: string = "";
+  @Input() label: string = '';
+  @Output() selectedItemsChange = new EventEmitter<any[]>();
+
 
   clients: any[] = [];
   allClients: any[] = [];
@@ -32,7 +41,7 @@ export class SelectEntityComponent implements ControlValueAccessor {
 
   private searchTimeout: any;
 
-  value: any[] = [];
+  value: any = [];
 
   onChange = (value: any) => {};
   onTouched = () => {};
@@ -43,7 +52,24 @@ export class SelectEntityComponent implements ControlValueAccessor {
   ) {}
 
   writeValue(value: any): void {
-    this.value = value || [];
+    if (this.multiple) {
+      this.value = value ?? [];
+    } else {
+      this.value = value ?? null;
+    }
+
+    this.cd.detectChanges();
+  }
+
+  clear() {
+    this.value = this.multiple ? [] : null;
+
+    this.onTouched();
+    this.onChange(this.value);
+
+    this.clients = [];
+
+    this.cd.detectChanges();
   }
 
   registerOnChange(fn: any): void {
@@ -103,7 +129,22 @@ export class SelectEntityComponent implements ControlValueAccessor {
   }
 
   onSelectChange(event: any) {
-    this.value = event.value;
-    this.onChange(this.value);
+  if (this.multiple) {
+    this.value = event.value ?? [];
+  } else {
+    this.value = event.value ?? null;
   }
+
+  this.onChange(this.value);
+
+  const selectedItems = this.allClients.filter(c =>
+    this.multiple
+      ? this.value?.includes(c.id)
+      : c.id === this.value
+  );
+
+  this.selectedItemsChange.emit(selectedItems);
+}
+
+
 }

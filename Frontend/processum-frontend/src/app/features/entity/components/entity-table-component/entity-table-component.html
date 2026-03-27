@@ -1,7 +1,10 @@
-<app-table-ag-grid
-  [rowData$]="rowData$"
-  [colDefs]="colDefs"
-  [defaultColDef]="defaultColDef"
-  [gridOptions]="gridOptions"
-  (rowClicked)="onRowClicked($event)">
-</app-table-ag-grid>
+<div class="max-h-[500px] overflow-auto">
+  <app-table-ag-grid
+    [rowData$]="rowData$"
+    [colDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [gridOptions]="gridOptions"
+    (rowClicked)="onRowClicked($event)"
+    >
+  </app-table-ag-grid>
+</div>

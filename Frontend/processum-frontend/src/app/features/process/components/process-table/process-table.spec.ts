@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProcessTable } from './process-table';
+import { ProcessTableComponent } from './process-table';
 
 describe('ProcessTable', () => {
-  let component: ProcessTable;
-  let fixture: ComponentFixture<ProcessTable>;
+  let component: ProcessTableComponent;
+  let fixture: ComponentFixture<ProcessTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProcessTable]
+      imports: [ProcessTableComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProcessTable);
+    fixture = TestBed.createComponent(ProcessTableComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

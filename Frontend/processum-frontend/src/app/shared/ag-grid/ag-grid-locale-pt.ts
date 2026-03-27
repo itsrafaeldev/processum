@@ -11,6 +11,10 @@ export const AG_GRID_LOCALE_PT_BR = {
   blank: 'Vazio',
   notBlank: 'Não vazio',
 
+  // Condições
+  andCondition: 'E',
+  orCondition: 'OU',
+
   // Filtro texto
   filterOoo: 'Filtrar...',
   applyFilter: 'Aplicar',

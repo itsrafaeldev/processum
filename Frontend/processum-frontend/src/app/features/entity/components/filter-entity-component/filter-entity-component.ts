@@ -9,8 +9,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-import { NewClientButtonComponent } from "../new-client-button-component/new-client-button-component";
 import { unMask } from '../../../../shared/utils/masks/masks';
+import { resetForm } from '../../../../shared/utils/helpers/helper';
 
 const MODULES = [FloatLabelModule, InputMaskModule, FormsModule, LucideAngularModule, InputTextModule, SelectModule, DatePickerModule,
   ReactiveFormsModule,
@@ -25,7 +25,7 @@ interface StatusEntity {
 
 @Component({
   selector: 'app-filter-entity-component',
-  imports: [...MODULES, NewClientButtonComponent],
+  imports: [...MODULES],
   templateUrl: './filter-entity-component.html',
   styleUrl: './filter-entity-component.css',
 })
@@ -56,6 +56,15 @@ export class FilterEntityComponent {
       status: form.status ? form.status.code : null
     };
     this.filterValues.emit(filterFormTrated);
+  }
+
+  resetFilter() {
+    const initialValues = {
+      reclamante: null,
+      status: this.statusEntity[0],
+      cpf_cnpj: null
+    };
+    resetForm(this.filterForm, initialValues);
   }
 
 }

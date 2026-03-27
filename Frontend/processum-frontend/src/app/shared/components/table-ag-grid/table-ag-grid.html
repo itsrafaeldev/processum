@@ -1,6 +1,7 @@
-<div class="shadow-container bg-white text-black flex flex-col">
+<div class="shadow-container bg-white text-black flex flex-col h-full">
   <ag-grid-angular
-    class="ag-theme-quartz h-[300px]"
+    class="w-full h-[500px]"
+    [theme]="theme"
     [rowData]="rowData$ | async"
     [columnDefs]="colDefs"
     [defaultColDef]="defaultColDef"

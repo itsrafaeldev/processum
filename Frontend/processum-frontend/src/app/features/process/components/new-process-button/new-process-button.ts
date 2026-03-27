@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { LucideAngularModule } from "lucide-angular";
 
 @Component({
   selector: 'app-new-process-button',
-  imports: [],
+  imports: [LucideAngularModule],
   templateUrl: './new-process-button.html',
   styleUrl: './new-process-button.css',
 })

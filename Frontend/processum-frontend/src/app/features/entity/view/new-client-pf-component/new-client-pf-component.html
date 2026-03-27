@@ -228,17 +228,20 @@
 
           <span pButtonLabel>Salvar</span>
         </button>
-        <button
-          pButton
-          severity="secondary"
-          type="button"
-          class="group flex items-center gap-1 px-4 py-2 bg-gray-500 text-white hover:text-red-600 hover:bg-red-200
-          transition duration-300 ease-in-out rounded"
-          (click)="deleteClient()">
-          <lucide-icon name="trash"  class="size-4 text-white group-hover:text-red-600"></lucide-icon>
 
-          <span class="group-hover:text-red-600" pButtonLabel>Excluir</span>
-        </button>
+        @if(isEdit){
+          <button
+            pButton
+            severity="secondary"
+            type="button"
+            class="group flex items-center gap-1 px-4 py-2 bg-gray-500 text-white hover:text-red-600 hover:bg-red-200
+            transition duration-300 ease-in-out rounded"
+            (click)="deleteClient()">
+            <lucide-icon name="trash" class="size-4 text-white group-hover:text-red-600"></lucide-icon>
+              <span class="group-hover:text-red-600" pButtonLabel>Excluir</span>
+            </button>
+          }
+
       </div>
 
     </form>

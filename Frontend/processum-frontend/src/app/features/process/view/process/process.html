@@ -1,15 +1,18 @@
 <h1 class="text-3xl font-bold mb-2.5">Processos Judiciais</h1>
-<div class="h-full w-full">
+<div class="h-[800px] w-full">
 
 
-  <div class="p-4 rounded-[10px] shadow-container bg-white text-black flex flex-col gap-6">
-    <app-filter-inputs (filterValues)="onFilter($event)"></app-filter-inputs>
-    <app-new-process-button></app-new-process-button>
+  <div class="p-4 h-full rounded-[10px] shadow-container bg-white text-black flex flex-col gap-6">
+    <div class="flex justify-between items-end">
+      <app-filter-process-component (filterValues)="onFilter($event)"></app-filter-process-component>
+      <app-new-process-button></app-new-process-button>
+    </div>
     <app-process-table
       [rowData$]="processes$"
       (view)="onView($event)"
       (edit)="onEdit($event)"
-      (delete)="onDelete($event)">
+      (delete)="onDelete($event)"
+      >
     </app-process-table>
 
   </div>

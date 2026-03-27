@@ -8,6 +8,9 @@ namespace OctaPro.DTO.Response
     public class SelectOptionResponse
     {
         public int Id { get; set; }
+        
+        public Guid IdPublic { get; set; }
+
         public string Text { get; set; } = null!;
     }
 }

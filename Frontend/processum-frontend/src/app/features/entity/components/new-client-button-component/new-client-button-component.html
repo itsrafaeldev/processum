@@ -1,14 +1,13 @@
-<div clickOutside 
-     (clickOutside)="dropdownOpen = false">
+<div clickOutside
+     (clickOutside)="dropdownOpen = false" class="relative">
   <button
-    class="px-2 py-2 bg-primary-600 text-white rounded flex items-center gap-2 cursor-pointer"
-    (click)="toggleDropdown()">
+    class="px-2 py-2 bg-primary-600 text-white rounded cursor-pointer"
+    (click)="toggleDropdown()" title="Cadastrar Cliente">
     <lucide-icon name="plus"></lucide-icon>
-    Novo Cliente
   </button>
 
     @if(dropdownOpen){
-      <div class="absolute w-48 bg-white border border-gray-300 rounded shadow z-[99999]">
+      <div class="absolute right-0 w-48 bg-white border border-gray-300 rounded shadow z-[99999]">
 
         <button
           class="block w-full text-left px-4 py-2 hover:bg-gray-100"

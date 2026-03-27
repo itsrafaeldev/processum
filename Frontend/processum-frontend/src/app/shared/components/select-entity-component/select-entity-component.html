@@ -1,15 +1,42 @@
-<p-multiSelect
-  [options]="clients"
-  optionLabel="text"
-  optionValue="id"
-  [filter]="true"
-  filterBy="text"
-  (onFilter)="searchClients($event)"
-  [loading]="loadingClients"
-  [ngModel]="value"
-  (onChange)="onSelectChange($event)"
-  placeholder="Selecione"
-  class="w-full"
-  display="chip"
-  [maxSelectedLabels]="999">
-</p-multiSelect>
+
+<!-- Modo múltiplo -->
+<p-floatlabel variant="on">
+  <p-multiSelect
+    *ngIf="multiple"
+    optionLabel="text"
+    optionValue="id"
+    filterBy="text"
+    class="w-full"
+    display="chip"
+    id="select_entity"
+    [filter]="true"
+    [options]="clients"
+    [showClear]="true"
+    [loading]="loadingClients"
+    [ngModel]="value"
+    [maxSelectedLabels]="999"
+    [placeholder]="placeholder"
+    (onChange)="onSelectChange($event)"
+    (onFilter)="searchClients($event)"
+    >
+  </p-multiSelect>
+
+  <!-- Modo único -->
+  <p-select
+    *ngIf="!multiple"
+    optionLabel="text"
+    optionValue="id"
+    filterBy="text"
+    class="w-full min-w-[220px]"
+    id="select_entity"
+    [options]="clients"
+    [filter]="true"
+    [showClear]="true"
+    [loading]="loadingClients"
+    [ngModel]="value"
+    (onFilter)="searchClients($event)"
+    (onChange)="onSelectChange($event)"
+    >
+  </p-select>
+  <label for="select_entity">{{ label }}</label>
+</p-floatlabel>

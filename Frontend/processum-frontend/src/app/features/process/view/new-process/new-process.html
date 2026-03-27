@@ -12,7 +12,7 @@
     </div>
     <form [formGroup]="processForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 w-full">
         <div class="p-10 flex flex-col gap-5">
-          <h1 class="text-3xl font-bold mb-2.5">Novo Processo</h1>
+          <h1 class="text-3xl font-bold mb-2.5"> @if(!isEdit) { Novo Processo } @else { Editar Processo }</h1>
 
           <div class="flex gap-10">
             <div class="flex flex-col gap-1">
@@ -30,14 +30,41 @@
                 }
             </div>
           </div>
-          <div class="flex gap-10">
-            <div class="flex flex-col gap-1">
-              <span class="font-medium">Reclamante</span>
-              <app-select-entity-component formControlName="reclamante"></app-select-entity-component>
-                @if (isInvalid('reclamante')) {
-                  <p-message severity="error" size="small" variant="simple">O Reclamante é obrigatório</p-message>
-                }
+          @if(!isEdit){
+            <div class="flex gap-10">
+              <div class="flex flex-col gap-1">
+                <span class="font-medium">Reclamante</span>
+                <app-select-entity-component
+                #selectEntity
+                formControlName="reclamante"
+                [placeholder]="'Selecione um reclamente'"
+                [multiple]="false"
+                ></app-select-entity-component>
+
+              </div>
+              <div class="flex items-end gap-1">
+                <button pButton severity="secondary" (click)="launchSelectedClient()" type="button" class="flex items-center gap-1 mt-4 px-4 py-2 bg-primary-600 text-white rounded">
+                  <lucide-icon name="arrow-down" class="size-4 text-gray-300 group-hover:text-white group-[.active]:text-white"></lucide-icon>
+                  <span pButtonLabel>Lançar</span>
+                </button>
+              </div>
+
             </div>
+          }
+
+          <div class="flex gap-10">
+            <div style="height: 600px; width: 100%">
+              <app-entity-table
+                [rowData$]="entitiesTable$"
+                [customColDefs]="getProcessColDefs()"
+                [enableNavigation]="false"
+                >
+              </app-entity-table>
+            </div>
+
+          </div>
+          <div class="flex gap-10">
+
             <div class="flex flex-col gap-1">
               <span class="font-medium">Reclamado</span>
                 <input pInputText formControlName="reclamado" placeholder="Digite o nome do Reclamado" [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('reclamado') }" class="w-full" />
@@ -45,8 +72,8 @@
                   <p-message severity="error" size="small" variant="simple">O Reclamado é obrigatório</p-message>
                 }
             </div>
-          </div>
-          <div class="flex gap-10">
+
+
             <div class="flex flex-col gap-1">
               <span class="font-medium">Natureza da Ação</span>
                 <p-select [options]="natures" optionLabel="text" optionValue="id" formControlName="naturezaAcao" placeholder="Selecione uma natureza" [invalid]="isInvalid('naturezaAcao')" class="w-full md:w-60" />
@@ -74,6 +101,22 @@
               <i-lucide [img]="Save" class="size-4 text-gray-300 group-hover:text-white group-[.active]:text-white"></i-lucide>
               <span pButtonLabel>Salvar</span>
             </button>
+
+
+            @if(isEdit){
+              <button
+                pButton
+                severity="secondary"
+                type="button"
+                class="group flex items-center gap-1 px-4 py-2 bg-gray-500 text-white hover:text-red-600 hover:bg-red-200
+                transition duration-300 ease-in-out rounded"
+                (click)="deleteProcess()">
+                <lucide-icon name="trash" class="size-4 text-white group-hover:text-red-600"></lucide-icon>
+                  <span class="group-hover:text-red-600" pButtonLabel>Excluir</span>
+              </button>
+            }
+
+
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { ButtonActionGrid } from '../button-action-grid/button-action-grid';
@@ -6,6 +6,7 @@ import { ButtonActionGrid } from '../button-action-grid/button-action-grid';
 import { maskDataPtBr, maskProcessNumber } from '../../../../shared/utils/masks/masks';
 import { Eye, Pencil, Trash2 } from 'lucide-angular/src/icons';
 import { TableAgGridComponent } from '../../../../shared/components/table-ag-grid/table-ag-grid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-process-table',
@@ -23,6 +24,17 @@ export class ProcessTableComponent {
   @Output() view = new EventEmitter<any>();
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
+
+  private router = inject(Router);
+
+
+  onRowClicked(event: any) {
+    const id = event.data.idPublic;
+
+    if (id) {
+      this.router.navigate(['processos/editar/', id]);
+    }
+  }
 
   colDefs: ColDef[] = [
     {
@@ -55,35 +67,6 @@ export class ProcessTableComponent {
       headerName: 'Data Inicial',
       valueFormatter: p => maskDataPtBr(p.value)
     },
-    // {
-    //   headerName: 'Ações',
-    //   cellRenderer: ButtonActionGrid,
-    //   headerClass: 'ag-center-header',
-    //   filter: false,
-    //   cellRendererParams: {
-    //     useDropdown: true,
-    //     actions: [
-    //       {
-    //         icon: Eye,
-    //         label: 'Visualizar',
-    //         class: 'text-primary-400 hover:bg-primary-100',
-    //         onClick: (row: any) => this.view.emit(row)
-    //       },
-    //       {
-    //         icon: Pencil,
-    //         label: 'Editar',
-    //         class: 'text-primary-400 hover:bg-primary-100',
-    //         onClick: (row: any) => this.edit.emit(row)
-    //       },
-    //       {
-    //         icon: Trash2,
-    //         label: 'Excluir',
-    //         class: 'text-red-600 hover:bg-red-300',
-    //         onClick: (row: any) => this.delete.emit(row)
-    //       }
-    //     ]
-    //   }
-    // }
   ];
 
   defaultColDef: ColDef = {
@@ -93,7 +76,8 @@ export class ProcessTableComponent {
   };
 
   gridOptions = {
-    popupParent: document.body,
-    suppressRowTransform: true
+    enableCellTextSelection: true,
+    ensureDomOrder: true,
+    domLayout: 'normal'
   };
 }

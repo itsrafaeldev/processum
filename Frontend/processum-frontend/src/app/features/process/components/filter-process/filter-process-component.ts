@@ -7,8 +7,9 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
-import { SelectEntityComponent } from "../select-entity-component/select-entity-component";
-import { maskDataUSA, unMask } from '../../utils/masks/masks';
+import { SelectEntityComponent } from "../../../../shared/components/select-entity-component/select-entity-component";
+import { maskDataUSA, unMask } from '../../../../shared/utils/masks/masks';
+import { resetForm } from '../../../../shared/utils/helpers/helper';
 
 
 interface Status {
@@ -20,12 +21,12 @@ const MODULES = [FloatLabelModule, InputMaskModule, FormsModule, LucideAngularMo
 
 
 @Component({
-  selector: 'app-filter-inputs',
+  selector: 'app-filter-process-component',
   imports: [...MODULES, SelectEntityComponent, ReactiveFormsModule],
-  templateUrl: './filter-inputs.html',
-  styleUrl: './filter-inputs.css',
+  templateUrl: './filter-process-component.html',
+  styleUrl: './filter-process-component.css',
 })
-export class FilterInputs {
+export class FilterProcessComponent {
     protected readonly Funnel = Funnel;
     protected readonly Search = Search;
     protected readonly Eraser = Eraser;
@@ -49,7 +50,7 @@ export class FilterInputs {
     applyFilter() {
 
         const form = this.filterProcessForm.value;
-        
+
         const filterFormTrated = {
           ...form,
           processNumber: form.processNumber ? unMask(form.processNumber) : "",
@@ -59,5 +60,15 @@ export class FilterInputs {
         };
         this.filterValues.emit(filterFormTrated);
       }
+
+    resetFilter() {
+      const initialValues = {
+        processNumber: null,
+      idPublicEntity: null,
+      status: this.status[0],
+      initialDate: null
+      }
+      resetForm(this.filterProcessForm, initialValues);
+    }
 
 }
