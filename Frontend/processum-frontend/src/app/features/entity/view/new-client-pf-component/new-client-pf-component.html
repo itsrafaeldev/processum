@@ -18,28 +18,33 @@
 
       <div class="p-10 flex flex-col gap-5">
         <h1 class="text-3xl font-bold mb-2.5">@if(!isEdit) { Novo Cliente - Pessoa Física } @else { Editar Cliente - Pessoa Física }</h1>
+        <!-- DADOS PESSOAIS -->
+        <div>
+          <h2 class="flex items-center gap-2 text-lg font-semibold border-b border-gray-400 pb-2 mb-4">
+            <span class="p-2 bg-[#e7a523] rounded-[5px]">
+              <lucide-icon name="id-card" class="size-4"></lucide-icon>
+            </span>
+            Dados Pessoais
+          </h2>
 
-        <!-- Nome -->
-        <div class="flex flex-col gap-1">
-          <span class="font-medium">Nome</span>
+          <!-- Nome -->
+          <div class="flex flex-col gap-1">
+            <span class="font-medium">Nome</span>
 
-          <input
-            pInputText
-            formControlName="name"
-            placeholder="Digite o nome"
-            [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('name') }"/>
+            <input
+              pInputText
+              formControlName="name"
+              placeholder="Digite o nome"
+              [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('name') }"/>
 
-          @if (isInvalid('name')) {
-            <p-message severity="error" size="small" variant="simple">
-              O Nome é obrigatório
-            </p-message>
-          }
-        </div>
+            @if (isInvalid('name')) {
+              <p-message severity="error" size="small" variant="simple">
+                O Nome é obrigatório
+              </p-message>
+            }
+          </div>
 
-
-        <!-- CPF / RG -->
-        <div class="flex gap-10">
-
+          <!-- CPF -->
           <div class="flex flex-col gap-1">
             <span class="font-medium">CPF</span>
 
@@ -57,6 +62,7 @@
             }
           </div>
 
+          <!-- RG -->
           <div class="flex flex-col gap-1">
             <span class="font-medium">RG</span>
             <input
@@ -71,58 +77,6 @@
                 RG deve conter no máximo 9 caracteres
               </p-message>
             }
-          </div>
-
-          <!-- Email -->
-          <div class="flex flex-col gap-1">
-            <span class="font-medium">Email</span>
-
-            <input
-              pInputText
-              formControlName="email"
-              type="email"
-              placeholder="Digite o email"
-              [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('email') }"/>
-
-            @if (isInvalid('email')) {
-              <p-message severity="error" size="small" variant="simple">
-                O Email é obrigatório
-              </p-message>
-            }
-          </div>
-        </div>
-
-
-
-
-        <!-- Celular / Telefone -->
-        <div class="flex gap-10">
-
-          <div class="flex flex-col gap-1">
-            <span class="font-medium">Celular</span>
-
-            <p-inputmask
-              mask="(99) 99999-9999"
-              formControlName="mobile"
-              placeholder="(00) 00000-0000"
-              [invalid]="isInvalid('mobile')"
-              fluid />
-
-            @if (isInvalid('mobile')) {
-              <p-message severity="error" size="small" variant="simple">
-                O Celular é obrigatório
-              </p-message>
-            }
-          </div>
-
-          <div class="flex flex-col gap-1">
-            <span class="font-medium">Telefone</span>
-
-            <p-inputmask
-              mask="(99) 9999-9999"
-              formControlName="phone"
-              placeholder="(00) 0000-0000"
-              fluid />
           </div>
 
           <!-- Data de Nascimento -->
@@ -142,74 +96,144 @@
             }
           </div>
         </div>
-            <!-- CEP -->
-        <div class="flex gap-10">
-          <div class="col-span-3 flex flex-col gap-1">
-            <span class="font-medium">CEP</span>
-            <p-inputmask
-              mask="99999-999"
-              formControlName="cep"
-              placeholder="00000-000"
-              fluid />
-          </div>
-          <!-- Endereço -->
-          <div class="col-span-6 flex flex-col gap-1">
-            <span class="font-medium">Endereço</span>
-            <input
-              pInputText
-              formControlName="address"
-              placeholder="Digite o endereço"
-              class="w-full"/>
-          </div>
-          <!-- Número -->
-          <div class="col-span-3 flex flex-col gap-1">
-            <span class="font-medium">Nº Residência</span>
-            <input
-              pInputText
-              formControlName="houseNumber"
-              placeholder="Número"/>
-          </div>
-        </div>
+
+        <!-- CONTATO -->
+        <div>
+          <h2 class="flex items-center gap-2 text-lg font-semibold border-b border-gray-400 pb-2 mb-4">
+            <span class="p-2 bg-[#e7a523] rounded-[5px]">
+              <lucide-icon name="phone" class="size-4"></lucide-icon>
+            </span>
+            Contato
+          </h2>
+
+          <div class="flex gap-10">
 
 
-        <!-- Linha 2 -->
+          <!-- Email -->
+          <div class="flex flex-col gap-1">
+            <span class="font-medium">Email</span>
+
+            <input
+              pInputText
+              formControlName="email"
+              type="email"
+              placeholder="Digite o email"
+              [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('email') }"/>
+
+            @if (isInvalid('email')) {
+              <p-message severity="error" size="small" variant="simple">
+                O Email é obrigatório
+              </p-message>
+            }
+          </div>
+
+        <!-- Celular -->
         <div class="flex flex-col gap-1">
-          <span class="font-medium">Complemento</span>
+          <span class="font-medium">Celular</span>
 
-          <input
-            pInputText
-            formControlName="complement"
-            placeholder="Apartamento, bloco, etc."
-            class="w-full"/>
+          <p-inputmask
+            mask="(99) 99999-9999"
+            formControlName="mobile"
+            placeholder="(00) 00000-0000"
+            [invalid]="isInvalid('mobile')"
+            fluid />
+
+          @if (isInvalid('mobile')) {
+            <p-message severity="error" size="small" variant="simple">
+              O Celular é obrigatório
+            </p-message>
+          }
         </div>
 
+        <!-- Telefone -->
+        <div class="flex flex-col gap-1">
+          <span class="font-medium">Telefone</span>
 
-          <!-- Cidade -->
-        <div class="flex gap-10">
-          <div class="col-span-5 flex flex-col gap-1">
-            <span class="font-medium">Cidade</span>
-            <input
-              pInputText
-              formControlName="city"
-              placeholder="Digite a cidade"/>
+          <p-inputmask
+            mask="(99) 9999-9999"
+            formControlName="phone"
+            placeholder="(00) 0000-0000"
+            fluid />
+        </div>
+
           </div>
-          <!-- Bairro -->
-          <div class="col-span-5 flex flex-col gap-1">
-            <span class="font-medium">Bairro</span>
-            <input
-              pInputText
-              formControlName="district"
-              placeholder="Digite o bairro"/>
-          </div>
-          <!-- UF -->
-          <div class="col-span-2 flex flex-col gap-1">
-            <span class="font-medium">UF</span>
-            <input
-              pInputText
-              formControlName="uf"
-              maxlength="2"
-              placeholder="UF"
-              (input)="onUfInput($event)"/>
+        </div>
+
+        <!-- ENDEREÇO RESIDENCIAL -->
+        <div>
+          <h2 class="flex items-center gap-2 text-lg font-semibold border-b border-gray-400 pb-2 mb-4">
+            <span class="p-2 bg-[#e7a523] rounded-[5px]">
+              <lucide-icon name="house" class="size-4"></lucide-icon>
+            </span>
+            Endereço Residencial
+          </h2>
+
+          <div class="flex gap-10">
+
+            <div class="col-span-3 flex flex-col gap-1">
+              <span class="font-medium">CEP</span>
+              <p-inputmask
+                mask="99999-999"
+                formControlName="cep"
+                placeholder="00000-000"
+                fluid />
+            </div>
+            <!-- Endereço -->
+            <div class="col-span-6 flex flex-col gap-1">
+              <span class="font-medium">Endereço</span>
+              <input
+                pInputText
+                formControlName="address"
+                placeholder="Digite o endereço"
+                class="w-full"/>
+            </div>
+            <!-- Número -->
+            <div class="col-span-3 flex flex-col gap-1">
+              <span class="font-medium">Nº Residência</span>
+              <input
+                pInputText
+                formControlName="houseNumber"
+                placeholder="Número"/>
+            </div>
+
+
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">Complemento</span>
+
+              <input
+                pInputText
+                formControlName="complement"
+                placeholder="Apartamento, bloco, etc."
+                class="w-full"/>
+            </div>
+
+            <div class="col-span-5 flex flex-col gap-1">
+              <span class="font-medium">Cidade</span>
+              <input
+                pInputText
+                formControlName="city"
+                placeholder="Digite a cidade"/>
+            </div>
+            <!-- Bairro -->
+            <div class="col-span-5 flex flex-col gap-1">
+              <span class="font-medium">Bairro</span>
+              <input
+                pInputText
+                formControlName="district"
+                placeholder="Digite o bairro"/>
+            </div>
+            <!-- UF -->
+            <div class="col-span-2 flex flex-col gap-1">
+              <span class="font-medium">UF</span>
+              <input
+                pInputText
+                formControlName="uf"
+                maxlength="2"
+                placeholder="UF"
+                (input)="onUfInput($event)"/>
+            </div>
+
+
           </div>
         </div>
 
