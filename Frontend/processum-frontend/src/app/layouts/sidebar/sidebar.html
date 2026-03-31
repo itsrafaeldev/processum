@@ -49,11 +49,11 @@
 <!-- Botão de toggle (fixo no canto, independente do layout) -->
 <div
   class="hidden lg:flex fixed top-3 z-50 transition-all duration-300"
-  [style.left]="!(layoutService.sidebarState$ | async) ? 'calc(16rem - 12px)' : 'calc(3.5rem - 12px)'"
+  [style.left]="(layoutService.sidebarState$ | async) ? 'calc(13rem - 13px)' : 'calc(3.5rem - 5px)'"
   (click)="layoutService.toggleSidebar()"
 >
   <i-lucide
-    [img]="(layoutService.sidebarState$ | async) ? ChevronRight : ChevronLeft"
+    [img]="!(layoutService.sidebarState$ | async) ? ChevronRight : ChevronLeft"
     class="text-white bg-primary-600 rounded-full border border-white hover:bg-primary-500 cursor-pointer"
   ></i-lucide>
 </div>
@@ -73,7 +73,7 @@
         <i-lucide [img]="Scale" class="size-6 text-gray-300 group-hover:text-white group-[.active]:text-white"></i-lucide>
         <span
           class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
-          [class.hidden]="layoutService.sidebarState$ | async"
+          [class.hidden]="!(layoutService.sidebarState$ | async)"
         >Processos</span>
       </button>
     </li>
@@ -90,7 +90,7 @@
         <i-lucide [img]="BadgeDollarSign" class="size-6 text-gray-400 group-hover:text-white group-[.active]:text-white"></i-lucide>
         <span
           class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
-          [class.hidden]="layoutService.sidebarState$ | async"
+          [class.hidden]="!(layoutService.sidebarState$ | async)"
         >Financeiro</span>
       </button>
     </li>
@@ -107,7 +107,7 @@
         <i-lucide [img]="BookUser" class="size-6 text-gray-400 group-hover:text-white group-[.active]:text-white"></i-lucide>
         <span
           class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
-          [class.hidden]="layoutService.sidebarState$ | async"
+          [class.hidden]="!(layoutService.sidebarState$ | async)"
         >Entidades</span>
       </button>
     </li>

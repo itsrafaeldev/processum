@@ -124,6 +124,7 @@ export class NewClientPfComponent {
 
       this.entityService.getById(this.entityId!)
             .subscribe(pf => {
+              console.log('Entidade carregada: ', pf);
               this.clientForm.patchValue({
                 name: pf?.entityIndividual?.name,
                 cpf: pf?.entityIndividual?.cpf,

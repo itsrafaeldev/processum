@@ -33,3 +33,11 @@ export function mapEntityToTable(entity: any) {
 
   return null;
 }
+
+export function toDate(dateStr?: string): Date | null {
+  if (!dateStr) return null;
+
+  const [year, month, day] = dateStr.split('-').map(Number);
+
+  return new Date(year, month - 1, day);
+}

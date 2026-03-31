@@ -14,14 +14,14 @@ import { EntityService } from '../../../entity/services/entity-service';
 import { Save, CircleArrowLeft } from 'lucide-angular/src/icons';
 import { LucideAngularModule } from 'lucide-angular';
 import { ProcessRequest } from '../../../../dto/process-request.model';
-import { maskCpfCnpj, unMask } from '../../../../shared/utils/masks/masks';
+import { maskCpfCnpj, maskDataPtBr, unMask } from '../../../../shared/utils/masks/masks';
 import { BehaviorSubject, filter, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectEntityComponent } from "../../../../shared/components/select-entity-component/select-entity-component";
 import { EntityTableComponent } from "../../../entity/components/entity-table-component/entity-table-component";
 import { ColDef } from 'ag-grid-community';
 import { RemoveButtonCellRendererComponent } from '../../../../shared/components/remove-button-cell-renderer-component/remove-button-cell-renderer-component';
-import { mapEntityToTable } from '../../../../shared/utils/helpers/helper';
+import { mapEntityToTable, toDate } from '../../../../shared/utils/helpers/helper';
 
 
 
@@ -55,6 +55,7 @@ export class NewProcess {
     private searchTimeout: any;
     protected readonly Save = Save;
     protected readonly CircleArrowLeft = CircleArrowLeft;
+    private _acaoJudicialInicial: number | null = null;
 
     natures: any[] | undefined;
     actions: any[] | undefined;
@@ -202,17 +203,27 @@ export class NewProcess {
     loadActions(natureId: number) {
       this.processService.getActions(natureId).subscribe(data => {
         this.actions = data;
+
+        if (this._acaoJudicialInicial) {
+          this.processForm.patchValue({
+            acaoJudicial: this._acaoJudicialInicial
+          });
+
+          this._acaoJudicialInicial = null;
+        }
+
       });
     }
 
     loadProcess() {
       this.processService.getById(this.processId!)
         .subscribe(proc => {
+          console.log('Processo carregado: ', proc);
+          console.log('Data formatada: ', maskDataPtBr(proc.initialDate ?? ''));
 
           this.processForm.patchValue({
             numeroProcesso: proc?.processNumber,
-            dataAbertura: proc?.initialDate,
-            // reclamante: proc?.entities?.map((e: any) => e.id) || [],
+            dataAbertura: maskDataPtBr(proc.initialDate ?? ''),
             reclamado: proc?.respondent,
             naturezaAcao: proc?.natureAction.id,
             acaoJudicial: proc?.judicialAction.id,
@@ -222,18 +233,9 @@ export class NewProcess {
         const entitiesFormatted = (proc.entities || [])
           .map((e: any) => mapEntityToTable(e))
           .filter(Boolean);
-        console.log('entitiesFormatted: ', entitiesFormatted)
         this.entitiesTable$.next(entitiesFormatted)
 
-          // carregar actions baseado na natureza
-          if (proc?.natureAction.id) {
-            this.loadActions(proc.natureAction.id);
-          }
-
-
-
-
-
+          this._acaoJudicialInicial = proc?.judicialAction.id;
 
         });
     }

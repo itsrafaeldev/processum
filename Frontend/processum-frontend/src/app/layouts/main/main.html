@@ -2,7 +2,7 @@
   <!-- SIDEBAR -->
   <aside
     class="bg-white transition-all duration-300 flex-shrink-0 overflow-hidden"
-    [class.w-64]="!(layoutService.sidebarState$ | async)"
+    [class.w-52]="(layoutService.sidebarState$ | async)"
     [class.w-14]="(layoutService.sidebarState$ | async) && isDesktop"
     [class.w-0]="(layoutService.sidebarState$ | async) && !isDesktop"
   >
