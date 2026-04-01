@@ -4,17 +4,17 @@ import { ProcessModalService } from '../../components/modals/details-process/ser
 import { DetailsProcess } from '../../components/modals/details-process/details-process';
 import { ProcessTableComponent } from '../../components/process-table/process-table';
 import { FilterProcessComponent } from "../../components/filter-process/filter-process-component";
-import { NewProcessButton } from '../../components/new-process-button/new-process-button';
 import { ProcessFilterRequest } from '../../../../dto/process-filter-request';
 import { unMask } from '../../../../shared/utils/masks/masks';
 import { map, Observable } from 'rxjs';
 import { Process } from '../../../../models/process.model';
+import { ButtonNewRegisterComponent } from "../../../../shared/components/button-new-register-component/button-new-register-component";
 
 
 @Component({
   selector: 'app-process',
   standalone: true,
-  imports: [DetailsProcess, ProcessTableComponent, FilterProcessComponent, NewProcessButton],
+  imports: [DetailsProcess, ProcessTableComponent, FilterProcessComponent, ButtonNewRegisterComponent],
   templateUrl: './process.html',
   styleUrl: './process.css',
 })

@@ -1,52 +1,3 @@
-<!-- <aside class="h-screen">
-
-  <div class="drawer lg:drawer-open">
-  <input id="my-drawer-4" type="checkbox" class="drawer-toggle"  [checked]="!layoutService.currentState"/>
-
-  <div
-      class="hidden lg:flex fixed top-3 left-[calc(var(--sidebar-width))] transform -translate-x-1/2 rounded-r-full p-1 cursor-pointer z-50 transition-all duration-300"
-      (click)="layoutService.toggleSidebar()"
-      [style.--sidebar-width]="!(layoutService.sidebarState$ | async) ? '16rem' : '3.5rem'"
-      for="my-drawer-4" aria-label="open sidebar"
-    >
-      <i-lucide
-        [img]="(layoutService.sidebarState$ | async) ? ChevronRight  : ChevronLeft"
-        class="text-white bg-primary-600 rounded-full border border-white hover:bg-primary-500 "
-      ></i-lucide>
-  </div>
-
-  <div class="drawer-side is-drawer-close:overflow-visible border-r border-gray-200 shadow-lg">
-    <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
-    <div class="flex min-h-full pt-10 flex-col items-start bg-primary-700 is-drawer-close:w-14 is-drawer-open:w-64">
-      <ul class="menu w-full grow flex gap-1">
-        <li>
-          <button routerLink="/processos" routerLinkActive="active bg-primary-400" class="group sidebar-item hover:bg-primary-500 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Processos Judiciais">
-            <i-lucide [img]="Scale" class="size-6 text-gray-300 group-hover:text-white group-[.active]:text-white"></i-lucide>
-            <span class="is-drawer-close:hidden text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px]">Processos</span>
-          </button>
-        </li>
-
-        <li>
-          <button routerLink="/financeiro" routerLinkActive="active bg-primary-400" class="group sidebar-item hover:bg-primary-500 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Financeiro">
-            <i-lucide [img]="BadgeDollarSign" class="size-6 text-gray-400 group-hover:text-white group-[.active]:text-white"></i-lucide>
-            <span class="is-drawer-close:hidden text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px]">Financeiro</span>
-          </button>
-        </li>
-
-        <li>
-          <button routerLink="/entidades" routerLinkActive="active bg-primary-400" class="group sidebar-item hover:bg-primary-500 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Entidades">
-            <i-lucide [img]="BookUser" class="size-6 text-gray-400 group-hover:text-white group-[.active]:text-white"></i-lucide>
-            <span class="is-drawer-close:hidden text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px]">Entidades</span>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-</aside> -->
-
-<!-- Botão de toggle (fixo no canto, independente do layout) -->
 <div
   class="hidden lg:flex fixed top-3 z-50 transition-all duration-300"
   [style.left]="(layoutService.sidebarState$ | async) ? 'calc(13rem - 13px)' : 'calc(3.5rem - 5px)'"
@@ -58,58 +9,45 @@
   ></i-lucide>
 </div>
 
-<!-- Sidebar simples, sem drawer, ocupa 100% do aside pai -->
 <div class="h-full flex flex-col pt-10 items-start bg-primary-700">
-  <ul class="menu w-full grow flex gap-1">
-    <li>
-      <button
-        routerLink="/processos"
-        routerLinkActive="active bg-primary-400"
-        class="group sidebar-item hover:bg-primary-500"
-        [class.tooltip]="layoutService.sidebarState$ | async"
-        [class.tooltip-right]="layoutService.sidebarState$ | async"
-        data-tip="Processos Judiciais"
-      >
-        <i-lucide [img]="Scale" class="size-6 text-gray-300 group-hover:text-white group-[.active]:text-white"></i-lucide>
-        <span
-          class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
-          [class.hidden]="!(layoutService.sidebarState$ | async)"
-        >Processos</span>
-      </button>
-    </li>
+  <ul class="menu w-full grow flex flex-col gap-1">
 
-    <li>
-      <button
-        routerLink="/financeiro"
-        routerLinkActive="active bg-primary-400"
-        class="group sidebar-item hover:bg-primary-500"
-        [class.tooltip]="layoutService.sidebarState$ | async"
-        [class.tooltip-right]="layoutService.sidebarState$ | async"
-        data-tip="Financeiro"
-      >
-        <i-lucide [img]="BadgeDollarSign" class="size-6 text-gray-400 group-hover:text-white group-[.active]:text-white"></i-lucide>
-        <span
-          class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
-          [class.hidden]="!(layoutService.sidebarState$ | async)"
-        >Financeiro</span>
-      </button>
-    </li>
+  <li *ngFor="let item of menu">
 
-    <li>
-      <button
-        routerLink="/entidades"
-        routerLinkActive="active bg-primary-400"
-        class="group sidebar-item hover:bg-primary-400"
-        [class.tooltip]="layoutService.sidebarState$ | async"
-        [class.tooltip-right]="layoutService.sidebarState$ | async"
-        data-tip="Entidades"
+    <!-- ITEM PRINCIPAL -->
+    <div
+      class="group sidebar-item hover:bg-primary-500 cursor-pointer flex items-center gap-2"
+      (click)="item.children ? toggleItem(item) : null"
+      [routerLink]="!item.children ? item.route : null"
+      routerLinkActive="active bg-primary-400"
+    >
+      <lucide-icon [name]="item.iconName" class="size-5 text-gray-400 group-hover:text-white group-[.active]:text-white"></lucide-icon>
+
+      <span
+        class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[16px] transition-all duration-300 overflow-hidden whitespace-nowrap"
+        [class.hidden]="!(layoutService.sidebarState$ | async)"
       >
-        <i-lucide [img]="BookUser" class="size-6 text-gray-400 group-hover:text-white group-[.active]:text-white"></i-lucide>
-        <span
-          class="text-gray-300 group-hover:text-white group-[.active]:text-white text-[18px] transition-all duration-300 overflow-hidden whitespace-nowrap"
-          [class.hidden]="!(layoutService.sidebarState$ | async)"
-        >Entidades</span>
-      </button>
-    </li>
-  </ul>
+        {{ item.label }}
+      </span>
+    </div>
+
+    <!-- SUBMENU -->
+    <ul *ngIf="item.children && item.open"
+        class="ml-6 mt-1 flex flex-col gap-1">
+
+      <li *ngFor="let child of item.children">
+        <a
+          class="text-gray-300 hover:text-white text-sm px-3 py-1 rounded hover:bg-primary-400 block"
+          [routerLink]="child.route"
+          routerLinkActive="active bg-primary-400"
+        >
+          {{ child.label }}
+        </a>
+      </li>
+
+    </ul>
+
+  </li>
+
+</ul>
 </div>

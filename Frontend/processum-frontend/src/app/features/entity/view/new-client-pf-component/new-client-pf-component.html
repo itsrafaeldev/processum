@@ -27,74 +27,72 @@
             Dados Pessoais
           </h2>
 
-          <!-- Nome -->
-          <div class="flex flex-col gap-1">
-            <span class="font-medium">Nome</span>
-
-            <input
-              pInputText
-              formControlName="name"
-              placeholder="Digite o nome"
-              [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('name') }"/>
-
-            @if (isInvalid('name')) {
-              <p-message severity="error" size="small" variant="simple">
-                O Nome é obrigatório
-              </p-message>
-            }
+          <div class="flex gap-10">
+            <!-- Nome -->
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">Nome</span>
+              <input
+                pInputText
+                formControlName="name"
+                placeholder="Digite o nome"
+                [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('name') }"/>
+              @if (isInvalid('name')) {
+                <p-message severity="error" size="small" variant="simple">
+                  O Nome é obrigatório
+                </p-message>
+              }
+            </div>
+            <!-- CPF -->
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">CPF</span>
+              <p-inputmask
+                mask="999.999.999-99"
+                formControlName="cpf"
+                placeholder="000.000.000-00"
+                [invalid]="isInvalid('cpf')"
+                fluid />
+              @if (isInvalid('cpf')) {
+                <p-message severity="error" size="small" variant="simple">
+                  O CPF é obrigatório
+                </p-message>
+              }
+            </div>
           </div>
 
-          <!-- CPF -->
-          <div class="flex flex-col gap-1">
-            <span class="font-medium">CPF</span>
-
-            <p-inputmask
-              mask="999.999.999-99"
-              formControlName="cpf"
-              placeholder="000.000.000-00"
-              [invalid]="isInvalid('cpf')"
-              fluid />
-
-            @if (isInvalid('cpf')) {
-              <p-message severity="error" size="small" variant="simple">
-                O CPF é obrigatório
-              </p-message>
-            }
+          <div class="flex gap-10">
+            
+            <!-- Data de Nascimento -->
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">Data de Nascimento</span>
+              <p-datepicker
+                [iconDisplay]="'input'"
+                placeholder="dd/mm/yyyy"
+                formControlName="birthDate"
+                [invalid]="isInvalid('birthDate')" />
+              @if (isInvalid('birthDate')) {
+                <p-message severity="error" size="small" variant="simple">
+                  A Data de Nascimento é obrigatória
+                </p-message>
+              }
+            </div>
+            <!-- RG -->
+            <div class="flex flex-col gap-1">
+              <span class="font-medium">RG</span>
+              <input
+                pInputText
+                formControlName="rg"
+                placeholder="00.000.000-00"
+                max = 9
+                [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('rg') }"/>
+              @if (isInvalid('rg')) {
+                <p-message severity="error" size="small" variant="simple">
+                  RG deve conter no máximo 9 caracteres
+                </p-message>
+              }
+            </div>
           </div>
 
-          <!-- RG -->
-          <div class="flex flex-col gap-1">
-            <span class="font-medium">RG</span>
-            <input
-              pInputText
-              formControlName="rg"
-              placeholder="00.000.000-00"
-              max = 9
-              [ngClass]="{ 'ng-invalid ng-dirty': isInvalid('rg') }"/>
 
-            @if (isInvalid('rg')) {
-              <p-message severity="error" size="small" variant="simple">
-                RG deve conter no máximo 9 caracteres
-              </p-message>
-            }
-          </div>
-
-          <!-- Data de Nascimento -->
-          <div class="flex flex-col gap-1">
-            <span class="font-medium">Data de Nascimento</span>
-
-            <p-datepicker
-              [iconDisplay]="'input'"
-              placeholder="dd/mm/yyyy"
-              formControlName="birthDate"
-              [invalid]="isInvalid('birthDate')" />
-
-            @if (isInvalid('birthDate')) {
-              <p-message severity="error" size="small" variant="simple">
-                A Data de Nascimento é obrigatória
-              </p-message>
-            }
-          </div>
         </div>
 
         <!-- CONTATO -->
