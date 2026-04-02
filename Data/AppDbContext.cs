@@ -56,6 +56,8 @@ public partial class AppDbContext : IdentityDbContext<User, IdentityRole<long>, 
 
     public virtual DbSet<Settlement> Settlements { get; set; }
 
+    public DbSet<SettlementInstallment> SettlementInstallments { get; set; }
+
     public virtual DbSet<StatusEntity> StatusEntities { get; set; }
 
     public virtual DbSet<StatusPayment> StatusPayments { get; set; }

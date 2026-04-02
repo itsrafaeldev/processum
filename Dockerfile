@@ -31,4 +31,8 @@ RUN dotnet restore
 EXPOSE 5091 4200
 
 # Comando default: backend .NET com hot reload
-CMD ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:5091"]
+# CMD ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:5091"]
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]

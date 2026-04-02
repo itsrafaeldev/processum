@@ -61,10 +61,10 @@ public class LegalFeeConfiguration : IEntityTypeConfiguration<LegalFee>
             .HasForeignKey(d => d.JudicialProcessId)
             .HasConstraintName("fk_judicial_process");
 
-        entity.HasOne(d => d.StatusPayment)
-            .WithMany(p => p.LegalFees)
-            .HasForeignKey(d => d.StatusPaymentId)
-            .HasConstraintName("fk_status_payment");
+        // entity.HasOne(d => d.StatusPayment)
+        //     .WithMany(p => p.LegalFees)
+        //     .HasForeignKey(d => d.StatusPaymentId)
+        //     .HasConstraintName("fk_status_payment");
 
         entity.HasOne(d => d.User)
             .WithMany(p => p.LegalFees)

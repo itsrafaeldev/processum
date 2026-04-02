@@ -1,0 +1,72 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using OctaPro.DTO;
+using OctaPro.DTO.Request;
+using OctaPro.DTO.Response;
+using OctaPro.Services.interfaces;
+
+namespace OctaPro.Controllers
+{
+    [ApiController]
+    [Route("api/settlements")]
+    public class SettlementController : ControllerBase
+    {
+        private readonly ISettlementService _service;
+
+        public SettlementController(ISettlementService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SettlementResponse>>> GetAll([FromQuery] SettlementFilterRequest filter)
+        {
+            return Ok(await _service.GetAllAsync(filter));
+        }
+
+        [HttpGet("{idPublic:guid}")]
+        public async Task<ActionResult<SettlementResponse>> GetById(Guid idPublic)
+        {
+            var process = await _service.GetByIdAsync(idPublic);
+            if (process == null)
+                return NotFound();
+
+            return Ok(process);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveProcess(SettlementRequest request)
+        {
+            string? userLoggedUUID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userLoggedUUID == null)
+            {
+                return Unauthorized();
+            }
+
+            await _service.CreateAsync(request, Guid.Parse(userLoggedUUID));
+            return StatusCode(201);
+        }
+
+        [HttpDelete("{settlementId:guid}")]
+        public async Task<IActionResult> DeleteEntity(Guid settlementId)
+        {
+            if (!await _service.DeleteAsync(settlementId))
+                return NotFound("Acordo não encontrado.");
+
+            return NoContent();
+        }
+
+         [HttpPut("{settlementId:guid}")]
+        public async Task<IActionResult> UpdateSettlement(Guid settlementId, SettlementRequest request)
+        {
+            if (!await _service.UpdateAsync(settlementId, request))
+                return NotFound();
+
+            return NoContent();
+        }
+
+
+
+    }
+}

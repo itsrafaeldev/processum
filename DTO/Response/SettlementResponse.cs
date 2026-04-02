@@ -1,0 +1,23 @@
+using OctaPro.Models;
+
+namespace OctaPro.DTO.Response
+{
+    public class SettlementResponse
+    {
+        public Guid IdPublic { get; set; }
+
+        public string ProcessNumber { get; set; } = null!;
+
+        public decimal Amount { get; set; }
+
+        public int QuantityInstallment { get; set; }
+
+        public int FirstDayPayment { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        
+        public string StatusPayment { get; set; } = null!;
+
+        
+    }
+}
