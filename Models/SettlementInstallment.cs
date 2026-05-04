@@ -10,7 +10,7 @@ namespace OctaPro.Models
     {
     public int Id { get; set; }
 
-    public int Document { get; set; }
+    public string Document { get; set; } = "";
 
     public decimal? ValueInstallment { get; set; }
 

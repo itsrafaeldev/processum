@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using OctaPro.Interfaces;
+using OctaPro.Models;
 using OctaPro.Services;
 using OctaPro.Services.interfaces;
 

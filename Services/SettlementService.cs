@@ -92,8 +92,33 @@ namespace OctaPro.Services
             return true;
         }
 
-        public IEnumerable<SettlementInstallment> CreateInstallments(Settlement input)
+        public IEnumerable<SettlementInstallment> CreateInstallments(Settlement settlement)
         {
+            var installments = new List<SettlementInstallment>();
+            var quantityInstallment = settlement.QuantityInstallment;
+            decimal installmentValue = Math.Round(settlement.Amount / settlement.QuantityInstallment, 2);
+
+            for (int i = 0; i < quantityInstallment; i++)
+            {
+                var installment = new SettlementInstallment
+                {
+                    IdPublic = Guid.NewGuid(),
+                    Document = $"{i.ToString().PadLeft(5, '0')}/{quantityInstallment}",
+                    ValueInstallment = installmentValue,
+                    StatusPaymentId = StatusPaymentEnum.Pending,
+                    DueDate = DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(i)),
+                    Competence = DateTime.UtcNow.AddMonths(i).ToString("MM/yyyy"),
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow,
+                };
+
+                installments.Add(installment);
+            }
+
+            
+
+
+
             throw new NotImplementedException();
         }
     }
